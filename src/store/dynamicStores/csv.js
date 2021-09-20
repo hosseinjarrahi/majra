@@ -1,0 +1,44 @@
+const state = {
+  csvData: [],
+};
+
+const getters = {
+  csvData: (state) => state.csvData,
+  csvValues: (state, getters) => {
+    const standardValue = (value, field) => {
+      if (field.type === "date") return getters.persianDate(value);
+
+      if (field.type === "text" || value === null) return value;
+
+      if (Array.isArray(value))
+        if (value.length > 0 && typeof value[0] == "object") {
+          return value.map((val) => val[field.item_text]).join(" | ");
+        } else {
+          return value.join(" | ");
+        }
+      else if (typeof value == "object") {
+        return value[field.item_text];
+      }
+    };
+
+    return state.csvData
+      ? state.csvData.map((item) => {
+          let out = {};
+          state.flatFields.forEach((field) => {
+            out[field.title] = standardValue(item[field.field], field);
+          });
+          return out;
+        })
+      : [];
+  },
+};
+
+const mutations = {
+  setCsvData: (state, payload) => (state.csvData = payload),
+};
+
+export default {
+  mutations,
+  getters,
+  state,
+};

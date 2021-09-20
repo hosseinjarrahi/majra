@@ -1,28 +1,49 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <v-app>
+    <v-main>
+      <dynamic-template />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import DynamicTemplate from "./components/DynamicTemplate.vue";
 
 export default {
   name: "App",
+
   components: {
-    HelloWorld,
+    DynamicTemplate,
+  },
+
+  created() {
+    this.$store.dispatch("dynamic/init", {
+      mainRoute: "/admin/form",
+      relations: [
+        { route: "/admin/user-no-form", key: "User" },
+        { route: "/admin/all-forms", key: "AllForm" },
+        "/admin/product",
+        "/admin/base",
+      ],
+      fields: [
+        {
+          title: "نام فرم",
+          field: "name",
+          rel: false,
+          type: "cropper",
+          isHeader: true,
+          col: { md: 12 },
+        },
+        {
+          title: "توضیحات",
+          field: "description",
+          rel: false,
+          type: "textarea",
+          isHeader: true,
+          col: { md: 12 },
+        },
+      ],
+    });
   },
 };
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
