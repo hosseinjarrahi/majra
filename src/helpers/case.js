@@ -1,17 +1,17 @@
 const toCamelCase = (text) => {
-    return text.replace(/-\w/g, clearAndUpper);
-}
+  return text.replace(/-\w/g, clearAndUpper);
+};
 
 const toPascalCase = (text) => {
-    return text.replace(/(^\w|-\w)/g, clearAndUpper);
-}
+  return text.replace(/(^\w|-\w)/g, clearAndUpper);
+};
 
 const clearAndUpper = (text) => {
-    return text.replace(/-/, "").toUpperCase();
-}
+  return text.replace(/-/, "").toUpperCase();
+};
 
-export {toCamelCase}
+export { toCamelCase };
 
-export {toPascalCase}
+export { toPascalCase };
 
-export {clearAndUpper}
+export { clearAndUpper };
