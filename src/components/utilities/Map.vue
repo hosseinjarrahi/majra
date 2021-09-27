@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import Core from "@/components/utilities/map/Core.vue";
-import MapSwitch from "@/components/utilities/map/MapSwitch.vue";
+import Core from "./../utilities/map/Core.vue";
+import MapSwitch from "./../utilities/map/MapSwitch.vue";
 
 export default {
   components: {

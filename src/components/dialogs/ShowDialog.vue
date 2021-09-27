@@ -78,8 +78,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-const Map = () => import("@/components/utilities/Map");
-const Editor = () => import("@/components/utilities/Editor.vue");
+const Map = () => import("./../utilities/Map");
+const Editor = () => import("./../utilities/Editor.vue");
 const DefaultShow = () => import("../list/shows/DefaultShow.vue");
 const EditorShow = () => import("../list/shows/EditorShow.vue");
 const FileShow = () => import("../list/shows/FileShow.vue");

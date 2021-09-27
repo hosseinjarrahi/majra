@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-let EventBusPlugin = {
+export let EventBusPlugin = {
   install: function (Vue) {
     let EventBus = new Vue();
 

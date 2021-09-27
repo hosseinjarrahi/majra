@@ -333,7 +333,10 @@ const actions = {
     // end of listening
     commit("setHeaders");
 
-    commit("setHiddenActions", 'hiddenActions' in payload ? payload.hiddenActions : []);
+    commit(
+      "setHiddenActions",
+      "hiddenActions" in payload ? payload.hiddenActions : []
+    );
 
     dispatch("getRelations", {
       relations: "relations" in payload ? payload.relations : [],

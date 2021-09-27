@@ -38,4 +38,5 @@ export default {
   mutations,
   getters,
   state,
+  namespaced: true,
 };

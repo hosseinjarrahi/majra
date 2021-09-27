@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-let helpers = {
+export let HelpersPlugin = {
   install: function (Vue) {
     Vue.prototype.$helpers = {
       persianDateGlobal(date, time = false) {
@@ -46,4 +46,4 @@ let helpers = {
   },
 };
 
-Vue.use(helpers);
+Vue.use(HelpersPlugin);
