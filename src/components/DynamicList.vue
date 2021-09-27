@@ -27,7 +27,7 @@
 
         <template v-slot:item.index="{ item }">
           <div
-            v-if="hasNotif(item.id)"
+            v-if="false"
             class="error"
             style="
               height: 20px;
@@ -117,7 +117,6 @@ export default {
       flatFields: "dynamic/flatFields",
       isFiltering: "dynamic/isFiltering",
       HEADERS: "dynamic/headers",
-      hasNotif: "dynamic/hasNotif",
       getItemsWithKey: "dynamic/getItemsWithKey",
     }),
     headers() {
