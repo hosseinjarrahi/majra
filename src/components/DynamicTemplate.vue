@@ -2,7 +2,7 @@
   <v-card>
     <v-scroll-x-reverse-transition>
       <div v-show="dialogMode || !dialog">
-        <dynamic-header />
+        <dynamic-header/>
         <dynamic-list :expandMode="expandMode">
           <template v-slot:actions="props">
             <slot name="actions" v-bind="props"></slot>
@@ -19,10 +19,10 @@
 
     <v-scroll-x-reverse-transition>
       <component
-        :is="dialogMode ? 'dynamic-dialog-form' : 'dynamic-tab-form'"
-        v-model="dialog"
-        :editItem="editItem"
-        :isEditing="isEditing"
+          :is="dialogMode ? 'dynamic-dialog-form' : 'dynamic-tab-form'"
+          v-model="dialog"
+          :editItem="editItem"
+          :isEditing="isEditing"
       >
         <template v-slot:dialog="props">
           <slot name="dialog" v-bind="props"></slot>
@@ -42,21 +42,21 @@
       </template>
     </show-dialog>
 
-    <delete-dialog />
+    <delete-dialog/>
 
     <slot name="extra"></slot>
   </v-card>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 import toCamelCase from "lodash/camelCase";
 
-const DynamicDialogForm = () => import("./DynamicDialogForm.vue");
+const DynamicDialogForm = () => import("./dynamicForm/DynamicDialogForm.vue");
 const DynamicFilter = () => import("./DynamicFilter.vue");
 const DynamicList = () => import("./DynamicList.vue");
 const DynamicHeader = () => import("./DynamicHeader.vue");
-const DynamicTabForm = () => import("./DynamicTabForm.vue");
+const DynamicTabForm = () => import("./dynamicForm/DynamicTabForm.vue");
 const ShowDialog = () => import("./dialogs/ShowDialog.vue");
 const DeleteDialog = () => import("./dialogs/DeleteDialog.vue");
 
@@ -64,8 +64,8 @@ export default {
   layout: "dashboard",
 
   props: {
-    dialogMode: { default: true },
-    expandMode: { default: false },
+    dialogMode: {default: true},
+    expandMode: {default: false},
   },
 
   components: {
@@ -128,8 +128,8 @@ export default {
         this.dialog = dialog;
       });
 
-      this._listen("injectField", ({ field, value }) => {
-        this.$store.commit("dynamic/mergeField", { field, value });
+      this._listen("injectField", ({field, value}) => {
+        this.$store.commit("dynamic/mergeField", {field, value});
       });
 
       this._listen("reset", () => {
@@ -147,8 +147,8 @@ export default {
         create: createPermission,
       });
       this.$store.commit(
-        "dynamic/addActionsToHeader",
-        editPermission || deletePermission
+          "dynamic/addActionsToHeader",
+          editPermission || deletePermission
       );
     },
   },
@@ -159,6 +159,7 @@ export default {
 .v-btn {
   min-width: 0 !important;
 }
+
 input {
   padding: 0 !important;
 }

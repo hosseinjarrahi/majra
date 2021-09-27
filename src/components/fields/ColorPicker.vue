@@ -31,7 +31,7 @@
       :readonly="field.readonly"
       v-bind="dynamicProps"
       hide-details
-      @keypress.prevent.enter="_event('saveForm')"
+      @keypress.prevent.enter="event('saveForm')"
     />
   </div> -->
 </template>

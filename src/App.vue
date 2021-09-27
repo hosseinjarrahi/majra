@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <dynamic-template />
+      <DynamicTemplate/>
     </v-main>
   </v-app>
 </template>

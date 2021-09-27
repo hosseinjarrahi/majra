@@ -1,5 +1,6 @@
 import { toPascalCase } from "@/helpers/case";
 import validations from "@/helpers/validations";
+import Vue from 'vue'
 const axios = require("axios");
 
 const state = {
@@ -43,7 +44,7 @@ const getters = {
     for (let key in state.loading) {
       if (state.loading[key]) return true;
     }
-    window._event("templateLoaded");
+    Vue._event("templateLoaded");
     return false;
   },
 
@@ -133,7 +134,7 @@ const mutations = {
     };
     state.relationsFeched = false;
     state.isFiltering = false;
-    window.EventBus.$off("readyToFetchRelations");
+    Vue._bus.$off("readyToFetchRelations");
   },
 
   setReloadAfterSave: (state, payload) => (state.reloadAfterSave = payload),
@@ -313,15 +314,15 @@ const mutations = {
 /*******************************************************/
 const actions = {
   init({ state, commit, dispatch, rootState }, payload) {
-    window._resetEvLi(() => {
-      window._listen("alert", (data) => {
+    Vue._resetEvLi(() => {
+      Vue._listen("alert", (data) => {
         dispatch("alert/alert", data, { root: true });
       });
     });
 
     commit("resetState");
-
-    window._event("beforeTemplateInit");
+  
+    Vue._event("beforeTemplateInit");
 
     commit("addRoutes", payload.mainRoute);
     if (state.isFiltering) {
@@ -392,7 +393,7 @@ const actions = {
             lastPage: response[state.mainKey].last_page,
           });
 
-          !state.relationsFeched && window._event("readyToFetchRelations");
+          !state.relationsFeched && Vue._event("readyToFetchRelations");
           commit("setRelationsFeched", true);
         }
       })
@@ -493,7 +494,7 @@ const actions = {
         }
         commit("setCsvData", response[state.mainKey].data);
         commit("setPrintItems", response[state.mainKey].data);
-        !state.relationsFeched && window._event("readyToFetchRelations");
+        !state.relationsFeched && Vue._event("readyToFetchRelations");
         commit("setRelationsFeched", true);
       })
       .finally(() => {
@@ -526,7 +527,7 @@ const actions = {
           { text: "با موفقیت ثبت شد", color: "green" },
           { root: true }
         );
-        window._event("handleCEDialog", false);
+        Vue._event("handleCEDialog", false);
         (payload.reload || state.reloadAfterSave) && dispatch("reloadMainData");
         state.reloadAfterSave = false;
       })
@@ -557,7 +558,7 @@ const actions = {
             { text: "با موفقیت حذف شد", color: "green" },
             { root: true }
           );
-          window._event("handleDeleteDialog", false);
+          Vue._event("handleDeleteDialog", false);
         })
         .catch((error) => {
           dispatch(
@@ -592,7 +593,7 @@ const actions = {
           { root: true }
         );
         if (!("closeAfterEdit" in payload && !payload.closeAfterEdit))
-          window._event("handleCEDialog", false);
+          Vue._event("handleCEDialog", false);
         payload.reload && dispatch("get", { key: state.mainKey });
       })
       .catch((error) => {
@@ -606,7 +607,7 @@ const actions = {
   },
 
   getRelations({ commit, dispatch }, payload) {
-    window._listen("readyToFetchRelations", async () => {
+    Vue._listen("readyToFetchRelations", async () => {
       if (payload.sum) {
         dispatch("getSum", { relations: payload.relations });
       } else {

@@ -1,7 +1,6 @@
 import filterHeader from "./dynamicStores/filterHeader";
 import main from "./dynamicStores/main";
 import print from "./dynamicStores/print";
-import utilities from "./dynamicStores/utilities";
 import csv from "./dynamicStores/csv";
 import filter from "./dynamicStores/filter";
 
@@ -17,7 +16,6 @@ const getters = {
   ...filterHeader.getters,
   ...main.getters,
   ...print.getters,
-  ...utilities.getters,
   ...csv.getters,
   ...filter.getters,
 };
