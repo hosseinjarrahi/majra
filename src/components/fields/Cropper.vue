@@ -88,7 +88,7 @@ export default {
             });
           })
           .catch(() => {
-            this.$store.dispatch("alert/alert", {
+            this._event("alert", {
               text: "مشکلی در ارسال فایل رخ داده است",
               color: "red",
             });

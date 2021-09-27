@@ -307,9 +307,10 @@ const mutations = {
 const actions = {
   init({ state, commit, dispatch, rootState }, payload) {
     Vue._resetEvLi(() => {
-      Vue._listen("alert", (data) => {
-        dispatch("alert/alert", data, { root: true });
-      });
+      // todo
+      // Vue._listen("alert", (data) => {
+      //   dispatch("alert/alert", data, { root: true });
+      // });
     });
 
     commit("resetState");
@@ -373,12 +374,15 @@ const actions = {
     axios
       .get(state.routes[payload.key] + pageQuery + page + "&" + query)
       .then((response) => {
-        commit("set", { data: response[payload.key].data, key: payload.key });
+        commit("set", {
+          data: response.data[payload.key].data,
+          key: payload.key,
+        });
         if (payload.key == state.mainKey) {
           commit("setPagination", {
-            total: response[state.mainKey].total,
-            currentPage: response[state.mainKey].current_page,
-            lastPage: response[state.mainKey].last_page,
+            total: response.data[state.mainKey].total,
+            currentPage: response.data[state.mainKey].current_page,
+            lastPage: response.data[state.mainKey].last_page,
           });
 
           !state.relationsFetched && Vue._event("readyToFetchRelations");
@@ -403,14 +407,14 @@ const actions = {
       .get(state.routes[state.mainKey] + pageQuery + page + "&" + query)
       .then((response) => {
         commit("set", {
-          data: response[state.mainKey].data,
+          data: response.data[state.mainKey].data,
           key: state.mainKey,
         });
         if (state.mainKey == state.mainKey) {
           commit("setPagination", {
-            total: response[state.mainKey].total,
-            currentPage: response[state.mainKey].current_page,
-            lastPage: response[state.mainKey].last_page,
+            total: response.data[state.mainKey].total,
+            currentPage: response.data[state.mainKey].current_page,
+            lastPage: response.data[state.mainKey].last_page,
           });
         }
       })
@@ -435,9 +439,9 @@ const actions = {
         Model: models,
       })
       .then((response) => {
-        for (const property in response.Model) {
+        for (const property in response.data.Model) {
           commit("set", {
-            data: response.Model[property].data,
+            data: response.data.Model[property].data,
             key: property,
           });
         }
@@ -471,17 +475,17 @@ const actions = {
       .then((response) => {
         if (itemPerPage == 15) {
           commit("set", {
-            data: response[state.mainKey].data,
+            data: response.data[state.mainKey].data,
             key: state.mainKey,
           });
           commit("setPagination", {
-            total: response[state.mainKey].total,
-            currentPage: response[state.mainKey].current_page,
-            lastPage: response[state.mainKey].last_page,
+            total: response.data[state.mainKey].total,
+            currentPage: response.data[state.mainKey].current_page,
+            lastPage: response.data[state.mainKey].last_page,
           });
         }
-        commit("setCsvData", response[state.mainKey].data);
-        commit("setPrintItems", response[state.mainKey].data);
+        commit("setCsvData", response.data[state.mainKey].data);
+        commit("setPrintItems", response.data[state.mainKey].data);
         !state.relationsFetched && Vue._event("readyToFetchRelations");
         commit("setRelationsFetched", true);
       })
@@ -506,32 +510,27 @@ const actions = {
     axios
       .post(route, { [state.mainKey]: { ...payload } })
       .then((response) => {
-        let newItems = Array.isArray(response[state.mainKey])
-          ? response[state.mainKey]
-          : [response[state.mainKey]];
+        let newItems = Array.isArray(response.data[state.mainKey])
+          ? response.data[state.mainKey]
+          : [response.data[state.mainKey]];
         !state.reloadAfterSave && commit("add", newItems);
-        dispatch(
-          "alert/alert",
-          { text: "با موفقیت ثبت شد", color: "green" },
-          { root: true }
-        );
+        Vue._event("alert", { text: "با موفقیت ثبت شد", color: "green" });
         Vue._event("handleCEDialog", false);
         (payload.reload || state.reloadAfterSave) && dispatch("reloadMainData");
         state.reloadAfterSave = false;
       })
       .catch((error) => {
-        dispatch(
-          "alert/alert",
-          { text: error.response.data.message, color: "red" },
-          { root: true }
-        );
+        Vue._event("alert", {
+          text: error.response.data.message,
+          color: "red",
+        });
       })
       .finally(() => {
         commit("setLoading", { key: state.mainKey, value: false });
       });
   },
 
-  remove({ state, dispatch, commit }, payload) {
+  remove({ state, commit }, payload) {
     payload = Array.isArray(payload) ? payload : [payload];
     commit("setLoading", { key: state.mainKey, value: true });
     let route = state.routes[state.mainKey].split("?")[0];
@@ -541,19 +540,17 @@ const actions = {
         .$delete(route + "/" + item)
         .then(() => {
           commit("remove", item);
-          dispatch(
-            "alert/alert",
-            { text: "با موفقیت حذف شد", color: "green" },
-            { root: true }
-          );
+          Vue._event("alert/alert", {
+            text: "با موفقیت حذف شد",
+            color: "green",
+          });
           Vue._event("handleDeleteDialog", false);
         })
         .catch((error) => {
-          dispatch(
-            "alert/alert",
-            { text: error.response.data.message, color: "red" },
-            { root: true }
-          );
+          Vue._event("alert/alert", {
+            text: error.response.data.message,
+            color: "red",
+          });
         })
         .finally(() => {
           index == payload.length - 1 &&
@@ -574,22 +571,17 @@ const actions = {
         [state.mainKey]: { ...payload },
       })
       .then((response) => {
-        commit("editItem", response[state.mainKey]);
-        dispatch(
-          "alert/alert",
-          { text: "با موفقیت ویرایش شد", color: "green" },
-          { root: true }
-        );
+        commit("editItem", response.data[state.mainKey]);
+        Vue._event("alert", { text: "با موفقیت ویرایش شد", color: "green" });
         if (!("closeAfterEdit" in payload && !payload.closeAfterEdit))
           Vue._event("handleCEDialog", false);
         payload.reload && dispatch("get", { key: state.mainKey });
       })
       .catch((error) => {
-        dispatch(
-          "alert/alert",
-          { text: error.response.data.message, color: "red" },
-          { root: true }
-        );
+        Vue._event("alert", {
+          text: error.response.data.message,
+          color: "red",
+        });
       })
       .finally(() => {});
   },
