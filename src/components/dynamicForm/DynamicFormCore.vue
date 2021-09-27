@@ -83,11 +83,11 @@ export default {
     "isShowing",
     "isEditing",
     "mainLoading",
-    "handleDialog"
+    "handleDialog",
   ],
 
   created() {
-    this._listen("validating", resolve => {
+    this._listen("validating", (resolve) => {
       resolve(this.validateForm());
     });
   },
@@ -112,7 +112,7 @@ export default {
       } else {
         return this.$refs.dynamicForm.validate();
       }
-    }
-  }
+    },
+  },
 };
 </script>

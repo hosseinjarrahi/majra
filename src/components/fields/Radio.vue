@@ -1,6 +1,9 @@
 <template>
-  <div>
+  <v-col>
+    {{ field.title }} :
     <v-radio-group
+      row
+      dense
       hide-details
       :value="form[field.field]"
       @change="fieldChanged(field, $event)"
@@ -14,7 +17,7 @@
       >
       </v-radio>
     </v-radio-group>
-  </div>
+  </v-col>
 </template>
 
 <script>
@@ -34,5 +37,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

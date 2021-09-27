@@ -20,7 +20,7 @@ export default {
             ? typeof item.default == "function"
               ? item.default(this.editItem)
               : item.default
-            : this.getDefault(item)
+            : this.getDefault(item),
       };
     }, initialValue);
 
@@ -41,8 +41,8 @@ export default {
       tabModel: 0,
       options: {
         width: (2 / 3) * 100 + "%",
-        fullScreen: false
-      }
+        fullScreen: false,
+      },
     };
   },
 
@@ -51,11 +51,11 @@ export default {
       FIELDS: "dynamic/fields",
       fields: "dynamic/flatFields",
       items: "dynamic/items",
-      mainLoading: "dynamic/mainLoading"
+      mainLoading: "dynamic/mainLoading",
     }),
     filteredFields() {
-      return fields =>
-        fields.filter(field => {
+      return (fields) =>
+        fields.filter((field) => {
           if ("showIn" in field) {
             return this.isEditing
               ? field.showIn.indexOf("edit") > -1
@@ -63,13 +63,13 @@ export default {
           }
           return true;
         });
-    }
+    },
   },
 
   methods: {
     ...mapActions({
       add: "dynamic/add",
-      edit: "dynamic/edit"
+      edit: "dynamic/edit",
     }),
 
     handleDialog(e) {
@@ -80,7 +80,7 @@ export default {
       this.form[event.field] = event.value;
       this._event("fieldChanged." + event.field, {
         value: event.value,
-        instance: this
+        instance: this,
       });
     },
 
@@ -112,7 +112,7 @@ export default {
           this.isEditing ? this.edit(this.form) : this.add(this.form);
         };
         if (doYouWantToValidate) {
-          return this._event("validating", valid => {
+          return this._event("validating", (valid) => {
             valid ? save() : "";
           });
         }
@@ -123,7 +123,7 @@ export default {
         this.form[field] = value;
       });
 
-      this._listen("changeOptions", comingOptions => {
+      this._listen("changeOptions", (comingOptions) => {
         let options = comingOptions.dialog;
         if (options) {
           for (const property in options) {
@@ -140,22 +140,26 @@ export default {
       //     : "";
       // });
 
-      this._listen("editTheItem", item => {
+      this._listen("editTheItem", (item) => {
         this.edit(item);
       });
 
-      this._listen("addTheItem", item => {
+      this._listen("addTheItem", (item) => {
         this.add(item);
       });
-    }
+    },
   },
 
   watch: {
     async editItem(val) {
       if (val) {
         this.form = { ...val };
-        await this.fields.forEach(field => {
-          if (field.type == "map")
+        await this.fields.forEach((field) => {
+          if ("normalize" in field)
+            return (this.form[field.field] = field.normalize(
+              this.form[field.field]
+            ));
+          if (field.type === "map")
             return (this.form[field.field] = this.form[field.field]);
           if (
             this.form[field.field] &&
@@ -169,7 +173,7 @@ export default {
               this.form[field.field].length > 0 &&
               typeof this.form[field.field][0] == "object"
             ) {
-              this.form[field.field] = this.form[field.field].map(i => {
+              this.form[field.field] = this.form[field.field].map((i) => {
                 return field.objKey ? i[field.objKey] : i.id;
               });
             }
@@ -179,11 +183,11 @@ export default {
       } else {
         this.form = { ...this.initialForm };
       }
-      this._event("editItemMounted", { form: this.form });
+      this._event("editItemMounted", { form: this.form, instance: this });
     },
     value(val) {
       val && this._event("dialog", this.isEditing);
-    }
-  }
+    },
+  },
 };
 </script>

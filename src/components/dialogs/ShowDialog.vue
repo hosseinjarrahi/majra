@@ -145,7 +145,8 @@ export default {
 
   methods: {
     getValue(value) {
-      if (value.field.type == "date") return this.$helpers.persianDate(value.value);
+      if (value.field.type == "date")
+        return this.$helpers.persianDate(value.value);
 
       if (value.field.type == "ckeditor") return value.value;
 

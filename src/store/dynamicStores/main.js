@@ -1,6 +1,6 @@
 import { toPascalCase } from "@/helpers/case";
 import validations from "@/helpers/validations";
-import Vue from 'vue'
+import Vue from "vue";
 const axios = require("axios");
 
 const state = {
@@ -19,16 +19,12 @@ const state = {
   backup: false,
   headers: [],
   permission: {},
-  relationsFeched: false,
-  showEdit: true,
-  showDelete: true,
+  relationsFetched: false,
   reloadAfterSave: false,
 };
 
 /*******************************************************/
 const getters = {
-  showEdit: (state) => state.showEdit,
-  showDelete: (state) => state.showDelete,
   permission: (state) => state.permission,
   fields: (state) => state.fields,
   flatFields: (state) => state.flatFields,
@@ -132,7 +128,7 @@ const mutations = {
       fields: {},
       itemPerPage: 15,
     };
-    state.relationsFeched = false;
+    state.relationsFetched = false;
     state.isFiltering = false;
     Vue._bus.$off("readyToFetchRelations");
   },
@@ -174,8 +170,8 @@ const mutations = {
     state.items = { ...state.items };
   },
 
-  setRelationsFeched: (state, payload) => {
-    state.relationsFeched = payload;
+  setRelationsFetched: (state, payload) => {
+    state.relationsFetched = payload;
   },
 
   setHeaders: (state) => {
@@ -186,8 +182,8 @@ const mutations = {
           text: item.title,
           sortable: false,
           value: item.field,
-          model: item.rel?.model,
-          multiple: item?.multiple,
+          model: "rel" in item && item.rel ? item.rel.model : false,
+          multiple: "multiple" in item ? item.multiple : false,
           type: item.type,
           values: item.values,
           item_text: item.item_text,
@@ -218,10 +214,6 @@ const mutations = {
   setMainKey: (state, payload) => (state.mainKey = payload),
 
   setHiddenActions: (state, payload) => (state.hiddenActions = payload),
-
-  setShowEdit: (state, payload) => (state.showEdit = payload),
-
-  setShowDelete: (state, payload) => (state.showDelete = payload),
 
   setFields: (state, payload) => {
     state.fields = payload;
@@ -321,7 +313,7 @@ const actions = {
     });
 
     commit("resetState");
-  
+
     Vue._event("beforeTemplateInit");
 
     commit("addRoutes", payload.mainRoute);
@@ -341,19 +333,12 @@ const actions = {
     // end of listening
     commit("setHeaders");
 
-    commit("setHiddenActions", payload.hiddenActions);
+    commit("setHiddenActions", 'hiddenActions' in payload ? payload.hiddenActions : []);
 
     dispatch("getRelations", {
-      relations: payload?.relations ? payload.relations : [],
-      sum: payload?.sum,
+      relations: "relations" in payload ? payload.relations : [],
+      sum: "sum" in payload ? payload.sum : false,
     });
-
-    commit("setShowEdit", "showEdit" in payload ? payload.showEdit : true);
-
-    commit(
-      "setShowDelete",
-      "showDelete" in payload ? payload.showDelete : true
-    );
   },
 
   midit({ commit, dispatch }, payload) {
@@ -393,8 +378,8 @@ const actions = {
             lastPage: response[state.mainKey].last_page,
           });
 
-          !state.relationsFeched && Vue._event("readyToFetchRelations");
-          commit("setRelationsFeched", true);
+          !state.relationsFetched && Vue._event("readyToFetchRelations");
+          commit("setRelationsFetched", true);
         }
       })
       .finally(() => {
@@ -494,8 +479,8 @@ const actions = {
         }
         commit("setCsvData", response[state.mainKey].data);
         commit("setPrintItems", response[state.mainKey].data);
-        !state.relationsFeched && Vue._event("readyToFetchRelations");
-        commit("setRelationsFeched", true);
+        !state.relationsFetched && Vue._event("readyToFetchRelations");
+        commit("setRelationsFetched", true);
       })
       .finally(() => {
         commit("setLoading", { key: state.mainKey, value: false });

@@ -6,7 +6,7 @@
         value,
         isEditing,
         isShowing,
-        editItem
+        editItem,
       }"
     >
       <dynamic-form-core
@@ -32,6 +32,6 @@
 import DynamicFormAbstract from "./DynamicFormAbstract";
 
 export default {
-  extends: DynamicFormAbstract
+  extends: DynamicFormAbstract,
 };
 </script>
