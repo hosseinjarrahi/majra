@@ -92,7 +92,7 @@ export default {
     Switcher,
     ColorPicker,
     Cropper,
-    Radio
+    Radio,
   },
 
   created() {
@@ -126,9 +126,9 @@ export default {
         gallery: "gallery",
         switcher: "Switcher",
         colorPicker: "ColorPicker",
-        radio: "Radio"
+        radio: "Radio",
       },
-      dynamicProps: {}
+      dynamicProps: {},
     };
   },
 
@@ -136,7 +136,7 @@ export default {
     mounted(field) {
       this._event("mounted." + field, {
         item: this.form,
-        field: field
+        field: field,
       });
     },
 
@@ -155,7 +155,7 @@ export default {
 
       let items = this.getItemsWithKey(field.rel.child.model);
 
-      let output = items.filter(item => {
+      let output = items.filter((item) => {
         if (item[field.rel.child.ownKey])
           return value.indexOf(item[field.rel.child.ownKey].id) > -1;
         return false;
@@ -171,8 +171,8 @@ export default {
     },
 
     findFieldByModel(model) {
-      return this.flatFields.filter(f => f?.rel?.model == model)[0];
-    }
+      return this.flatFields.filter((f) => f?.rel?.model == model)[0];
+    },
   },
 
   computed: {
@@ -180,11 +180,11 @@ export default {
       getItemsWithKey: "dynamic/getItemsWithKey",
       flatFields: "dynamic/flatFields",
       fieldsNotGrouped: "dynamic/fieldsNotGrouped",
-      fieldsGrouped: "dynamic/fieldsGrouped"
+      fieldsGrouped: "dynamic/fieldsGrouped",
     }),
     md() {
-      return field => (field?.col?.md ? field?.col?.md : 12);
-    }
-  }
+      return (field) => (field?.col?.md ? field?.col?.md : 12);
+    },
+  },
 };
 </script>

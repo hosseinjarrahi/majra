@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-row justify-end align-center">
     <slot></slot>
-    <v-tooltip v-if="!checkPermission('show')" small bottom>
+    <v-tooltip v-if="isShowable('show')" small bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-bind="attrs"
@@ -17,7 +17,7 @@
       <span>مشاهده جزئیات</span>
     </v-tooltip>
 
-    <v-tooltip v-if="!checkPermission('edit')" small bottom>
+    <v-tooltip v-if="isShowable('edit') && permission.edit" small bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           text
@@ -25,7 +25,6 @@
           v-bind="attrs"
           x-small
           @click="_event('editBtn', item)"
-          v-if="showEdit && permission.edit"
         >
           <v-icon small color="info">mdi-square-edit-outline</v-icon>
         </v-btn>
@@ -34,7 +33,7 @@
       <span>ویراش کردن</span>
     </v-tooltip>
 
-    <v-tooltip v-if="!checkPermission('delete')" small bottom>
+    <v-tooltip v-if="isShowable('delete') && permission.delete" small bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-on="on"
@@ -42,7 +41,6 @@
           text
           x-small
           @click="_event('deleteBtn', item.id)"
-          v-if="showDelete && permission.delete"
         >
           <v-icon color="error" small>mdi-delete</v-icon>
         </v-btn>
@@ -64,14 +62,12 @@ export default {
       permission: "dynamic/permission",
       loading: "dynamic/loading",
       mainKey: "dynamic/mainKey",
-      showDelete: "dynamic/showDelete",
-      showEdit: "dynamic/showEdit",
       hiddenActions: "dynamic/hiddenActions",
     }),
   },
   methods: {
-    checkPermission(val) {
-      return this.hiddenActions ? this.hiddenActions.indexOf(val) > -1 : false;
+    isShowable(val) {
+      return !(this.hiddenActions.indexOf(val) > -1);
     },
   },
 };

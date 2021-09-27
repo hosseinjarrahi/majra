@@ -4,7 +4,7 @@
       <v-card-title>
         <div class="d-flex flex-row">
           <v-btn
-            v-if="!checkPermission('filter')"
+            v-if="isShowable('filter')"
             small
             color="primary"
             dark
@@ -18,7 +18,7 @@
         </div>
         <v-spacer></v-spacer>
 
-        <v-tooltip bottom v-if="!checkPermission('delete') && showDeleteBtn">
+        <v-tooltip bottom v-if="isShowable('delete') && showDeleteBtn">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-on="on"
@@ -46,7 +46,7 @@
             rounded
           "
         >
-          <v-tooltip v-if="!checkPermission('printer')" bottom>
+          <v-tooltip v-if="isShowable('printer')" bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 v-on="on"
@@ -62,7 +62,7 @@
             </template>
             <span>پرینت</span>
           </v-tooltip>
-          <v-tooltip v-if="!checkPermission('download')" bottom>
+          <v-tooltip v-if="isShowable('download')" bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 small
@@ -79,7 +79,7 @@
             <span>دانلود</span>
           </v-tooltip>
         </div>
-        <v-tooltip v-if="!checkPermission('create')" bottom>
+        <v-tooltip v-if="isShowable('create')" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               v-bind="attrs"
@@ -143,8 +143,8 @@ export default {
   },
 
   methods: {
-    checkPermission(val) {
-      return this.hiddenActions ? this.hiddenActions.indexOf(val) > -1 : false;
+    isShowable(val) {
+      return !(this.hiddenActions.indexOf(val) > -1);
     },
     openSearchBox() {
       if (typeof this.panel[0] == "undefined") this.panel = [0];
