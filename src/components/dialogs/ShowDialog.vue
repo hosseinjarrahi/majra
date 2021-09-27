@@ -78,8 +78,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-const Map = () => import("@/components/utilities/Map");
-const Editor = () => import("@/components/utilities/Editor.vue");
+const Map = () => import("./../utilities/Map");
+const Editor = () => import("./../utilities/Editor.vue");
 const DefaultShow = () => import("../list/shows/DefaultShow.vue");
 const EditorShow = () => import("../list/shows/EditorShow.vue");
 const FileShow = () => import("../list/shows/FileShow.vue");
@@ -104,7 +104,7 @@ export default {
       for (const property in val) {
         field = this.findFieldWithKey(property);
         if (!field) continue;
-        if (field.type == "file" && this.isImage(val[property]))
+        if (field.type == "file" && this.$helpers.isImage(val[property]))
           field.isImage = true;
         this.item[property] = { value: val[property], field: field };
       }
@@ -140,14 +140,13 @@ export default {
   computed: {
     ...mapGetters({
       findFieldWithKey: "dynamic/findFieldWithKey",
-      isImage: "dynamic/isImage",
-      persianDate: "dynamic/persianDate",
     }),
   },
 
   methods: {
     getValue(value) {
-      if (value.field.type == "date") return this.persianDate(value.value);
+      if (value.field.type == "date")
+        return this.$helpers.persianDate(value.value);
 
       if (value.field.type == "ckeditor") return value.value;
 

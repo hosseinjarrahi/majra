@@ -56,7 +56,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      persianDate: "dynamic/persianDate",
       rules: "dynamic/rules",
     }),
   },

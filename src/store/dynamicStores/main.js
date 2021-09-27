@@ -1,5 +1,6 @@
 import { toPascalCase } from "@/helpers/case";
 import validations from "@/helpers/validations";
+import Vue from "vue";
 const axios = require("axios");
 
 const state = {
@@ -18,16 +19,12 @@ const state = {
   backup: false,
   headers: [],
   permission: {},
-  relationsFeched: false,
-  showEdit: true,
-  showDelete: true,
+  relationsFetched: false,
   reloadAfterSave: false,
 };
 
 /*******************************************************/
 const getters = {
-  showEdit: (state) => state.showEdit,
-  showDelete: (state) => state.showDelete,
   permission: (state) => state.permission,
   fields: (state) => state.fields,
   flatFields: (state) => state.flatFields,
@@ -43,7 +40,7 @@ const getters = {
     for (let key in state.loading) {
       if (state.loading[key]) return true;
     }
-    window._event("templateLoaded");
+    Vue._event("templateLoaded");
     return false;
   },
 
@@ -131,9 +128,9 @@ const mutations = {
       fields: {},
       itemPerPage: 15,
     };
-    state.relationsFeched = false;
+    state.relationsFetched = false;
     state.isFiltering = false;
-    window.EventBus.$off("readyToFetchRelations");
+    Vue._bus.$off("readyToFetchRelations");
   },
 
   setReloadAfterSave: (state, payload) => (state.reloadAfterSave = payload),
@@ -173,8 +170,8 @@ const mutations = {
     state.items = { ...state.items };
   },
 
-  setRelationsFeched: (state, payload) => {
-    state.relationsFeched = payload;
+  setRelationsFetched: (state, payload) => {
+    state.relationsFetched = payload;
   },
 
   setHeaders: (state) => {
@@ -185,8 +182,8 @@ const mutations = {
           text: item.title,
           sortable: false,
           value: item.field,
-          model: item.rel?.model,
-          multiple: item?.multiple,
+          model: "rel" in item && item.rel ? item.rel.model : false,
+          multiple: "multiple" in item ? item.multiple : false,
           type: item.type,
           values: item.values,
           item_text: item.item_text,
@@ -217,10 +214,6 @@ const mutations = {
   setMainKey: (state, payload) => (state.mainKey = payload),
 
   setHiddenActions: (state, payload) => (state.hiddenActions = payload),
-
-  setShowEdit: (state, payload) => (state.showEdit = payload),
-
-  setShowDelete: (state, payload) => (state.showDelete = payload),
 
   setFields: (state, payload) => {
     state.fields = payload;
@@ -313,15 +306,15 @@ const mutations = {
 /*******************************************************/
 const actions = {
   init({ state, commit, dispatch, rootState }, payload) {
-    window._resetEvLi(() => {
-      window._listen("alert", (data) => {
+    Vue._resetEvLi(() => {
+      Vue._listen("alert", (data) => {
         dispatch("alert/alert", data, { root: true });
       });
     });
 
     commit("resetState");
 
-    window._event("beforeTemplateInit");
+    Vue._event("beforeTemplateInit");
 
     commit("addRoutes", payload.mainRoute);
     if (state.isFiltering) {
@@ -340,19 +333,15 @@ const actions = {
     // end of listening
     commit("setHeaders");
 
-    commit("setHiddenActions", payload.hiddenActions);
+    commit(
+      "setHiddenActions",
+      "hiddenActions" in payload ? payload.hiddenActions : []
+    );
 
     dispatch("getRelations", {
-      relations: payload?.relations ? payload.relations : [],
-      sum: payload?.sum,
+      relations: "relations" in payload ? payload.relations : [],
+      sum: "sum" in payload ? payload.sum : false,
     });
-
-    commit("setShowEdit", "showEdit" in payload ? payload.showEdit : true);
-
-    commit(
-      "setShowDelete",
-      "showDelete" in payload ? payload.showDelete : true
-    );
   },
 
   midit({ commit, dispatch }, payload) {
@@ -392,8 +381,8 @@ const actions = {
             lastPage: response[state.mainKey].last_page,
           });
 
-          !state.relationsFeched && window._event("readyToFetchRelations");
-          commit("setRelationsFeched", true);
+          !state.relationsFetched && Vue._event("readyToFetchRelations");
+          commit("setRelationsFetched", true);
         }
       })
       .finally(() => {
@@ -493,8 +482,8 @@ const actions = {
         }
         commit("setCsvData", response[state.mainKey].data);
         commit("setPrintItems", response[state.mainKey].data);
-        !state.relationsFeched && window._event("readyToFetchRelations");
-        commit("setRelationsFeched", true);
+        !state.relationsFetched && Vue._event("readyToFetchRelations");
+        commit("setRelationsFetched", true);
       })
       .finally(() => {
         commit("setLoading", { key: state.mainKey, value: false });
@@ -526,7 +515,7 @@ const actions = {
           { text: "با موفقیت ثبت شد", color: "green" },
           { root: true }
         );
-        window._event("handleCEDialog", false);
+        Vue._event("handleCEDialog", false);
         (payload.reload || state.reloadAfterSave) && dispatch("reloadMainData");
         state.reloadAfterSave = false;
       })
@@ -557,7 +546,7 @@ const actions = {
             { text: "با موفقیت حذف شد", color: "green" },
             { root: true }
           );
-          window._event("handleDeleteDialog", false);
+          Vue._event("handleDeleteDialog", false);
         })
         .catch((error) => {
           dispatch(
@@ -592,7 +581,7 @@ const actions = {
           { root: true }
         );
         if (!("closeAfterEdit" in payload && !payload.closeAfterEdit))
-          window._event("handleCEDialog", false);
+          Vue._event("handleCEDialog", false);
         payload.reload && dispatch("get", { key: state.mainKey });
       })
       .catch((error) => {
@@ -606,7 +595,7 @@ const actions = {
   },
 
   getRelations({ commit, dispatch }, payload) {
-    window._listen("readyToFetchRelations", async () => {
+    Vue._listen("readyToFetchRelations", async () => {
       if (payload.sum) {
         dispatch("getSum", { relations: payload.relations });
       } else {

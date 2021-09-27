@@ -5,10 +5,10 @@
       outlined
       :value="
         typeof form[field.field] == 'object'
-          ? persianDate(form[field.field][0]) +
+          ? this.$helpers.persianDate(form[field.field][0]) +
             '~' +
-            persianDate(form[field.field][1])
-          : persianDate(form[field.field])
+            this.$helpers.persianDate(form[field.field][1])
+          : this.$helpers.persianDate(form[field.field])
       "
       :label="field.title"
       readonly
@@ -54,7 +54,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      persianDate: "dynamic/persianDate",
       rules: "dynamic/rules",
     }),
   },

@@ -52,11 +52,11 @@
 import { mapGetters } from "vuex";
 import toCamelCase from "lodash/camelCase";
 
-const DynamicDialogForm = () => import("./DynamicDialogForm.vue");
+const DynamicDialogForm = () => import("./dynamicForm/DynamicDialogForm.vue");
 const DynamicFilter = () => import("./DynamicFilter.vue");
 const DynamicList = () => import("./DynamicList.vue");
 const DynamicHeader = () => import("./DynamicHeader.vue");
-const DynamicTabForm = () => import("./DynamicTabForm.vue");
+const DynamicTabForm = () => import("./dynamicForm/DynamicTabForm.vue");
 const ShowDialog = () => import("./dialogs/ShowDialog.vue");
 const DeleteDialog = () => import("./dialogs/DeleteDialog.vue");
 
@@ -159,6 +159,7 @@ export default {
 .v-btn {
   min-width: 0 !important;
 }
+
 input {
   padding: 0 !important;
 }

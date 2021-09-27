@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import Map from "@/components/utilities/Map";
+import Map from "./../../utilities/Map";
 
 export default {
   props: ["getFiles", "openImage", "value", "item"],

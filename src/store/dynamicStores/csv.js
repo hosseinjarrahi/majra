@@ -4,9 +4,10 @@ const state = {
 
 const getters = {
   csvData: (state) => state.csvData,
-  csvValues: (state, getters) => {
+  csvValues: (state) => {
     const standardValue = (value, field) => {
-      if (field.type === "date") return getters.persianDate(value);
+      // need to edit value to persian
+      if (field.type === "date") return value;
 
       if (field.type === "text" || value === null) return value;
 

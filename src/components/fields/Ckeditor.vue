@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Editor from "@/components/utilities/Editor.vue";
+import Editor from "./../utilities/Editor.vue";
 
 export default {
   components: { Editor },

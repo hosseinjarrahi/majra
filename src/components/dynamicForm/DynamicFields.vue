@@ -19,7 +19,7 @@
               :parentChanged="parentChanged"
               :filters="filters"
               :index="index"
-              :is="field.component ? field.component : map[field.type]"
+              :is="map[field.type]"
               @keypress.prevent.enter="_event('saveForm')"
               :dynamicProps="dynamicProps[field.field]"
             />
@@ -45,7 +45,7 @@
             :parentChanged="parentChanged"
             :filters="filters"
             :index="index"
-            :is="field.component ? field.component : map[field.type]"
+            :is="map[field.type]"
             @keypress.prevent.enter="_event('saveForm')"
             :dynamicProps="dynamicProps[field.field]"
             @mounted="mounted(field.field)"
@@ -58,21 +58,21 @@
 
 <script>
 import { mapGetters } from "vuex";
-const Autocomplete = () => import("./fields/Autocomplete");
-const Date = () => import("./fields/Date");
-const File = () => import("./fields/File");
-const TextField = () => import("./fields/TextField");
-const TextArea = () => import("./fields/TextArea");
-const DateTime = () => import("./fields/Time");
-const Combobox = () => import("./fields/Combobox");
-const Mapper = () => import("./fields/Mapper");
-const Checkbox = () => import("./fields/Checkbox");
-const Ckeditor = () => import("./fields/Ckeditor");
-const FieldSet = () => import("./utilities/FieldSet");
-const Switcher = () => import("./fields/Switcher");
-const ColorPicker = () => import("./fields/ColorPicker");
-const Radio = () => import("./fields/Radio");
-const Cropper = () => import("./fields/Cropper");
+const Autocomplete = () => import("./../fields/Autocomplete");
+const Date = () => import("./../fields/Date");
+const File = () => import("./../fields/File");
+const TextField = () => import("./../fields/TextField");
+const TextArea = () => import("./../fields/TextArea");
+// const DateTime = () => import("./../fields/DateTime");
+const Combobox = () => import("./../fields/Combobox");
+const Mapper = () => import("./../fields/Mapper");
+const Checkbox = () => import("./../fields/Checkbox");
+const Ckeditor = () => import("./../fields/Ckeditor");
+const FieldSet = () => import("./../utilities/FieldSet");
+const Switcher = () => import("./../fields/Switcher");
+const ColorPicker = () => import("./../fields/ColorPicker");
+const Radio = () => import("./../fields/Radio");
+const Cropper = () => import("./../fields/Cropper");
 
 export default {
   props: ["fields", "isShowing", "form", "index"],
@@ -82,7 +82,7 @@ export default {
     Autocomplete,
     File,
     Date,
-    DateTime,
+    // DateTime,
     Combobox,
     TextArea,
     Mapper,
@@ -91,8 +91,8 @@ export default {
     Ckeditor,
     Switcher,
     ColorPicker,
-    Radio,
     Cropper,
+    Radio,
   },
 
   created() {
@@ -123,10 +123,10 @@ export default {
         password: "TextField",
         checkbox: "checkbox",
         ckeditor: "ckeditor",
+        gallery: "gallery",
         switcher: "Switcher",
         colorPicker: "ColorPicker",
         radio: "Radio",
-        cropper: "Cropper",
       },
       dynamicProps: {},
     };
