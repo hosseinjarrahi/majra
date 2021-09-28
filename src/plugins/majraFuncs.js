@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-export let HelpersPlugin = {
+export let MajraFuncs = {
   install: function (Vue) {
     Vue.prototype.$majra = {
       getSendKey(field) {
@@ -11,4 +11,4 @@ export let HelpersPlugin = {
   },
 };
 
-Vue.use(HelpersPlugin);
+Vue.use(MajraFuncs);

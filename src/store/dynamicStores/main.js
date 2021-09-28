@@ -506,9 +506,11 @@ const actions = {
     commit("setLoading", { key: state.mainKey, value: true });
 
     route = route.value ? route.value : state.routes[state.mainKey];
-    
-    let data = Vue.$conf.WITH_KEY ? { [state.mainKey]: { ...payload } } : payload;
-    
+
+    let data = Vue.$conf.WITH_KEY
+      ? { [state.mainKey]: { ...payload } }
+      : payload;
+
     axios
       .post(route, data)
       .then((response) => {
