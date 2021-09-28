@@ -17,6 +17,7 @@ let MajraPlugin = {
       ...defaultConfigs,
       ...configs
     }
+    Vue.$conf = Vue.prototype.$conf;
   },
 };
 

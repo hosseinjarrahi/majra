@@ -7,6 +7,7 @@ export let HelpersPlugin = {
         return "sendKey" in field ? field.sendKey : field.field;
       },
     };
+    Vue.$majra = Vue.prototype.$majra;
   },
 };
 
