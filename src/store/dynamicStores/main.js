@@ -540,14 +540,14 @@ const actions = {
         .$delete(route + "/" + item)
         .then(() => {
           commit("remove", item);
-          Vue._event("alert/alert", {
+          Vue._event("alert", {
             text: "با موفقیت حذف شد",
             color: "green",
           });
           Vue._event("handleDeleteDialog", false);
         })
         .catch((error) => {
-          Vue._event("alert/alert", {
+          Vue._event("alert", {
             text: error.response.data.message,
             color: "red",
           });

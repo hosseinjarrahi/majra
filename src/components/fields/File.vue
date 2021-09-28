@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import fieldSet from "../utilities/FieldSet.vue";
+import fieldSet from "./../utilities/FieldSet.vue";
 const axios = require("axios");
 
 export default {
@@ -138,7 +138,7 @@ export default {
       formData.append("file", file);
       formData.append("type", field.fileType);
       axios
-        .post("/upload-file", formData, config)
+        .post(this.UPLOAD_PATH, formData, config)
         .then((response) => {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];

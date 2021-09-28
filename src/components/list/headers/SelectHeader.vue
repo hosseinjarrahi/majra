@@ -12,9 +12,11 @@
       relative
       left
     >
-      <template v-slot:activator>
-        <span>{{ header.text }}</span>
-        <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
+      <template v-slot:activator="{ on }">
+        <div v-on="on">
+          <span>{{ header.text }}</span>
+          <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
+        </div>
       </template>
       <v-card>
         <v-card-text class="pa-2">
