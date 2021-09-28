@@ -4,6 +4,7 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 require("./plugins/helpers");
 require("./plugins/eventBus");
+require("./plugins/majraFuncs");
 
 //////////////
 Vue.mixin({

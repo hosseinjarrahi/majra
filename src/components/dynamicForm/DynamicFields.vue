@@ -126,7 +126,7 @@ export default {
         switcher: "Switcher",
         colorPicker: "ColorPicker",
         radio: "Radio",
-        cropper: "Cropper"
+        cropper: "Cropper",
       },
       dynamicProps: {},
     };
