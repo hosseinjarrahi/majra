@@ -123,10 +123,10 @@ export default {
         password: "TextField",
         checkbox: "checkbox",
         ckeditor: "ckeditor",
-        gallery: "gallery",
         switcher: "Switcher",
         colorPicker: "ColorPicker",
         radio: "Radio",
+        cropper: "Cropper"
       },
       dynamicProps: {},
     };

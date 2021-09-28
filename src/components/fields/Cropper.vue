@@ -19,6 +19,7 @@
       :upload-handler="cropperHandler"
       trigger="#pick-avatar"
       :labels="{ submit: 'OK', cancel: 'Cancel' }"
+      v-bind="field.props"
       :cropper-options="{
         aspectRatio: 1,
         autoCropArea: 1,
@@ -74,7 +75,7 @@ export default {
       formData.append("file", file);
       setTimeout(() => {
         axios
-          .post("/admin/upload", formData)
+          .post(this.UPLOAD_PATH, formData)
           .then((response) => {
             this.loading = false;
 
