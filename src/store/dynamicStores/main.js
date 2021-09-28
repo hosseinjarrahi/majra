@@ -306,12 +306,7 @@ const mutations = {
 /*******************************************************/
 const actions = {
   init({ state, commit, dispatch, rootState }, payload) {
-    Vue._resetEvLi(() => {
-      // todo
-      // Vue._listen("alert", (data) => {
-      //   dispatch("alert/alert", data, { root: true });
-      // });
-    });
+    Vue._resetEvLi();
 
     commit("resetState");
 
