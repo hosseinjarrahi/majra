@@ -42,7 +42,7 @@ export let EventBusPlugin = {
 
     Vue.prototype._resetEvLi = (callback) => {
       EventBus = new Vue();
-      callback();
+      callback && callback();
       Vue.prototype._listen("beforeTemplateInit", (args) => {
         fns3.forEach((fn) => fn(args));
         fns3 = [];
