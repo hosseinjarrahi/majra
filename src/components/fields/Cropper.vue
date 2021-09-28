@@ -75,7 +75,7 @@ export default {
       formData.append("file", file);
       setTimeout(() => {
         axios
-          .post(this.UPLOAD_PATH, formData)
+          .post(this.$conf.UPLOAD_PATH, formData)
           .then((response) => {
             this.loading = false;
 

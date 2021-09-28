@@ -138,7 +138,7 @@ export default {
       formData.append("file", file);
       formData.append("type", field.fileType);
       axios
-        .post(this.UPLOAD_PATH, formData, config)
+        .post(this.$conf.UPLOAD_PATH, formData, config)
         .then((response) => {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];
