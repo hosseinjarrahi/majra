@@ -5,13 +5,17 @@ import { EventBusPlugin } from "./src/plugins/eventBus";
 import { HelpersPlugin } from "./src/plugins/helpers";
 
 let MajraPlugin = {
-  install: function (Vue, { store, uploadPath,withKey }) {
+  install: function (Vue, { store, configs }) {
     Vue.use(EventBusPlugin);
     Vue.use(HelpersPlugin);
     store.registerModule("dynamic", dynamic);
+    let defaultConfigs = {
+      UPLOAD_PATH: '/upload',
+      WITH_KEY: true
+    }
     Vue.prototype.$conf = {
-      UPLOAD_PATH : uploadPath ? uploadPath : "/upload",
-      WITH_KEY : withKey ? withKey : true
+      ...defaultConfigs,
+      ...configs
     }
   },
 };
