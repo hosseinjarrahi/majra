@@ -131,7 +131,6 @@ export default {
         time: "DefaultShow",
         number: "DefaultShow",
         switcher: "DefaultShow",
-        gallery: "DefaultShow",
         map: "MapShow",
       },
     };
