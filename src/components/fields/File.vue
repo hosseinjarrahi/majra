@@ -35,7 +35,7 @@
         <a
           target="_blank"
           class="col-10 py-2"
-          :href="baseURL + form[field.field]"
+          :href="$majra.configs.BASE_URL + form[field.field]"
         >
           دانلود
         </a>
@@ -76,7 +76,7 @@
           :key="file"
           v-for="(file, index) in form[field.field]"
         >
-          <a target="_blank" class="col-10" :href="baseURL + file">
+          <a target="_blank" class="col-10" :href="$majra.configs.BASE_URL + file">
             <span>{{ index + 1 }} - </span>
             <span>دانلود</span>
           </a>

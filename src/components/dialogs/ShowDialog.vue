@@ -178,7 +178,7 @@ export default {
       let out = (Array.isArray(value) ? value : [value]).filter(
         (v) => !!v && v != "null"
       );
-      return out.map((img) => this.baseURL + img);
+      return out.map((img) => this.$majra.configs.BASE_URL + img);
     },
     isArrayOfObjects(values) {
       return values.length > 0 && typeof values[0] === "object";

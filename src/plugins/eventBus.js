@@ -4,7 +4,7 @@ export default {
     let lockedListeners = [];
 
     Vue.prototype._bus = EventBus;
-    Vue._bus = Vue.prototype._bus;
+    Vue._bus = EventBus;
 
     Vue.prototype._listen = (event, fn, lock = false) => {
       event = Array.isArray(event) ? event : [event];
@@ -54,6 +54,8 @@ export default {
         fns2 = [];
       });
       for (let fn of lockedListeners) Vue.prototype._listen(fn);
+      Vue.prototype._bus = EventBus;
+      Vue._bus = EventBus;
     };
     Vue._resetEvLi = Vue.prototype._resetEvLi;
 
