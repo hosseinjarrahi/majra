@@ -1,10 +1,9 @@
-import Vue from "vue";
-
-export let MajraFuncs = {
+export default {
   install: function (Vue, { configs }) {
     let defaultConfigs = {
       UPLOAD_PATH: "/upload",
       WITH_KEY: true,
+      BASE_URL: "/",
     };
     Vue.prototype.$majra = {
       getSendKey(field) {
@@ -18,5 +17,3 @@ export let MajraFuncs = {
     Vue.$majra = Vue.prototype.$majra;
   },
 };
-
-Vue.use(MajraFuncs);

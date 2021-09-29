@@ -1,6 +1,4 @@
-import Vue from "vue";
-
-export let EventBusPlugin = {
+export default {
   install: function (Vue) {
     let EventBus = new Vue();
     let lockedListeners = [];
@@ -75,5 +73,3 @@ export let EventBusPlugin = {
     Vue._log = Vue.prototype._log;
   },
 };
-
-Vue.use(EventBusPlugin);
