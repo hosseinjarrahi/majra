@@ -79,7 +79,6 @@ export default {
   },
 
   created() {
-    this.initPermissions();
     this.defineListeners();
   },
 
@@ -90,7 +89,6 @@ export default {
   computed: {
     ...mapGetters({
       fields: "dynamic/fields",
-      permission: "dynamic/permission",
       mainLoading: "dynamic/mainLoading",
       getOptionWithKey: "dynamic/getOptionWithKey",
     }),
@@ -102,9 +100,6 @@ export default {
       editDialog: false,
       editItem: {},
       isEditing: false,
-      createPermission: false,
-      editPermission: false,
-      deletePermission: false,
     };
   },
 
@@ -135,21 +130,6 @@ export default {
       this._listen("reset", () => {
         this.$store.commit("dynamic/restoreBackup");
       });
-    },
-
-    initPermissions() {
-      let editPermission = true;
-      let deletePermission = true;
-      let createPermission = true;
-      this.$store.commit("dynamic/setPermission", {
-        edit: editPermission,
-        delete: deletePermission,
-        create: createPermission,
-      });
-      this.$store.commit(
-        "dynamic/addActionsToHeader",
-        editPermission || deletePermission
-      );
     },
   },
 };

@@ -18,14 +18,12 @@ const state = {
   flatFields: [],
   backup: false,
   headers: [],
-  permission: {},
   relationsFetched: false,
   reloadAfterSave: false,
 };
 
 /*******************************************************/
 const getters = {
-  permission: (state) => state.permission,
   fields: (state) => state.fields,
   flatFields: (state) => state.flatFields,
   headers: (state) => state.headers,
@@ -135,18 +133,6 @@ const mutations = {
 
   setReloadAfterSave: (state, payload) => (state.reloadAfterSave = payload),
 
-  addActionsToHeader: (state, permission) => {
-    permission &&
-      state.headers.push({
-        text: "اقدامات",
-        title: "اقدامات",
-        sortable: false,
-        value: "actions",
-        type: "text",
-        align: "left",
-      });
-  },
-
   addRoutes: (state, payload) => {
     let key =
       typeof payload == "string"
@@ -191,6 +177,14 @@ const mutations = {
           ...item,
         };
       });
+    state.headers.push({
+      text: "اقدامات",
+      title: "اقدامات",
+      sortable: false,
+      value: "actions",
+      type: "text",
+      align: "left",
+    });
     state.headers.unshift(
       {
         text: "#",
@@ -297,8 +291,6 @@ const mutations = {
     });
     state.items[state.mainKey] = [...temp];
   },
-
-  setPermission: (state, payload) => (state.permission = payload),
 
   setOptions: (state, payload) => (state.options = payload),
 };

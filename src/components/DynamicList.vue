@@ -91,7 +91,7 @@ export default {
 
   layout: "dashboard",
 
-  props: ["editPermission", "deletePermission", "print", "expandMode"],
+  props: ["print", "expandMode"],
 
   created() {
     this._listen("addToSelected", (item) => {
@@ -133,7 +133,6 @@ export default {
       editDialog: false,
       editItem: {},
       isEditing: false,
-      createPermission: false,
       page: 1,
       selects: {},
       arrays: {},
