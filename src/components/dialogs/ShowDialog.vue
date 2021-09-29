@@ -86,7 +86,7 @@ const FileShow = () => import("../list/shows/FileShow.vue");
 const MapShow = () => import("../list/shows/MapShow.vue");
 
 export default {
-  components: { Map, Editor, DefaultShow, EditorShow, FileShow, MapShow },
+  components: { Map, Editor },
 
   created() {
     this._listen("showBtn", (showItem, dialog = true) => {
@@ -121,17 +121,17 @@ export default {
       dialog: false,
       showItem: {},
       map: {
-        date: "DefaultShow",
-        select: "DefaultShow",
-        combo: "DefaultShow",
-        text: "DefaultShow",
-        textarea: "DefaultShow",
-        file: "FileShow",
-        ckeditor: "EditorShow",
-        time: "DefaultShow",
-        number: "DefaultShow",
-        switcher: "DefaultShow",
-        map: "MapShow",
+        date: DefaultShow,
+        select: DefaultShow,
+        combo: DefaultShow,
+        text: DefaultShow,
+        textarea: DefaultShow,
+        file: FileShow,
+        ckeditor: EditorShow,
+        time: DefaultShow,
+        number: DefaultShow,
+        switcher: DefaultShow,
+        map: MapShow,
       },
     };
   },
