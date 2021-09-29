@@ -9,17 +9,8 @@ let MajraPlugin = {
   install: function (Vue, { store, configs }) {
     Vue.use(EventBusPlugin);
     Vue.use(HelpersPlugin);
-    Vue.use(MajraFuncs);
+    Vue.use(MajraFuncs, { configs });
     store.registerModule("dynamic", dynamic);
-    let defaultConfigs = {
-      UPLOAD_PATH: "/upload",
-      WITH_KEY: true,
-    };
-    Vue.prototype.$conf = {
-      ...defaultConfigs,
-      ...configs,
-    };
-    Vue.$conf = Vue.prototype.$conf;
   },
 };
 

@@ -502,7 +502,7 @@ const actions = {
 
     route = route.value ? route.value : state.routes[state.mainKey];
 
-    let data = Vue.$conf.WITH_KEY
+    let data = Vue.$majra.configs.WITH_KEY
       ? { [state.mainKey]: { ...payload } }
       : payload;
 
