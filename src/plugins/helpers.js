@@ -5,31 +5,31 @@ export default {
         if (date) {
           date = new Date(date);
           return (
-              date.toLocaleTimeString("fa-IR") +
-              (time ? " - " + date.toLocaleDateString("fa-IR") : "")
+            date.toLocaleTimeString("fa-IR") +
+            (time ? " - " + date.toLocaleDateString("fa-IR") : "")
           );
         }
         return null;
       },
-      
+
       persianDate(date) {
         if (date) {
           return this.persianDateGlobal(date, true);
         }
         return null;
       },
-      
+
       isImage(link) {
         let links = Array.isArray(link) ? link : [link];
         links = links.filter((link) => !!link);
-        
+
         if (
-            !link ||
-            (links.length == 1 && typeof link !== "string") ||
-            !isNaN(link)
+          !link ||
+          (links.length == 1 && typeof link !== "string") ||
+          !isNaN(link)
         )
           return false;
-        
+
         let res = false;
         links.forEach((l) => {
           let types = [".jpg", ".png", ".gif", "jpeg"];
@@ -37,27 +37,37 @@ export default {
           let fileType = match ? match[0] : "noType";
           if (types.indexOf(fileType) > -1) res = true;
         });
-        
+
         return res;
       },
-      
+
       isArrayOfObjects(values) {
         return (
-            Array.isArray(values) &&
-            values.length > 0 &&
-            typeof values[0] === "object"
+          Array.isArray(values) &&
+          values.length > 0 &&
+          typeof values[0] === "object"
         );
       },
-      
+
       hasProperty(obj = {}, property = "") {
-        let props = property.split('.');
-        let temp = {...obj};
+        let props = property.split(".");
+        let temp = { ...obj };
         for (const prop of props) {
           if (!(prop in temp)) return false;
           temp = temp[prop];
         }
         return true;
-      }
+      },
+
+      getSafe(obj = {}, property = "") {
+        let props = property.split(".");
+        let temp = { ...obj };
+        for (const prop of props) {
+          if (!(prop in temp)) return null;
+          temp = temp[prop];
+        }
+        return temp;
+      },
     };
     Vue.$helpers = Vue.prototype.$helpers;
   },

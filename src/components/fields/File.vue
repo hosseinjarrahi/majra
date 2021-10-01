@@ -76,7 +76,11 @@
           :key="file"
           v-for="(file, index) in form[field.field]"
         >
-          <a target="_blank" class="col-10" :href="$majra.configs.BASE_URL + file">
+          <a
+            target="_blank"
+            class="col-10"
+            :href="$majra.configs.BASE_URL + file"
+          >
             <span>{{ index + 1 }} - </span>
             <span>دانلود</span>
           </a>

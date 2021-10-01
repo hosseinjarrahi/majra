@@ -10,9 +10,7 @@
       </v-card-title>
 
       <v-card-text class="mt-5">
-        <h2 class="font-weight-bold">
-          آیا از حذف مطمئن هستید؟
-        </h2>
+        <h2 class="font-weight-bold">آیا از حذف مطمئن هستید؟</h2>
       </v-card-text>
 
       <v-divider></v-divider>

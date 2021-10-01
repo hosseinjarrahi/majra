@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 
 const Autocomplete = () => import("./../fields/Autocomplete");
 const Date = () => import("./../fields/Date");
@@ -164,10 +164,7 @@ export default {
 
       this.filters = { ...this.filters };
       !init &&
-        this.parentChanged(
-          this.findFieldByModel(field.rel.child.model),
-          null
-        );
+        this.parentChanged(this.findFieldByModel(field.rel.child.model), null);
     },
 
     findFieldByModel(model) {
@@ -175,8 +172,8 @@ export default {
     },
 
     getComponent(field) {
-      return 'component' in field ? field.component : this.map[field.type];
-    }
+      return "component" in field ? field.component : this.map[field.type];
+    },
   },
 
   computed: {

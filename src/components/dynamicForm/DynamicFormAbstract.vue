@@ -55,8 +55,11 @@ export default {
     }),
     filteredFields() {
       return (fields) => {
-        return this.$majra.filterFieldsByShow(fields, this.isEditing ? 'edit' : 'create');
-      }
+        return this.$majra.filterFieldsByShow(
+          fields,
+          this.isEditing ? "edit" : "create"
+        );
+      };
     },
   },
 
@@ -126,8 +129,8 @@ export default {
         }
       });
 
-      this._listen(["createBtn","editBtn"], () => {
-        this.form = {...this.initialForm}
+      this._listen(["createBtn", "editBtn"], () => {
+        this.form = { ...this.initialForm };
       });
 
       // this._listen("handleEnter", () => {

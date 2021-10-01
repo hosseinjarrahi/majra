@@ -24,15 +24,24 @@ const state = {
 /*******************************************************/
 const getters = {
   fields: (state) => state.fields,
+
   flatFields: (state) => state.flatFields,
+
   headers: (state) => state.headers,
+
   items: (state) => state.items,
+
   loading: (state) => state.loading,
+
   pagination: (state) => state.pagination,
+
   mainKey: (state) => state.mainKey,
+
   hiddenActions: (state) => state.hiddenActions,
+
   hasRelation: (state) => (relation) =>
     Array.isArray(state.items[relation]) && state.items[relation].length > 0,
+
   mainLoading: (state) => {
     for (let key in state.loading) {
       if (state.loading[key]) return true;
@@ -111,7 +120,6 @@ const mutations = {
     };
     state.routes = [];
     state.mainKey = false;
-    state.reloadAfterSave = false;
     state.fields = [];
     state.hiddenActions = [];
     state.flatFields = [];
@@ -130,8 +138,6 @@ const mutations = {
     Vue._bus.$off("readyToFetchRelations");
   },
 
-  setReloadAfterSave: (state, payload) => (state.reloadAfterSave = payload),
-
   addRoutes: (state, payload) => {
     let key =
       typeof payload == "string"
@@ -142,12 +148,6 @@ const mutations = {
 
     return (state.routes[toPascalCase(key)] =
       typeof payload == "string" ? payload : payload.route);
-  },
-
-  removeRoute: (state, payload) => {
-    state.routes = state.routes.filter(
-      (route) => !(route.field == payload || route.url == payload)
-    );
   },
 
   set: (state, payload) => {
@@ -167,7 +167,7 @@ const mutations = {
           text: item.title,
           sortable: false,
           value: item.field,
-          model: typeof item.rel == 'object' ? item.rel.model : false,
+          model: typeof item.rel == "object" ? item.rel.model : false,
           multiple: "multiple" in item ? item.multiple : false,
           type: item.type,
           values: item.values,
@@ -192,7 +192,7 @@ const mutations = {
         value: "index",
         field: "index",
         sortable: false,
-      },
+      }
       // {
       //   title: "شناسه",
       //   text: "شناسه",
@@ -301,6 +301,11 @@ const actions = {
 
     Vue._event("beforeTemplateInit");
 
+    dispatch("getRelations", {
+      relations: "relations" in payload ? payload.relations : [],
+      sum: "sum" in payload ? payload.sum : false,
+    });
+
     commit("addRoutes", payload.mainRoute);
     if (state.isFiltering) {
       dispatch("getWithFilter", { key: state.mainKey });
@@ -322,11 +327,6 @@ const actions = {
       "setHiddenActions",
       "hiddenActions" in payload ? payload.hiddenActions : []
     );
-
-    dispatch("getRelations", {
-      relations: "relations" in payload ? payload.relations : [],
-      sum: "sum" in payload ? payload.sum : false,
-    });
   },
 
   midit({ commit, dispatch }, payload) {
@@ -378,33 +378,8 @@ const actions = {
       });
   },
 
-  reloadMainData({ state, commit }, payload) {
-    let page = 1;
-    if (payload && payload.page) page = payload.page;
-    let query = payload && payload.all ? "all=true" : "";
-    let pageQuery =
-      state.routes[state.mainKey].indexOf("?") > -1 ? "&page=" : "?page=";
-
-    commit("setLoading", { key: state.mainKey, value: true });
-
-    Vue.axios
-      .get(state.routes[state.mainKey] + pageQuery + page + "&" + query)
-      .then((response) => {
-        commit("set", {
-          data: response.data[state.mainKey].data,
-          key: state.mainKey,
-        });
-        if (state.mainKey == state.mainKey) {
-          commit("setPagination", {
-            total: response.data[state.mainKey].total,
-            currentPage: response.data[state.mainKey].current_page,
-            lastPage: response.data[state.mainKey].last_page,
-          });
-        }
-      })
-      .finally(() => {
-        commit("setLoading", { key: state.mainKey, value: false });
-      });
+  reloadMainData({ dispatch }) {
+    dispatch("get", { key: state.mainKey });
   },
 
   getSum({ commit }, payload) {
@@ -501,11 +476,10 @@ const actions = {
         let newItems = Array.isArray(response.data[state.mainKey])
           ? response.data[state.mainKey]
           : [response.data[state.mainKey]];
-        !state.reloadAfterSave && commit("add", newItems);
+        !payload.reload && commit("add", newItems);
+        payload.reload && dispatch("reloadMainData");
         Vue._event("alert", { text: "با موفقیت ثبت شد", color: "green" });
         Vue._event("handleDialogForm", false);
-        (payload.reload || state.reloadAfterSave) && dispatch("reloadMainData");
-        state.reloadAfterSave = false;
       })
       .catch((error) => {
         Vue._event("alert", {
