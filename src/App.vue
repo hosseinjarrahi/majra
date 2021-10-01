@@ -18,7 +18,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("dynamic/init", {
+    this.$majra.init({
       mainRoute: "/admin/base",
       relations: ['/admin/product'],
       fields: [

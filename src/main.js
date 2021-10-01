@@ -9,8 +9,8 @@ import Axios from "./plugins/axios";
 
 Vue.use(HelpersPlugin);
 Vue.use(EventBusPlugin);
-Vue.use(Axios,{baseURL:'http://localhost:8000'});
-Vue.use(MajraFuncsPlugin,{configs:{}});
+Vue.use(Axios, {baseURL: 'http://localhost:8000'});
+Vue.use(MajraFuncsPlugin, {store, configs: {}});
 
 Vue.config.productionTip = false;
 

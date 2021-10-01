@@ -1,5 +1,5 @@
 export default {
-  install: function (Vue, options = {configs: {}}) {
+  install: function (Vue, options = {store: {}, configs: {}}) {
     let defaultConfigs = {
       UPLOAD_PATH: "/upload",
       WITH_KEY: true,
@@ -22,6 +22,10 @@ export default {
       
       hasChild(field) {
         return Vue.$helpers.hasProperty(field, 'rel.child.model')
+      },
+      
+      init(payload) {
+        options.store.dispatch("dynamic/init", payload);
       },
       
       configs: {

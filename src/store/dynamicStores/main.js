@@ -204,8 +204,6 @@ const mutations = {
     );
   },
 
-  setMainKey: (state, payload) => (state.mainKey = payload),
-
   setHiddenActions: (state, payload) => (state.hiddenActions = payload),
 
   setFields: (state, payload) => {
