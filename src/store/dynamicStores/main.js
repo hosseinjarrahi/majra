@@ -1,7 +1,6 @@
 import { toPascalCase } from "@/helpers/case";
 import validations from "@/helpers/validations";
 import Vue from "vue";
-const axios = require("axios");
 
 const state = {
   items: [],
@@ -168,7 +167,7 @@ const mutations = {
           text: item.title,
           sortable: false,
           value: item.field,
-          model: "rel" in item && item.rel ? item.rel.model : false,
+          model: typeof item.rel == 'object' ? item.rel.model : false,
           multiple: "multiple" in item ? item.multiple : false,
           type: item.type,
           values: item.values,
@@ -194,14 +193,14 @@ const mutations = {
         field: "index",
         sortable: false,
       },
-      {
-        title: "شناسه",
-        text: "شناسه",
-        type: "text",
-        value: "id",
-        field: "id",
-        class: { header: "mamad-header" },
-      }
+      // {
+      //   title: "شناسه",
+      //   text: "شناسه",
+      //   type: "text",
+      //   value: "id",
+      //   field: "id",
+      //   class: { header: "mamad-header" },
+      // }
     );
   },
 
@@ -352,13 +351,13 @@ const actions = {
   get({ state, commit }, payload) {
     let page = 1;
     if (payload && payload.page) page = payload.page;
-    let query = payload && payload.all ? "allMain=true" : "";
+    let query = payload && payload.all ? "all=true" : "";
     let pageQuery =
       state.routes[payload.key].indexOf("?") > -1 ? "&page=" : "?page=";
 
     commit("setLoading", { key: payload.key, value: true });
 
-    axios
+    Vue.axios
       .get(state.routes[payload.key] + pageQuery + page + "&" + query)
       .then((response) => {
         commit("set", {
@@ -384,13 +383,13 @@ const actions = {
   reloadMainData({ state, commit }, payload) {
     let page = 1;
     if (payload && payload.page) page = payload.page;
-    let query = payload && payload.all ? "allMain=true" : "";
+    let query = payload && payload.all ? "all=true" : "";
     let pageQuery =
       state.routes[state.mainKey].indexOf("?") > -1 ? "&page=" : "?page=";
 
     commit("setLoading", { key: state.mainKey, value: true });
 
-    axios
+    Vue.axios
       .get(state.routes[state.mainKey] + pageQuery + page + "&" + query)
       .then((response) => {
         commit("set", {
@@ -421,7 +420,7 @@ const actions = {
       commit("setLoading", { key: model, value: true });
     });
 
-    axios
+    Vue.axios
       .post("/sum-model", {
         Model: models,
       })
@@ -447,7 +446,7 @@ const actions = {
     let itemPerPage = payload && payload.itemPerPage ? payload.itemPerPage : 15;
 
     commit("setLoading", { key: state.mainKey, value: true });
-    axios
+    Vue.axios
       .post(`/filter?page=${page}`, {
         model: state.mainKey,
         search: state.filterData.search,
@@ -498,7 +497,7 @@ const actions = {
       ? { [state.mainKey]: { ...payload } }
       : payload;
 
-    axios
+    Vue.axios
       .post(route, data)
       .then((response) => {
         let newItems = Array.isArray(response.data[state.mainKey])
@@ -506,7 +505,7 @@ const actions = {
           : [response.data[state.mainKey]];
         !state.reloadAfterSave && commit("add", newItems);
         Vue._event("alert", { text: "با موفقیت ثبت شد", color: "green" });
-        Vue._event("handleCEDialog", false);
+        Vue._event("handleDialogForm", false);
         (payload.reload || state.reloadAfterSave) && dispatch("reloadMainData");
         state.reloadAfterSave = false;
       })
@@ -527,8 +526,8 @@ const actions = {
     let route = state.routes[state.mainKey].split("?")[0];
 
     payload.forEach((item, index) => {
-      axios
-        .$delete(route + "/" + item)
+      Vue.axios
+        .delete(route + "/" + item)
         .then(() => {
           commit("remove", item);
           Vue._event("alert", {
@@ -557,7 +556,7 @@ const actions = {
       route = payload.route;
     }
 
-    axios
+    Vue.axios
       .patch(route + "/" + payload.id, {
         [state.mainKey]: { ...payload },
       })
@@ -565,7 +564,7 @@ const actions = {
         commit("editItem", response.data[state.mainKey]);
         Vue._event("alert", { text: "با موفقیت ویرایش شد", color: "green" });
         if (!("closeAfterEdit" in payload && !payload.closeAfterEdit))
-          Vue._event("handleCEDialog", false);
+          Vue._event("handleDialogForm", false);
         payload.reload && dispatch("get", { key: state.mainKey });
       })
       .catch((error) => {

@@ -119,7 +119,7 @@ export default {
         this.dialog = true;
       });
 
-      this._listen("handleCEDialog", (dialog) => {
+      this._listen("handleDialogForm", (dialog) => {
         this.dialog = dialog;
       });
 

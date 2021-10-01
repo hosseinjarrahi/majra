@@ -19,7 +19,7 @@
               :parentChanged="parentChanged"
               :filters="filters"
               :index="index"
-              :is="map[field.type]"
+              :is="getComponent(field)"
               @keypress.prevent.enter="_event('saveForm')"
               :dynamicProps="dynamicProps[field.field]"
             />
@@ -45,7 +45,7 @@
             :parentChanged="parentChanged"
             :filters="filters"
             :index="index"
-            :is="map[field.type]"
+            :is="getComponent(field)"
             @keypress.prevent.enter="_event('saveForm')"
             :dynamicProps="dynamicProps[field.field]"
             @mounted="mounted(field.field)"
@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
+
 const Autocomplete = () => import("./../fields/Autocomplete");
 const Date = () => import("./../fields/Date");
 const File = () => import("./../fields/File");
@@ -75,7 +76,7 @@ const Radio = () => import("./../fields/Radio");
 const Cropper = () => import("./../fields/Cropper");
 
 export default {
-  props: ["fields", "isShowing", "form", "index"],
+  props: ["fields", "form", "index"],
 
   components: {
     TextField,
@@ -147,7 +148,7 @@ export default {
     parentChanged(field, value, init = false) {
       this.fieldChanged(field, value);
 
-      if (!field.childHasFilter) {
+      if (!this.$majra.hasChild(field)) {
         return;
       }
 
@@ -155,17 +156,16 @@ export default {
 
       let items = this.getItemsWithKey(field.rel.child.model);
 
-      let output = items.filter((item) => {
+      this.filters[field.rel.child.model] = items.filter((item) => {
         if (item[field.rel.child.ownKey])
           return value.indexOf(item[field.rel.child.ownKey].id) > -1;
         return false;
       });
 
-      this.filters[field.rel.child.model] = output;
       this.filters = { ...this.filters };
       !init &&
         this.parentChanged(
-          this.findFieldByModel(field?.rel?.child?.model),
+          this.findFieldByModel(field.rel.child.model),
           null
         );
     },
@@ -173,6 +173,10 @@ export default {
     findFieldByModel(model) {
       return this.flatFields.filter((f) => f?.rel?.model == model)[0];
     },
+
+    getComponent(field) {
+      return 'component' in field ? field.component : this.map[field.type];
+    }
   },
 
   computed: {

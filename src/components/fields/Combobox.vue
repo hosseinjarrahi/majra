@@ -63,21 +63,11 @@ export default {
 
   methods: {
     getValues(values, field) {
-      if (this.isArrayOfObjects(values)) {
+      if (this.$helpers.isArrayOfObjects(values)) {
         return values.map((value) => value[field.item_value]);
       }
       return values;
     },
-
-    isArrayOfObjects(values) {
-      return (
-        Array.isArray(values) &&
-        values.length > 0 &&
-        typeof values[0] === "object"
-      );
-    },
   },
 };
 </script>
-
-<style></style>

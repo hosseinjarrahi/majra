@@ -135,7 +135,7 @@ export default {
       this.runAfterChange
         ? this.runAfterChange(this.header.value, event)
         : this.$store.dispatch("dynamic/getWithFilter");
-      this.header.childHasFilter
+      this.$majra.hasChild(this.header)
         ? this.$store.dispatch("dynamic/parentChanged", {
             field: this.header,
             values: event,
@@ -145,5 +145,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

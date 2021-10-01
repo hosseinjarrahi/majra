@@ -4,16 +4,16 @@ import DynamicFields from "./src/components/dynamicForm/DynamicFields";
 import EventBusPlugin from "./src/plugins/eventBus";
 import HelpersPlugin from "./src/plugins/helpers";
 import MajraFuncs from "./src/plugins/majraFuncs";
+import Axios from "./src/plugins/axios";
 
-let MajraPlugin = {
+export default {
   install: function (Vue, { store, configs }) {
     Vue.use(EventBusPlugin);
     Vue.use(HelpersPlugin);
-    Vue.use(MajraFuncs, { configs });
+    Vue.use(MajraFuncs);
+    Vue.use(Axios,configs.axios);
     store.registerModule("dynamic", dynamic);
   },
 };
-
-export default MajraPlugin;
 
 export { DynamicTemplate, DynamicFields };

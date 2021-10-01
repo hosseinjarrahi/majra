@@ -34,16 +34,11 @@ export default {
 
   methods: {
     getValues(values, field) {
-      if (this.isArrayOfObjects(values)) {
+      if (this.$helpers.isArrayOfObjects(values)) {
         return values.map((value) => value[field.item_text]).join(" , ");
       }
       return values.join(",");
     },
-    isArrayOfObjects(values) {
-      return values.length > 0 && typeof values[0] === "object";
-    },
   },
 };
 </script>
-
-<style></style>

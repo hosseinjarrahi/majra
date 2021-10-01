@@ -5,7 +5,7 @@ import DynamicFormCore from "./DynamicFormCore.vue";
 export default {
   components: { DynamicFormCore },
 
-  props: ["value", "isEditing", "isShowing", "editItem"],
+  props: ["value", "isEditing", "editItem"],
 
   created() {
     this.defineListeners();
@@ -36,7 +36,6 @@ export default {
     return {
       form: {},
       initialForm: {},
-      initialEditForm: {},
       tabs: false,
       valid: false,
       tabModel: 0,
@@ -55,15 +54,9 @@ export default {
       mainLoading: "dynamic/mainLoading",
     }),
     filteredFields() {
-      return (fields) =>
-        fields.filter((field) => {
-          if ("showIn" in field) {
-            return this.isEditing
-              ? field.showIn.indexOf("edit") > -1
-              : field.showIn.indexOf("create") > -1;
-          }
-          return true;
-        });
+      return (fields) => {
+        return this.$majra.filterFieldsByShow(fields, this.isEditing ? 'edit' : 'create');
+      }
     },
   },
 
@@ -131,6 +124,10 @@ export default {
             this.options[property] = options[property];
           }
         }
+      });
+
+      this._listen(["createBtn","editBtn"], () => {
+        this.form = {...this.initialForm}
       });
 
       // this._listen("handleEnter", () => {

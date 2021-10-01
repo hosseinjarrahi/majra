@@ -5,10 +5,12 @@ import vuetify from "./plugins/vuetify";
 import HelpersPlugin from "./plugins/helpers";
 import EventBusPlugin from "./plugins/eventBus";
 import MajraFuncsPlugin from "./plugins/majraFuncs";
+import Axios from "./plugins/axios";
 
 Vue.use(HelpersPlugin);
 Vue.use(EventBusPlugin);
-Vue.use(MajraFuncsPlugin);
+Vue.use(Axios,{baseURL:'http://localhost:8000'});
+Vue.use(MajraFuncsPlugin,{configs:{}});
 
 Vue.config.productionTip = false;
 

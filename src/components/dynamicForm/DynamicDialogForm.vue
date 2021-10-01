@@ -11,7 +11,6 @@
       v-bind="{
         value,
         isEditing,
-        isShowing,
         editItem,
       }"
     >
@@ -24,7 +23,6 @@
         :form="form"
         :updateField="updateField"
         :fields="fields"
-        :isShowing="isShowing"
         :isEditing="isEditing"
         :mainLoading="mainLoading"
         :handleDialog="handleDialog"

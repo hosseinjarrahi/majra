@@ -1,11 +1,9 @@
 <template>
   <v-dialog
-    fullscreen
-    hide-overlay
     v-model="dialog"
     transition="dialog-bottom-transition"
-    width="500"
     scrollable
+    content-class="fill-height"
   >
     <v-card
       :class="printMode ? 'elevation-0' : ''"
@@ -167,7 +165,7 @@ export default {
     },
     getObject() {},
     getArrayValues({ value, field }) {
-      if (this.isArrayOfObjects(value)) {
+      if (this.$helpers.isArrayOfObjects(value)) {
         return value
           .map((v) => v["item_text" in field ? field.item_text : "text"])
           .join(" , ");
@@ -179,9 +177,6 @@ export default {
         (v) => !!v && v != "null"
       );
       return out.map((img) => this.$majra.configs.BASE_URL + img);
-    },
-    isArrayOfObjects(values) {
-      return values.length > 0 && typeof values[0] === "object";
     },
     openImage(image) {
       this.imageDialog = true;

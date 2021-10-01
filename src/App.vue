@@ -1,13 +1,14 @@
 <template>
   <v-app>
     <v-main>
-      <DynamicTemplate />
+      <DynamicTemplate/>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import DynamicTemplate from "./components/DynamicTemplate.vue";
+// import Ckeditor from "./components/fields/Ckeditor";
 
 export default {
   name: "App",
@@ -18,29 +19,34 @@ export default {
 
   created() {
     this.$store.dispatch("dynamic/init", {
-      mainRoute: "/admin/form",
-      relations: [
-        { route: "/admin/user-no-form", key: "User" },
-        { route: "/admin/all-forms", key: "AllForm" },
-        "/admin/product",
-        "/admin/base",
-      ],
+      mainRoute: "/admin/base",
+      relations: ['/admin/product'],
       fields: [
         {
-          title: "نام فرم",
-          field: "name",
-          rel: false,
-          type: "cropper",
-          isHeader: true,
-          col: { md: 12 },
+          title: "Base",
+          field: "base_id",
+          rel: {
+            model: 'Base',
+            child: {
+              model: 'Product',
+              ownKey: 'base'
+            }
+          },
+          item_text: "name",
+          item_value: "id",
+          type: "select",
         },
         {
-          title: "توضیحات",
-          field: "description",
-          rel: false,
-          type: "textarea",
-          isHeader: true,
-          col: { md: 12 },
+          title: "Product",
+          field: "img",
+          type: "select",
+          rel: {
+            model: 'Product',
+          },
+          item_text: "order",
+          item_value: "id",
+          needFilter: true,
+          col: {md: 12},
         },
       ],
     });
