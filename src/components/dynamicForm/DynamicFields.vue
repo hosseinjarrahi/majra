@@ -9,19 +9,18 @@
             class="py-1 my-0 px-1"
             :key="field.field"
             cols="12"
-            :md="md(field)"
+            :md="$helpers.getSafe(field, 'col.md', 12)"
           >
             <component
+              :is="getComponent(field)"
+              :fieldChanged="fieldChanged"
+              :parentChanged="parentChanged"
+              @mounted="mounted(field.field)"
               :field="field"
               :fields="fields"
               :form="form"
-              :fieldChanged="fieldChanged"
-              :parentChanged="parentChanged"
               :filters="filters"
               :index="index"
-              :is="getComponent(field)"
-              @keypress.prevent.enter="_event('saveForm')"
-              :dynamicProps="dynamicProps[field.field]"
             />
           </v-col>
         </template>
@@ -34,21 +33,19 @@
         :class="field.class"
         :key="field.field"
         cols="12"
-        :md="md(field)"
+        :md="$helpers.getSafe(field, 'col.md', 12)"
       >
         <slot :name="'field.' + field.field" v-bind="{ field }">
           <component
+            :is="getComponent(field)"
+            :fieldChanged="fieldChanged"
+            :parentChanged="parentChanged"
+            @mounted="mounted(field.field)"
             :field="field"
             :fields="fields"
             :form="form"
-            :fieldChanged="fieldChanged"
-            :parentChanged="parentChanged"
             :filters="filters"
             :index="index"
-            :is="getComponent(field)"
-            @keypress.prevent.enter="_event('saveForm')"
-            :dynamicProps="dynamicProps[field.field]"
-            @mounted="mounted(field.field)"
           />
         </slot>
       </v-col>
@@ -64,11 +61,10 @@ const Date = () => import("./../fields/Date");
 const File = () => import("./../fields/File");
 const TextField = () => import("./../fields/TextField");
 const TextArea = () => import("./../fields/TextArea");
-// const DateTime = () => import("./../fields/DateTime");
 const Combobox = () => import("./../fields/Combobox");
 const Mapper = () => import("./../fields/Mapper");
 const Checkbox = () => import("./../fields/Checkbox");
-const Ckeditor = () => import("./../fields/Ckeditor");
+const Editor = () => import("./../fields/Ckeditor");
 const FieldSet = () => import("./../utilities/FieldSet");
 const Switcher = () => import("./../fields/Switcher");
 const ColorPicker = () => import("./../fields/ColorPicker");
@@ -78,23 +74,7 @@ const Cropper = () => import("./../fields/Cropper");
 export default {
   props: ["fields", "form", "index"],
 
-  components: {
-    TextField,
-    Autocomplete,
-    File,
-    Date,
-    // DateTime,
-    Combobox,
-    TextArea,
-    Mapper,
-    FieldSet,
-    Checkbox,
-    Ckeditor,
-    Switcher,
-    ColorPicker,
-    Cropper,
-    Radio,
-  },
+  components: { FieldSet },
 
   created() {
     this._listen("createBtn", () => {
@@ -112,22 +92,21 @@ export default {
       loading: false,
       filters: {},
       map: {
-        text: "TextField",
-        textarea: "TextArea",
-        combo: "Combobox",
-        select: "Autocomplete",
-        file: "File",
-        date: "Date",
-        time: "DateTime",
-        number: "TextField",
-        map: "Mapper",
-        password: "TextField",
-        checkbox: "checkbox",
-        ckeditor: "ckeditor",
-        switcher: "Switcher",
-        colorPicker: "ColorPicker",
-        radio: "Radio",
-        cropper: "Cropper",
+        text: TextField,
+        textarea: TextArea,
+        combo: Combobox,
+        select: Autocomplete,
+        file: File,
+        date: Date,
+        number: TextField,
+        map: Mapper,
+        password: TextField,
+        checkbox: Checkbox,
+        editor: Editor,
+        switcher: Switcher,
+        colorPicker: ColorPicker,
+        radio: Radio,
+        cropper: Cropper,
       },
       dynamicProps: {},
     };
@@ -183,9 +162,6 @@ export default {
       fieldsNotGrouped: "dynamic/fieldsNotGrouped",
       fieldsGrouped: "dynamic/fieldsGrouped",
     }),
-    md() {
-      return (field) => (field?.col?.md ? field?.col?.md : 12);
-    },
   },
 };
 </script>

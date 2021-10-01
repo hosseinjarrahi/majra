@@ -15,7 +15,7 @@ export default {
     this.form = this.fields.reduce((obj, item) => {
       return {
         ...obj,
-        ["sendKey" in item ? item["sendKey"] : item["field"]]:
+        [item["field"]]:
           "default" in item
             ? typeof item.default == "function"
               ? item.default(this.editItem)
@@ -74,7 +74,7 @@ export default {
     },
 
     updateField(event) {
-      this.form[this.$majra.getSendKey(event)] = event.value;
+      this.form[event.field] = event.value;
       this._event("fieldChanged." + event.field, {
         value: event.value,
         instance: this,
@@ -156,26 +156,25 @@ export default {
       if (val) {
         this.form = { ...val };
         await this.fields.forEach((field) => {
-          let sendKey = this.$majra.getSendKey(field);
           if ("normalize" in field)
-            return (this.form[sendKey] = field.normalize(
+            return (this.form[field.field] = field.normalize(
               this.form[field.field]
             ));
           if (field.type === "map")
-            return (this.form[sendKey] = this.form[field.field]);
+            return (this.form[field.field] = this.form[field.field]);
           if (
             this.form[field.field] &&
             typeof this.form[field.field] === "object"
           ) {
             if (!Array.isArray(this.form[field.field])) {
-              this.form[sendKey] = field.objKey
+              this.form[field.field] = field.objKey
                 ? this.form[field.field][field.objKey]
                 : this.form[field.field].id;
             } else if (
               this.form[field.field].length > 0 &&
               typeof this.form[field.field][0] == "object"
             ) {
-              this.form[sendKey] = this.form[field.field].map((i) => {
+              this.form[field.field] = this.form[field.field].map((i) => {
                 return field.objKey ? i[field.objKey] : i.id;
               });
             }

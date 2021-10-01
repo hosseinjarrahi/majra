@@ -420,7 +420,7 @@ const actions = {
 
     commit("setLoading", { key: state.mainKey, value: true });
     Vue.axios
-      .post(`/filter?page=${page}`, {
+      .post(`${Vue.$majra.configs.FILTER_URL}?page=${page}`, {
         model: state.mainKey,
         search: state.filterData.search,
         selects: state.filterData.selects,
@@ -466,9 +466,11 @@ const actions = {
 
     route = route.value ? route.value : state.routes[state.mainKey];
 
+    let sendForm = Vue.$majra.convertToSendForm(payload);
+
     let data = Vue.$majra.configs.WITH_KEY
-      ? { [state.mainKey]: { ...payload } }
-      : payload;
+      ? { [state.mainKey]: sendForm }
+      : sendForm;
 
     Vue.axios
       .post(route, data)
@@ -528,10 +530,14 @@ const actions = {
       route = payload.route;
     }
 
+    let sendForm = Vue.$majra.convertToSendForm(payload);
+
+    let data = Vue.$majra.configs.WITH_KEY
+      ? { [state.mainKey]: sendForm }
+      : sendForm;
+
     Vue.axios
-      .patch(route + "/" + payload.id, {
-        [state.mainKey]: { ...payload },
-      })
+      .patch(route + "/" + payload.id, data)
       .then((response) => {
         commit("editItem", response.data[state.mainKey]);
         Vue._event("alert", { text: "با موفقیت ویرایش شد", color: "green" });

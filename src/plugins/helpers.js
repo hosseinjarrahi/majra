@@ -59,11 +59,12 @@ export default {
         return true;
       },
 
-      getSafe(obj = {}, property = "") {
+      getSafe(obj = {}, property = "", defaultValue = null) {
+        if (typeof temp != "object") return defaultValue;
         let props = property.split(".");
         let temp = { ...obj };
         for (const prop of props) {
-          if (!(prop in temp)) return null;
+          if (typeof temp != "object" && !(prop in temp)) return defaultValue;
           temp = temp[prop];
         }
         return temp;
