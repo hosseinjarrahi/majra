@@ -60,7 +60,7 @@ export default {
       },
 
       getSafe(obj = {}, property = "", defaultValue = null) {
-        if (typeof temp != "object") return defaultValue;
+        if (typeof obj != "object") return defaultValue;
         let props = property.split(".");
         let temp = { ...obj };
         for (const prop of props) {
