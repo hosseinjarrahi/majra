@@ -2,6 +2,7 @@ import dynamic from "./src/store/dynamic";
 import DynamicTemplate from "./src/components/DynamicTemplate";
 import DynamicFields from "./src/components/dynamicForm/DynamicFields";
 import DynamicForm from "./src/components/DynamicForm";
+import FieldSet from "./src/components/utilities/FieldSet";
 import EventBusPlugin from "./src/plugins/eventBus";
 import HelpersPlugin from "./src/plugins/helpers";
 import MajraFuncs from "./src/plugins/majraFuncs";
@@ -17,4 +18,4 @@ export default {
   },
 };
 
-export { DynamicTemplate, DynamicFields, DynamicForm };
+export { DynamicTemplate, DynamicFields, DynamicForm, FieldSet };
