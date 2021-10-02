@@ -4,7 +4,7 @@
       @click="clickTo(field.field)"
       outlined
       :value="
-        typeof form[field.field] == 'object'
+        Array.isArray(form[field.field])
           ? this.$helpers.persianDate(form[field.field][0]) +
             '~' +
             this.$helpers.persianDate(form[field.field][1])

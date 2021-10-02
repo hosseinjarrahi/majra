@@ -21,7 +21,6 @@
       :rules="rules[field.field]"
       v-bind="field.props"
       hide-details
-      auto-select-first
     />
   </div>
 </template>
@@ -39,20 +38,25 @@ export default {
       }
     });
 
-    if (
-      !this.loading[this.field.rel.model] &&
-      !this.$majra.hasChild(this.field) &&
-      Array.isArray(this.items) &&
-      this.items.length > 0
-    ) {
-      let item = this.items[0][this.field.item_value];
-      this.fieldChanged(this.field, this.field.multiple ? [item] : item);
-    }
+    let autoSelect = false;
 
-    if (this.field.values) {
-      let item = this.field.values[0]?.value;
-      this.fieldChanged(this.field, this.field.multiple ? [item] : item);
-    }
+    autoSelect &&
+      (function () {
+        if (
+          !this.loading[this.field.rel.model] &&
+          !this.$majra.hasChild(this.field) &&
+          Array.isArray(this.items) &&
+          this.items.length > 0
+        ) {
+          let item = this.items[0][this.field.item_value];
+          this.fieldChanged(this.field, this.field.multiple ? [item] : item);
+        }
+
+        if (this.field.values) {
+          let item = this.field.values[0]?.value;
+          this.fieldChanged(this.field, this.field.multiple ? [item] : item);
+        }
+      })();
 
     this.$emit("mounted");
   },
