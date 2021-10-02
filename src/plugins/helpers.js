@@ -69,6 +69,12 @@ export default {
         }
         return temp;
       },
+
+      sort(collection, by) {
+        return collection.sort((a, b) => {
+          return this.getSafe(a, by) - this.getSafe(b, by);
+        });
+      },
     };
     Vue.$helpers = Vue.prototype.$helpers;
   },

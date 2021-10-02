@@ -207,7 +207,7 @@ const mutations = {
   setHiddenActions: (state, payload) => (state.hiddenActions = payload),
 
   setFields: (state, payload) => {
-    state.fields = payload;
+    state.fields = Vue.$helpers.sort(payload, "order");
     state.flatFields = Array.isArray(state.fields)
       ? state.fields
       : Object.values(state.fields).flat();
