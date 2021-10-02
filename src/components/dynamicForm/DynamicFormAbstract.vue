@@ -32,19 +32,13 @@ export default {
     this.initialForm = { ...this.form };
   },
 
-  data() {
-    return {
-      form: {},
-      initialForm: {},
-      tabs: false,
-      valid: false,
-      tabModel: 0,
-      options: {
-        width: (2 / 3) * 100 + "%",
-        fullScreen: false,
-      },
-    };
-  },
+  data: () => ({
+    form: {},
+    initialForm: {},
+    tabs: false,
+    valid: false,
+    tabModel: 0,
+  }),
 
   computed: {
     ...mapGetters({
@@ -118,15 +112,6 @@ export default {
 
       this._listen("changeField", ({ field, value }) => {
         this.form[field] = value;
-      });
-
-      this._listen("changeOptions", (comingOptions) => {
-        let options = comingOptions.dialog;
-        if (options) {
-          for (const property in options) {
-            this.options[property] = options[property];
-          }
-        }
       });
 
       this._listen(["createBtn", "editBtn"], () => {

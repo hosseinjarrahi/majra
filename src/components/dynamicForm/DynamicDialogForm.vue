@@ -2,8 +2,7 @@
   <v-dialog
     :value="value"
     @input="handleDialog"
-    :fullscreen="options.fullScreen"
-    :width="options.width"
+    :width="$vuetify.breakpoint.lgAndUp ? (2 / 6) * 100 + '%' : '100%'"
     scrollable
   >
     <slot

@@ -30,13 +30,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: [
-    "fieldChanged",
-    "parentChanged",
-    "field",
-    "form",
-    "filters",
-  ],
+  props: ["fieldChanged", "parentChanged", "field", "form", "filters"],
 
   mounted() {
     this._listen("callParentChanged", () => {
