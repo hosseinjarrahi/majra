@@ -201,10 +201,3 @@ export default {
   },
 };
 </script>
-
-<style>
-th:not(:first-child, :last-child),
-td:not(:first-child) {
-  padding: 0 !important;
-}
-</style>
