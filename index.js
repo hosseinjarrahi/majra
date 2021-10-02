@@ -11,7 +11,7 @@ export default {
   install: function (Vue, { store, configs }) {
     Vue.use(EventBusPlugin);
     Vue.use(HelpersPlugin);
-    Vue.use(MajraFuncs, { store, configs: {} });
+    Vue.use(MajraFuncs, { store, configs });
     Vue.use(Axios, configs.axios);
     store.registerModule("dynamic", dynamic);
   },
