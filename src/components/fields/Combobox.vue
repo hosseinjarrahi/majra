@@ -15,7 +15,7 @@
       :label="field.title"
       :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="dynamicProps"
+      v-bind="field.props"
       hide-details
       clearable
     />
@@ -26,7 +26,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "filters", "fields", "dynamicProps"],
+  props: ["fieldChanged", "field", "form", "filters", "fields"],
 
   mounted() {
     this.$emit("mounted");

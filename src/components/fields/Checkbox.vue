@@ -6,7 +6,7 @@
       dense
       :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="dynamicProps"
+      v-bind="field.props"
     ></v-checkbox>
   </div>
 </template>
@@ -15,7 +15,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   computed: {
     ...mapGetters({
@@ -28,5 +28,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

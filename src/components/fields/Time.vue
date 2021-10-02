@@ -31,7 +31,7 @@
         :value="form[field.field]"
         @click:minute="menu = false"
         format="24hr"
-        v-bind="dynamicProps"
+        v-bind="field.props"
       ></v-time-picker>
     </v-menu>
   </div>
@@ -41,7 +41,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   mounted() {
     this.$emit("mounted");

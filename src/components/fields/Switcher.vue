@@ -7,7 +7,7 @@
       :label="field.title"
       :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="dynamicProps"
+      v-bind="field.props"
     ></v-switch>
   </div>
 </template>
@@ -16,7 +16,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   mounted() {
     this.$emit("mounted");
@@ -29,5 +29,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -21,7 +21,7 @@
       :rules="rules[field.field]"
     ></v-text-field>
     <date-picker
-      v-bind="{ ...field.props, ...dynamicProps }"
+      v-bind="field.props"
       :ref="'date' + field.field"
       class="mamad"
       @input="fieldChanged(field, $event)"
@@ -36,7 +36,7 @@ import { mapGetters } from "vuex";
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   components: { DatePicker: VuePersianDatetimePicker },
 

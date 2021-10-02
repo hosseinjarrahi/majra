@@ -11,7 +11,7 @@
     rows="2"
     outline
     hide-details
-    v-bind="dynamicProps"
+    v-bind="field.props"
   />
 </template>
 
@@ -19,7 +19,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   mounted() {
     this.$emit("mounted");

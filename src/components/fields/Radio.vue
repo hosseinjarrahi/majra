@@ -13,7 +13,7 @@
         :key="value.value"
         :label="value.text"
         :value="value.value"
-        v-bind="dynamicProps"
+        v-bind="field.props"
       >
       </v-radio>
     </v-radio-group>
@@ -24,7 +24,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   mounted() {
     this.$emit("mounted");

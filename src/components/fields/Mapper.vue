@@ -12,7 +12,7 @@
     <Map
       :value="form[field.field]"
       @input="fieldChanged(field, $event)"
-      v-bind="{ options: field.mapOptions, ...dynamicProps }"
+      v-bind="field.props"
     />
   </div>
 </template>
@@ -22,7 +22,7 @@ import Map from "./../utilities/Map";
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  props: ["fieldChanged", "field", "form"],
 
   components: { Map },
 
@@ -46,5 +46,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

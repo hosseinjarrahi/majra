@@ -1,6 +1,5 @@
 <template>
   <v-text-field
-    :type="field.type"
     dense
     @input="fieldChanged(field, $event)"
     :value="form[field.field]"
@@ -10,7 +9,7 @@
     :autofocus="index == 0"
     outlined
     :readonly="field.readonly"
-    v-bind="dynamicProps"
+    v-bind="field.props"
     hide-details
     @keypress.prevent.enter="_event('saveForm')"
   />
@@ -20,7 +19,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "index", "dynamicProps"],
+  props: ["fieldChanged", "field", "form", "index"],
 
   mounted() {
     this.$emit("mounted");

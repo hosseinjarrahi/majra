@@ -19,28 +19,16 @@
       swatches-max-height="200"
       dense
       :value="form[field.field]"
+      v-bind="field.props"
     />
   </v-menu>
-  <!--
-  <div>
-    <v-text-field
-      :rules="rules[field.field]"
-      :hint="field.hint"
-      :autofocus="index == 0"
-      outlined
-      :readonly="field.readonly"
-      v-bind="dynamicProps"
-      hide-details
-      @keypress.prevent.enter="event('saveForm')"
-    />
-  </div> -->
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["fieldChanged", "field", "form", "index", "dynamicProps"],
+  props: ["fieldChanged", "field", "form", "index"],
 
   mounted() {
     this.$emit("mounted");

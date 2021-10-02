@@ -19,7 +19,7 @@
       :readonly="field.readonly || disabled"
       :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="dynamicProps"
+      v-bind="field.props"
       hide-details
       auto-select-first
     />
@@ -36,7 +36,6 @@ export default {
     "field",
     "form",
     "filters",
-    "dynamicProps",
   ],
 
   mounted() {
