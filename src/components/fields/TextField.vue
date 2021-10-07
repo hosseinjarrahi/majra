@@ -16,10 +16,6 @@ import AbstractField from "./AbstractField";
 export default {
   extends: AbstractField,
 
-  mounted() {
-    this.$emit("mounted");
-  },
-
   data() {
     return {
       defaultProps: {

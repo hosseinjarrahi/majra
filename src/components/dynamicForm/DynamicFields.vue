@@ -4,25 +4,16 @@
       <field-set class="d-flex flex-wrap" :label="key" :key="key">
         <template v-for="(field, index) in fields">
           <v-col
-            :class="field.class"
-            :id="field.id"
             class="py-1 my-0 px-1"
             :key="field.field"
             cols="12"
             v-bind="getFromField(field)('col', {})"
           >
             <component
-              :is="getComponent(field)"
-              :fieldChanged="fieldChanged"
-              :parentChanged="parentChanged"
-              @mounted="mounted(field.field)"
-              :field="field"
-              :fields="fields"
-              :form="form"
-              :filters="filters"
               :index="index"
-              :getProp="getProp(field)"
-              :getFromField="getFromField(field)"
+              v-bind="bind(field)"
+              :is="getComponent(field)"
+              @mounted="mounted(field.field)"
             />
           </v-col>
         </template>
@@ -31,25 +22,16 @@
     <template v-for="(field, index) in fieldsNotGrouped(fields)">
       <v-col
         class="py-1 my-0 px-2"
-        :id="field.id"
-        :class="field.class"
         :key="field.field"
         cols="12"
         v-bind="getFromField(field)('col', {})"
       >
         <slot :name="'field.' + field.field" v-bind="{ field }">
           <component
-            :is="getComponent(field)"
-            :fieldChanged="fieldChanged"
-            :parentChanged="parentChanged"
-            @mounted="mounted(field.field)"
-            :field="field"
-            :fields="fields"
-            :form="form"
-            :filters="filters"
             :index="index"
-            :getProp="getProp(field)"
-            :getFromField="getFromField(field)"
+            v-bind="bind(field)"
+            :is="getComponent(field)"
+            @mounted="mounted(field.field)"
           />
         </slot>
       </v-col>
@@ -116,6 +98,19 @@ export default {
         item: this.form,
         field: field,
       });
+    },
+
+    bind(field) {
+      return {
+        fieldChanged: this.fieldChanged,
+        parentChanged: this.parentChanged,
+        field,
+        fields: this.fields,
+        form: this.form,
+        filters: this.filters,
+        getProp: this.getProp(field),
+        getFromField: this.getFromField(field),
+      };
     },
 
     fieldChanged(field, value) {

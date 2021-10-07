@@ -13,5 +13,9 @@ export default {
     "getProp",
     "getFromField",
   ],
+
+  mounted() {
+    this.$emit("mounted");
+  },
 };
 </script>

@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <v-autocomplete
-      :value="getValues(form[field.field])"
-      @input="
-        $majra.hasChild(field)
-          ? parentChanged(field, $event)
-          : fieldChanged(field, $event)
-      "
-      :items="items"
-      :rules="rules[field.field]"
-      :loading="!!loading[field.rel.model]"
-      :readonly="getProp('readonly', false) || disabled"
-      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
-      v-on="getFromField('events', {})"
-    />
-  </div>
+  <v-autocomplete
+    :value="getValues(form[field.field])"
+    @input="
+      $majra.hasChild(field)
+        ? parentChanged(field, $event)
+        : fieldChanged(field, $event)
+    "
+    :items="items"
+    :rules="rules[field.field]"
+    :loading="!!loading[field.rel.model]"
+    :readonly="getProp('readonly', false) || disabled"
+    v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+    v-on="getFromField('events', {})"
+  />
 </template>
 
 <script>

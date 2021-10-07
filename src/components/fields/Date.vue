@@ -40,10 +40,6 @@ export default {
 
   components: { DatePicker: VuePersianDatetimePicker },
 
-  mounted() {
-    this.$emit("mounted");
-  },
-
   data() {
     return {
       menu: false,

@@ -25,10 +25,6 @@ export default {
 
   components: { Map },
 
-  mounted() {
-    this.$emit("mounted");
-  },
-
   computed: {
     ...mapGetters({
       rules: "dynamic/rules",

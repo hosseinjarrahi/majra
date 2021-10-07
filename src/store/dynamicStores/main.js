@@ -90,8 +90,7 @@ const getters = {
     state.flatFields.forEach((field) => {
       if ("rules" in field) {
         rules[field.field] = [];
-        let exploded = field.rules.split("|");
-        let rawRules = exploded.map((rule) => {
+        let rawRules = field.rules.map((rule) => {
           let tmp = rule.split(":");
           let name = tmp[0];
           let args = tmp[1] ? tmp[1] : null;
@@ -103,6 +102,7 @@ const getters = {
         });
       }
     });
+    console.log(rules);
     return rules;
   },
 };

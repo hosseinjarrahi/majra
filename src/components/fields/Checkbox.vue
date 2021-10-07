@@ -22,10 +22,6 @@ export default {
     }),
   },
 
-  mounted() {
-    this.$emit("mounted");
-  },
-
   data() {
     return {
       defaultProps: {

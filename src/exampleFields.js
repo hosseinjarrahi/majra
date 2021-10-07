@@ -4,15 +4,15 @@ export default [
     field: "name",
     type: "text",
     isHeader: true,
-    rules: "required",
-    col: {md: 6},
+    rules: ["required"],
+    col: { md: 6 },
   },
   {
     title: "تصویر",
     field: "img",
     type: "cropper",
     isHeader: true,
-    col: {md: 6},
+    col: { md: 6 },
   },
   {
     title: "دسته بندی",
@@ -26,16 +26,16 @@ export default [
       "item-text": "name",
     },
     isHeader: true,
-    rules: "required",
-    col: {md: 6},
+    rules: ["required"],
+    col: { md: 6 },
   },
   {
     title: "واحد",
     field: "unit",
     type: "text",
     isHeader: true,
-    rules: "required",
-    col: {md: 6},
+    rules: ["required"],
+    col: { md: 6 },
   },
   {
     title: "قیمت پایه",
@@ -45,8 +45,8 @@ export default [
       type: "number",
     },
     isHeader: true,
-    rules: "required",
-    col: {md: 6},
+    rules: ["required"],
+    col: { md: 6 },
   },
   {
     title: "تعداد موجود",
@@ -57,15 +57,15 @@ export default [
     },
     isHeader: true,
     default: 0,
-    rules: "required",
-    col: {md: 6},
+    rules: ["required"],
+    col: { md: 6 },
   },
   {
     title: "توضیحات",
     field: "description",
     type: "textarea",
     isHeader: true,
-    col: {md: 12},
+    col: { md: 12 },
   },
   {
     title: "در دسترس",
@@ -73,13 +73,11 @@ export default [
     type: "switcher",
     isHeader: true,
     default: true,
-    col: {md: 12},
+    col: { md: 12 },
     inList(item) {
-      let text = `<div class="white--text text-center pa-2 ${
-          item ? "primary" : "error"
+      return `<div class="white--text text-center pa-2 ${
+        item ? "primary" : "error"
       }">${item ? "دردسترس" : "خارج از دسترس"}</div>`;
-      
-      return text;
     },
   },
 ];

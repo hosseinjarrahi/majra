@@ -28,10 +28,6 @@ import AbstractField from "./AbstractField";
 export default {
   extends: AbstractField,
 
-  mounted() {
-    this.$emit("mounted");
-  },
-
   computed: {
     ...mapGetters({
       rules: "dynamic/rules",
