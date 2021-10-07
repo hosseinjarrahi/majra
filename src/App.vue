@@ -19,8 +19,12 @@ export default {
 
   beforeCreate() {
     this.$majra.init({
-      mainRoute: "/admin/base",
-      relations: ["/admin/category"],
+      mainRoute: "/product",
+      relations: [
+        { route: "/Option=>Product?is_option=1", key: "Option" },
+        "/menu",
+        "/base",
+      ],
       fields: exampleFields,
     });
   },
