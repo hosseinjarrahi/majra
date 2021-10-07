@@ -114,7 +114,7 @@ export default {
         this.form[field] = value;
       });
 
-      this._listen(["createBtn", "editBtn"], () => {
+      this._listen(["createBtn"], () => {
         this.form = { ...this.initialForm };
       });
 
