@@ -4,6 +4,7 @@
     transition="dialog-bottom-transition"
     scrollable
     content-class="fill-height"
+    :fullscreen="printMode"
   >
     <v-card
       :class="printMode ? 'elevation-0' : ''"
@@ -41,16 +42,17 @@
                       <td class="col-2 pa-2 font-weight-bold">
                         {{ value.field.title }}
                       </td>
-                      <td class="pa-2">|</td>
-                      <component
-                        :is="map[value.field.type]"
-                        :getValue="getValue"
-                        :getFiles="getFiles"
-                        :openImage="openImage"
-                        :value="value"
-                        :item="item"
-                        class="pa-2"
-                      />
+                      <td class="pa-2 col" style="width: 100%">
+                        <component
+                          :is="map[value.field.type]"
+                          :getValue="getValue"
+                          :getFiles="getFiles"
+                          :openImage="openImage"
+                          :value="value"
+                          :item="item"
+                          class="pa-2 w-100"
+                        />
+                      </td>
                     </slot>
                   </tr>
                 </tbody>
@@ -145,14 +147,14 @@ export default {
 
   methods: {
     getValue(value) {
-      if (value.field.type == "date")
+      if (value.field.type === "date")
         return this.$helpers.persianDate(value.value);
 
-      if (value.field.type == "ckeditor") return value.value;
+      if (value.field.type === "ckeditor") return value.value;
 
-      if (value.field.type == "map") return value.value;
+      if (value.field.type === "map") return value.value;
 
-      if (value.field.type == "select" && value.field.values) {
+      if (value.field.type === "select" && value.field.values) {
         for (const item of value.field.values) {
           if (item.value == value.value) return item.text;
         }
@@ -199,3 +201,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+td:not(td:last-child) {
+  border-left: 1px solid darkgray;
+}
+</style>

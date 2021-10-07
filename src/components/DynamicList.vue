@@ -201,3 +201,9 @@ export default {
   },
 };
 </script>
+
+<style>
+tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+</style>
