@@ -1,35 +1,28 @@
 <template>
   <div>
     <v-autocomplete
-      :value="getValues(form[field.field], field)"
-      :multiple="'multiple' in field ? field.multiple : false"
+      :value="getValues(form[field.field])"
       @input="
         $majra.hasChild(field)
           ? parentChanged(field, $event)
           : fieldChanged(field, $event)
       "
-      dense
-      outlined
-      :item-text="field.item_text"
-      :item-value="field.item_value"
       :items="items"
-      :disabled="field.disabled"
-      :label="field.title"
-      :loading="!!loading[field.rel.model]"
-      :readonly="field.readonly || disabled"
-      :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="field.props"
-      hide-details
+      :loading="!!loading[field.rel.model]"
+      :readonly="getProp('readonly', false) || disabled"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "parentChanged", "field", "form", "filters"],
+  extends: AbstractField,
 
   mounted() {
     this._listen("callParentChanged", () => {
@@ -48,17 +41,34 @@ export default {
           Array.isArray(this.items) &&
           this.items.length > 0
         ) {
-          let item = this.items[0][this.field.item_value];
-          this.fieldChanged(this.field, this.field.multiple ? [item] : item);
+          let item = this.items[0][this.getProp("item-value")];
+          this.fieldChanged(
+            this.field,
+            this.getProp("multiple") ? [item] : item
+          );
         }
 
         if (this.field.values) {
           let item = this.field.values[0]?.value;
-          this.fieldChanged(this.field, this.field.multiple ? [item] : item);
+          this.fieldChanged(
+            this.field,
+            this.getProp("multiple") ? [item] : item
+          );
         }
       })();
 
     this.$emit("mounted");
+  },
+
+  data() {
+    return {
+      defaultProps: {
+        dense: true,
+        outlined: true,
+        "hide-details": true,
+        label: this.field.title,
+      },
+    };
   },
 
   computed: {
@@ -95,9 +105,9 @@ export default {
   },
 
   methods: {
-    getValues(values, field) {
+    getValues(values) {
       if (this.$helpers.isArrayOfObjects(values)) {
-        return values.map((value) => value[field.item_value]);
+        return values.map((value) => value[this.getProp("item-value")]);
       }
       return values;
     },

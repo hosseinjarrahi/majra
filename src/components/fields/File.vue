@@ -1,17 +1,14 @@
 <template>
   <div class="">
     <v-file-input
-      outlined
-      dense
-      v-show="!form[field.field] || field.multiple"
+      v-show="
+        !form[field.field] || $helpers.getSafe(field, 'props.multiple', false)
+      "
       :ref="'file-i' + field.field"
       @change="upload($event, field)"
-      truncate-length="15"
-      :label="field.title"
       :rules="field.rules"
-      append-icon="mdi-file-outline"
-      prepend-icon=""
-      hide-details
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
     <v-progress-linear v-if="progress && progress < 100" :value="progress" />
 
@@ -106,18 +103,29 @@
 
 <script>
 import fieldSet from "./../utilities/FieldSet.vue";
+import AbstractField from "./AbstractField";
+
 const axios = require("axios");
 
 export default {
-  components: { fieldSet },
+  extends: AbstractField,
 
-  props: ["fieldChanged", "field", "form"],
+  components: { fieldSet },
 
   data() {
     return {
       loading: false,
       files: [],
       progress: 0,
+      defaultProps: {
+        dense: true,
+        outlined: true,
+        "prepend-icon": "",
+        "hide-details": true,
+        "truncate-length": 15,
+        label: this.field.title,
+        "append-icon": "mdi-file-outline",
+      },
     };
   },
 

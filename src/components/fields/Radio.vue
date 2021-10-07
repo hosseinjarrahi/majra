@@ -13,7 +13,8 @@
         :key="value.value"
         :label="value.text"
         :value="value.value"
-        v-bind="field.props"
+        v-bind="getProp('*', {})"
+        v-on="getFromField('events', {})"
       >
       </v-radio>
     </v-radio-group>
@@ -22,9 +23,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form"],
+  extends: AbstractField,
 
   mounted() {
     this.$emit("mounted");

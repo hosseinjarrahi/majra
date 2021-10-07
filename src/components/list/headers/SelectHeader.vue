@@ -21,11 +21,11 @@
       <v-card>
         <v-card-text class="pa-2">
           <v-autocomplete
-            v-if="header.multiple"
+            v-if="$helpers.getSafe(header, 'props.multiple')"
             hide-details
             :items="items"
-            :item-text="header.item_text"
-            :item-value="header.item_value"
+            :item-text="itemText"
+            :item-value="itemValue"
             :label="header.text"
             multiple
             outlined
@@ -45,7 +45,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <v-chip v-if="index === 0">
-                <span>{{ item[header.item_text] }}</span>
+                <span>{{ item[itemText] }}</span>
               </v-chip>
               <span v-if="index === 1" class="grey--text caption">
                 (+{{ filterData.arrays[header.value].length - 1 }} مورد دیگر)
@@ -56,8 +56,8 @@
             v-else
             hide-details
             :items="items"
-            :item-text="header.item_text"
-            :item-value="header.item_value"
+            :item-text="itemText"
+            :item-value="itemValue"
             :label="header.text"
             multiple
             outlined
@@ -67,7 +67,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <v-chip v-if="index === 0">
-                <span>{{ item[header.item_text] }}</span>
+                <span>{{ item[itemText] }}</span>
               </v-chip>
               <span v-if="index === 1" class="grey--text caption">
                 (+{{ filterData.selects[header.value].length - 1 }} مورد دیگر)
@@ -85,11 +85,13 @@ import { mapGetters } from "vuex";
 
 export default {
   props: ["header", "runAfterChange"],
+
   data() {
     return {
       menu: false,
     };
   },
+
   computed: {
     ...mapGetters({
       getItemsWithKey: "dynamic/getItemsWithKey",
@@ -123,7 +125,14 @@ export default {
           this.filterData.arrays[this.header.value].length)
       );
     },
+    itemText() {
+      return this.$helpers.getSafe(this.header, "props.item-text", null);
+    },
+    itemValue() {
+      return this.$helpers.getSafe(this.header, "props.item-value", null);
+    },
   },
+
   methods: {
     change(event) {
       this.$store.commit("dynamic/setFilterData", {

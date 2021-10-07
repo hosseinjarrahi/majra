@@ -2,34 +2,38 @@
   <div>
     {{ form[field.field] }}
     <v-combobox
-      :multiple="field.multiple"
-      :value="getValues(form[field.field], field)"
-      :item-text="field.item_text"
-      :item-value="field.item_value"
-      :items="items"
-      chips
+      :value="getValues(form[field.field])"
       @input="[fieldChanged(field, $event)]"
-      dense
-      outlined
-      class="mamad-combo"
-      :label="field.title"
-      :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="field.props"
-      hide-details
-      clearable
+      :items="items"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "filters", "fields"],
+  extends: AbstractField,
 
   mounted() {
     this.$emit("mounted");
+  },
+
+  data() {
+    return {
+      defaultProps: {
+        chips: true,
+        dense: true,
+        outlined: true,
+        label: this.field.title,
+        "hide-details": true,
+        clearable: true,
+      },
+    };
   },
 
   computed: {
@@ -62,9 +66,9 @@ export default {
   },
 
   methods: {
-    getValues(values, field) {
+    getValues(values) {
       if (this.$helpers.isArrayOfObjects(values)) {
-        return values.map((value) => value[field.item_value]);
+        return values.map((value) => value[this.getProp("item-value")]);
       }
       return values;
     },

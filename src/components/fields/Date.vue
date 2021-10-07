@@ -21,12 +21,11 @@
       :rules="rules[field.field]"
     ></v-text-field>
     <date-picker
-      v-bind="field.props"
       :ref="'date' + field.field"
-      class="mamad"
       @input="fieldChanged(field, $event)"
       :value="form[field.field]"
-      :format="field.format ? field.format : 'YYYY/MM/DD'"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </div>
 </template>
@@ -34,9 +33,10 @@
 <script>
 import { mapGetters } from "vuex";
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form"],
+  extends: AbstractField,
 
   components: { DatePicker: VuePersianDatetimePicker },
 
@@ -49,6 +49,10 @@ export default {
       menu: false,
       props: {},
       dialog: false,
+      defaultProps: {
+        class: "custom-date",
+        format: "YYYY/MM/DD",
+      },
     };
   },
 
@@ -69,7 +73,7 @@ export default {
 </script>
 
 <style>
-.mamad .vpd-input-group {
+.custom-date .vpd-input-group {
   display: none !important;
 }
 </style>

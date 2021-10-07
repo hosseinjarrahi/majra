@@ -9,7 +9,7 @@
             class="py-1 my-0 px-1"
             :key="field.field"
             cols="12"
-            :md="$helpers.getSafe(field, 'col.md', 12)"
+            v-bind="getFromField(field)('col', {})"
           >
             <component
               :is="getComponent(field)"
@@ -21,6 +21,8 @@
               :form="form"
               :filters="filters"
               :index="index"
+              :getProp="getProp(field)"
+              :getFromField="getFromField(field)"
             />
           </v-col>
         </template>
@@ -33,7 +35,7 @@
         :class="field.class"
         :key="field.field"
         cols="12"
-        :md="$helpers.getSafe(field, 'col.md', 12)"
+        v-bind="getFromField(field)('col', {})"
       >
         <slot :name="'field.' + field.field" v-bind="{ field }">
           <component
@@ -46,6 +48,8 @@
             :form="form"
             :filters="filters"
             :index="index"
+            :getProp="getProp(field)"
+            :getFromField="getFromField(field)"
           />
         </slot>
       </v-col>
@@ -80,11 +84,6 @@ export default {
     this._listen("createBtn", () => {
       this.filters = {};
     });
-
-    this._listen("changeProps", ({ field, prop, value }) => {
-      this.dynamicProps[field] = { [prop]: value };
-      this.dynamicProps = { ...this.dynamicProps };
-    });
   },
 
   data() {
@@ -108,7 +107,6 @@ export default {
         radio: Radio,
         cropper: Cropper,
       },
-      dynamicProps: {},
     };
   },
 
@@ -152,6 +150,19 @@ export default {
 
     getComponent(field) {
       return "component" in field ? field.component : this.map[field.type];
+    },
+
+    getProp(field) {
+      return (prop, def = null) =>
+        this.$helpers.getSafe(
+          field,
+          prop === "*" ? "props" : `props.${prop}`,
+          def
+        );
+    },
+
+    getFromField(field) {
+      return (prop, def = null) => this.$helpers.getSafe(field, prop, def);
     },
   },
 

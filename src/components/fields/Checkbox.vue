@@ -2,20 +2,19 @@
   <div>
     <v-checkbox
       @change="fieldChanged(field, $event)"
-      :label="field.title"
-      dense
-      :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="field.props"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     ></v-checkbox>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form"],
+  extends: AbstractField,
 
   computed: {
     ...mapGetters({
@@ -25,6 +24,16 @@ export default {
 
   mounted() {
     this.$emit("mounted");
+  },
+
+  data() {
+    return {
+      defaultProps: {
+        dense: true,
+        label: this.field.title,
+        "hide-details": true,
+      },
+    };
   },
 };
 </script>

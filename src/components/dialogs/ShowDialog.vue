@@ -15,7 +15,9 @@
       >
         <h6>نمایش</h6>
         <v-spacer />
-        <v-btn dark text @click="print"><v-icon>mdi-printer</v-icon></v-btn>
+        <v-btn dark text @click="print">
+          <v-icon>mdi-printer</v-icon>
+        </v-btn>
         <v-btn dark text @click="_event('handleShowDialog', false)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -76,6 +78,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 const Map = () => import("./../utilities/Map");
 const Editor = () => import("./../utilities/Editor.vue");
 const DefaultShow = () => import("../list/shows/DefaultShow.vue");
@@ -158,16 +161,20 @@ export default {
       return value.value && typeof value.value === "object"
         ? Array.isArray(value.value)
           ? this.getArrayValues(value)
-          : "item_text" in value.field
-          ? value.value[value.field.item_text]
-          : this.getObject(value.value)
+          : this.$helpers.getSafe(
+              value.field,
+              "props.item-text",
+              this.getObject(value.value)
+            )
         : value.value;
     },
     getObject() {},
     getArrayValues({ value, field }) {
       if (this.$helpers.isArrayOfObjects(value)) {
         return value
-          .map((v) => v["item_text" in field ? field.item_text : "text"])
+          .map(
+            (v) => v[this.$helpers.getSafe(field, "props.item-text", "text")]
+          )
           .join(" , ");
       }
       return value.join(",");

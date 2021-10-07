@@ -168,11 +168,8 @@ const mutations = {
           sortable: false,
           value: item.field,
           model: typeof item.rel == "object" ? item.rel.model : false,
-          multiple: "multiple" in item ? item.multiple : false,
           type: item.type,
           values: item.values,
-          item_text: item.item_text,
-          item_value: item.item_value,
           ...item,
         };
       });
