@@ -56,6 +56,7 @@ const Switcher = () => import("./../fields/Switcher");
 const ColorPicker = () => import("./../fields/ColorPicker");
 const Radio = () => import("./../fields/Radio");
 const Cropper = () => import("./../fields/Cropper");
+const UploadBox = () => import("./../fields/UploadBox");
 
 export default {
   props: ["fields", "form", "index"],
@@ -86,6 +87,7 @@ export default {
         colorPicker: ColorPicker,
         radio: Radio,
         cropper: Cropper,
+        uploadbox: UploadBox,
       },
     };
   },
