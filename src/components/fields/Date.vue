@@ -3,13 +3,7 @@
     <v-text-field
       @click="clickTo(field.field)"
       outlined
-      :value="
-        Array.isArray(form[field.field])
-          ? this.$helpers.persianDate(form[field.field][0]) +
-            '~' +
-            this.$helpers.persianDate(form[field.field][1])
-          : this.$helpers.persianDate(form[field.field])
-      "
+      :value="result"
       :label="field.title"
       readonly
       persistent-hint
@@ -56,6 +50,16 @@ export default {
     ...mapGetters({
       rules: "dynamic/rules",
     }),
+    result() {
+      if (this.field.dateShow) {
+        return this.field.dateShow(this.form[this.field.field]);
+      }
+      return Array.isArray(this.form[this.field.field])
+        ? this.$helpers.persianDate(this.form[this.field.field][0]) +
+            "~" +
+            this.$helpers.persianDate(this.form[this.field.field][1])
+        : this.$helpers.persianDate(this.form[this.field.field]);
+    },
   },
 
   methods: {
