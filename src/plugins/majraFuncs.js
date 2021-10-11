@@ -1,7 +1,6 @@
 export default {
   install: function (Vue, options = { store: {}, configs: {} }) {
     let defaultConfigs = {
-      UPLOAD_PATH: "/upload",
       WITH_KEY: true,
       FILTER_URL: "/filter",
       BASE_URL: "/",

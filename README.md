@@ -8,7 +8,7 @@
 
 ## About Majra
 
-Majra is a tool for quickly creating CRUD UI.
+Majra is a tool for quickly creating CRUD UI & forms.
 
 - Powerful form generator
 - Lots of ready fields
@@ -28,25 +28,23 @@ import Vue from "vue";
 import Majra from "majra";
 
 Vue.use(Majra, {
-  store,
-  configs: {UPLOAD_PATH: "/admin/upload"}
+  store, // your store instance
+  configs: {},
 });
 ```
 
 in nuxt applications
 
 ```js
-import Vue from 'vue';
-import Majra from 'majra';
+import Vue from "vue";
+import Majra from "majra";
 
-export default async ({store}) => {
+export default async ({ store }) => {
   Vue.use(Majra, {
     store,
-    configs: {
-      UPLOAD_PATH: 'http://localhost:8000/admin/upload',
-    }
+    configs: {},
   });
-}
+};
 ```
 
 ## Usage
@@ -54,13 +52,12 @@ export default async ({store}) => {
 simple example
 
 ```vue
-
 <template>
-  <DynamicTemplate/>
+  <DynamicTemplate />
 </template>
 
 <script>
-import {DynamicTemplate} from "majra";
+import { DynamicTemplate } from "majra";
 
 export default {
   components: {
@@ -70,7 +67,7 @@ export default {
   beforeCreate() {
     this.$majra.init({
       mainRoute: "/product",
-      relations: ['/get-menus-list'],
+      relations: ["/get-menus-list"],
       fields: [
         {
           title: "Product name",
@@ -107,14 +104,11 @@ You can also use the form builder
 
 ```vue
 <template>
-  <DynamicForm
-      :form="form"
-      :fields="fields"
-  />
+  <DynamicForm :form="form" :fields="fields" />
 </template>
 
 <script>
-import {DynamicForm} from "majra";
+import { DynamicForm } from "majra";
 
 export default {
   components: {
@@ -143,7 +137,7 @@ export default {
         isHeader: true,
       },
     ],
-  })
+  }),
 };
 </script>
 ```

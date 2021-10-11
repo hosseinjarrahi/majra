@@ -77,7 +77,7 @@ export default {
       formData.append("file", file);
       formData.append("type", field.fileType);
       this.axios
-        .post(this.$majra.configs.UPLOAD_PATH, formData, config)
+        .post(this.field.uploadPath, formData, config)
         .then((response) => {
           if (!field.multiple) {
             return this.fieldChanged(this.field, response.link);

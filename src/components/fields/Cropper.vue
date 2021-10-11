@@ -78,7 +78,7 @@ export default {
       formData.append("file", file);
       setTimeout(() => {
         axios
-          .post(this.$majra.configs.UPLOAD_PATH, formData)
+          .post(this.field.uploadPath, formData)
           .then((response) => {
             this.loading = false;
 
