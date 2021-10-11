@@ -4,24 +4,16 @@
       <field-set class="d-flex flex-wrap" :label="key" :key="key">
         <template v-for="(field, index) in fields">
           <v-col
-            :class="field.class"
-            :id="field.id"
             class="py-1 my-0 px-1"
             :key="field.field"
             cols="12"
-            :md="md(field)"
+            v-bind="getFromField(field)('col', {})"
           >
             <component
-              :field="field"
-              :fields="fields"
-              :form="form"
-              :fieldChanged="fieldChanged"
-              :parentChanged="parentChanged"
-              :filters="filters"
               :index="index"
-              :is="map[field.type]"
-              @keypress.prevent.enter="_event('saveForm')"
-              :dynamicProps="dynamicProps[field.field]"
+              v-bind="bind(field)"
+              :is="getComponent(field)"
+              @mounted="mounted(field.field)"
             />
           </v-col>
         </template>
@@ -30,24 +22,15 @@
     <template v-for="(field, index) in fieldsNotGrouped(fields)">
       <v-col
         class="py-1 my-0 px-2"
-        :id="field.id"
-        :class="field.class"
         :key="field.field"
         cols="12"
-        :md="md(field)"
+        v-bind="getFromField(field)('col', {})"
       >
         <slot :name="'field.' + field.field" v-bind="{ field }">
           <component
-            :field="field"
-            :fields="fields"
-            :form="form"
-            :fieldChanged="fieldChanged"
-            :parentChanged="parentChanged"
-            :filters="filters"
             :index="index"
-            :is="map[field.type]"
-            @keypress.prevent.enter="_event('saveForm')"
-            :dynamicProps="dynamicProps[field.field]"
+            v-bind="bind(field)"
+            :is="getComponent(field)"
             @mounted="mounted(field.field)"
           />
         </slot>
@@ -58,51 +41,31 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 const Autocomplete = () => import("./../fields/Autocomplete");
 const Date = () => import("./../fields/Date");
 const File = () => import("./../fields/File");
 const TextField = () => import("./../fields/TextField");
 const TextArea = () => import("./../fields/TextArea");
-// const DateTime = () => import("./../fields/DateTime");
 const Combobox = () => import("./../fields/Combobox");
 const Mapper = () => import("./../fields/Mapper");
 const Checkbox = () => import("./../fields/Checkbox");
-const Ckeditor = () => import("./../fields/Ckeditor");
+const Editor = () => import("./../fields/Ckeditor");
 const FieldSet = () => import("./../utilities/FieldSet");
 const Switcher = () => import("./../fields/Switcher");
 const ColorPicker = () => import("./../fields/ColorPicker");
 const Radio = () => import("./../fields/Radio");
 const Cropper = () => import("./../fields/Cropper");
+const UploadBox = () => import("./../fields/UploadBox");
 
 export default {
-  props: ["fields", "isShowing", "form", "index"],
+  props: ["fields", "form", "index"],
 
-  components: {
-    TextField,
-    Autocomplete,
-    File,
-    Date,
-    // DateTime,
-    Combobox,
-    TextArea,
-    Mapper,
-    FieldSet,
-    Checkbox,
-    Ckeditor,
-    Switcher,
-    ColorPicker,
-    Cropper,
-    Radio,
-  },
+  components: { FieldSet },
 
   created() {
     this._listen("createBtn", () => {
       this.filters = {};
-    });
-
-    this._listen("changeProps", ({ field, prop, value }) => {
-      this.dynamicProps[field] = { [prop]: value };
-      this.dynamicProps = { ...this.dynamicProps };
     });
   },
 
@@ -111,24 +74,21 @@ export default {
       loading: false,
       filters: {},
       map: {
-        text: "TextField",
-        textarea: "TextArea",
-        combo: "Combobox",
-        select: "Autocomplete",
-        file: "File",
-        date: "Date",
-        time: "DateTime",
-        number: "TextField",
-        map: "Mapper",
-        password: "TextField",
-        checkbox: "checkbox",
-        ckeditor: "ckeditor",
-        gallery: "gallery",
-        switcher: "Switcher",
-        colorPicker: "ColorPicker",
-        radio: "Radio",
+        text: TextField,
+        textarea: TextArea,
+        combo: Combobox,
+        select: Autocomplete,
+        file: File,
+        date: Date,
+        map: Mapper,
+        checkbox: Checkbox,
+        editor: Editor,
+        switcher: Switcher,
+        colorPicker: ColorPicker,
+        radio: Radio,
+        cropper: Cropper,
+        uploadbox: UploadBox,
       },
-      dynamicProps: {},
     };
   },
 
@@ -140,6 +100,19 @@ export default {
       });
     },
 
+    bind(field) {
+      return {
+        fieldChanged: this.fieldChanged,
+        parentChanged: this.parentChanged,
+        field,
+        fields: this.fields,
+        form: this.form,
+        filters: this.filters,
+        getProp: this.getProp(field),
+        getFromField: this.getFromField(field),
+      };
+    },
+
     fieldChanged(field, value) {
       this.$emit("updateField", { ...field, value });
     },
@@ -147,7 +120,7 @@ export default {
     parentChanged(field, value, init = false) {
       this.fieldChanged(field, value);
 
-      if (!field.childHasFilter) {
+      if (!this.$majra.hasChild(field)) {
         return;
       }
 
@@ -155,23 +128,36 @@ export default {
 
       let items = this.getItemsWithKey(field.rel.child.model);
 
-      let output = items.filter((item) => {
+      this.filters[field.rel.child.model] = items.filter((item) => {
         if (item[field.rel.child.ownKey])
           return value.indexOf(item[field.rel.child.ownKey].id) > -1;
         return false;
       });
 
-      this.filters[field.rel.child.model] = output;
       this.filters = { ...this.filters };
       !init &&
-        this.parentChanged(
-          this.findFieldByModel(field?.rel?.child?.model),
-          null
-        );
+        this.parentChanged(this.findFieldByModel(field.rel.child.model), null);
     },
 
     findFieldByModel(model) {
       return this.flatFields.filter((f) => f?.rel?.model == model)[0];
+    },
+
+    getComponent(field) {
+      return "component" in field ? field.component : this.map[field.type];
+    },
+
+    getProp(field) {
+      return (prop, def = null) =>
+        this.$helpers.getSafe(
+          field,
+          prop === "*" ? "props" : `props.${prop}`,
+          def
+        );
+    },
+
+    getFromField(field) {
+      return (prop, def = null) => this.$helpers.getSafe(field, prop, def);
     },
   },
 
@@ -182,9 +168,6 @@ export default {
       fieldsNotGrouped: "dynamic/fieldsNotGrouped",
       fieldsGrouped: "dynamic/fieldsGrouped",
     }),
-    md() {
-      return (field) => (field?.col?.md ? field?.col?.md : 12);
-    },
   },
 };
 </script>

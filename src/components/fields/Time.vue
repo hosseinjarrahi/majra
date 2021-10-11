@@ -30,8 +30,8 @@
         @input="[fieldChanged(field, $event), (menu = false)]"
         :value="form[field.field]"
         @click:minute="menu = false"
-        format="24hr"
-        v-bind="dynamicProps"
+        v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+        v-on="getFromField('events', {})"
       ></v-time-picker>
     </v-menu>
   </div>
@@ -39,18 +39,18 @@
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
-
-  mounted() {
-    this.$emit("mounted");
-  },
+  extends: AbstractField,
 
   data() {
     return {
       time: null,
       menu: false,
+      defaultProps: {
+        format: "24hr",
+      },
     };
   },
 
@@ -61,5 +61,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

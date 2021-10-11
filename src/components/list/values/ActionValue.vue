@@ -17,7 +17,7 @@
       <span>مشاهده جزئیات</span>
     </v-tooltip>
 
-    <v-tooltip v-if="isShowable('edit') && permission.edit" small bottom>
+    <v-tooltip v-if="isShowable('edit')" small bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           text
@@ -33,7 +33,7 @@
       <span>ویراش کردن</span>
     </v-tooltip>
 
-    <v-tooltip v-if="isShowable('delete') && permission.delete" small bottom>
+    <v-tooltip v-if="isShowable('delete')" small bottom>
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           v-on="on"
@@ -59,7 +59,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      permission: "dynamic/permission",
       loading: "dynamic/loading",
       mainKey: "dynamic/mainKey",
       hiddenActions: "dynamic/hiddenActions",

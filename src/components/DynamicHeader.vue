@@ -90,7 +90,6 @@
               max-width="30px"
               max-height="30px"
               @click="_event('createBtn')"
-              v-if="permission.create"
             >
               <v-icon size="18">mdi mdi-plus</v-icon>
             </v-btn>
@@ -126,7 +125,6 @@ export default {
 
   computed: {
     ...mapGetters({
-      permission: "dynamic/permission",
       loading: "dynamic/loading",
       mainKey: "dynamic/mainKey",
       hiddenActions: "dynamic/hiddenActions",
@@ -153,5 +151,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

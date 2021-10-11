@@ -1,7 +1,6 @@
 import { toPascalCase } from "@/helpers/case";
 import validations from "@/helpers/validations";
 import Vue from "vue";
-const axios = require("axios");
 
 const state = {
   items: [],
@@ -18,24 +17,31 @@ const state = {
   flatFields: [],
   backup: false,
   headers: [],
-  permission: {},
   relationsFetched: false,
   reloadAfterSave: false,
 };
 
 /*******************************************************/
 const getters = {
-  permission: (state) => state.permission,
   fields: (state) => state.fields,
+
   flatFields: (state) => state.flatFields,
+
   headers: (state) => state.headers,
+
   items: (state) => state.items,
+
   loading: (state) => state.loading,
+
   pagination: (state) => state.pagination,
+
   mainKey: (state) => state.mainKey,
+
   hiddenActions: (state) => state.hiddenActions,
+
   hasRelation: (state) => (relation) =>
     Array.isArray(state.items[relation]) && state.items[relation].length > 0,
+
   mainLoading: (state) => {
     for (let key in state.loading) {
       if (state.loading[key]) return true;
@@ -84,8 +90,7 @@ const getters = {
     state.flatFields.forEach((field) => {
       if ("rules" in field) {
         rules[field.field] = [];
-        let exploded = field.rules.split("|");
-        let rawRules = exploded.map((rule) => {
+        let rawRules = field.rules.map((rule) => {
           let tmp = rule.split(":");
           let name = tmp[0];
           let args = tmp[1] ? tmp[1] : null;
@@ -97,6 +102,7 @@ const getters = {
         });
       }
     });
+    console.log(rules);
     return rules;
   },
 };
@@ -114,7 +120,6 @@ const mutations = {
     };
     state.routes = [];
     state.mainKey = false;
-    state.reloadAfterSave = false;
     state.fields = [];
     state.hiddenActions = [];
     state.flatFields = [];
@@ -133,20 +138,6 @@ const mutations = {
     Vue._bus.$off("readyToFetchRelations");
   },
 
-  setReloadAfterSave: (state, payload) => (state.reloadAfterSave = payload),
-
-  addActionsToHeader: (state, permission) => {
-    permission &&
-      state.headers.push({
-        text: "اقدامات",
-        title: "اقدامات",
-        sortable: false,
-        value: "actions",
-        type: "text",
-        align: "left",
-      });
-  },
-
   addRoutes: (state, payload) => {
     let key =
       typeof payload == "string"
@@ -157,12 +148,6 @@ const mutations = {
 
     return (state.routes[toPascalCase(key)] =
       typeof payload == "string" ? payload : payload.route);
-  },
-
-  removeRoute: (state, payload) => {
-    state.routes = state.routes.filter(
-      (route) => !(route.field == payload || route.url == payload)
-    );
   },
 
   set: (state, payload) => {
@@ -182,15 +167,20 @@ const mutations = {
           text: item.title,
           sortable: false,
           value: item.field,
-          model: "rel" in item && item.rel ? item.rel.model : false,
-          multiple: "multiple" in item ? item.multiple : false,
+          model: typeof item.rel == "object" ? item.rel.model : false,
           type: item.type,
           values: item.values,
-          item_text: item.item_text,
-          item_value: item.item_value,
           ...item,
         };
       });
+    state.headers.push({
+      text: "اقدامات",
+      title: "اقدامات",
+      sortable: false,
+      value: "actions",
+      type: "text",
+      align: "left",
+    });
     state.headers.unshift(
       {
         text: "#",
@@ -199,24 +189,22 @@ const mutations = {
         value: "index",
         field: "index",
         sortable: false,
-      },
-      {
-        title: "شناسه",
-        text: "شناسه",
-        type: "text",
-        value: "id",
-        field: "id",
-        class: { header: "mamad-header" },
       }
+      // {
+      //   title: "شناسه",
+      //   text: "شناسه",
+      //   type: "text",
+      //   value: "id",
+      //   field: "id",
+      //   class: { header: "mamad-header" },
+      // }
     );
   },
-
-  setMainKey: (state, payload) => (state.mainKey = payload),
 
   setHiddenActions: (state, payload) => (state.hiddenActions = payload),
 
   setFields: (state, payload) => {
-    state.fields = payload;
+    state.fields = Vue.$helpers.sort(payload, "order");
     state.flatFields = Array.isArray(state.fields)
       ? state.fields
       : Object.values(state.fields).flat();
@@ -298,23 +286,22 @@ const mutations = {
     state.items[state.mainKey] = [...temp];
   },
 
-  setPermission: (state, payload) => (state.permission = payload),
-
   setOptions: (state, payload) => (state.options = payload),
 };
 
 /*******************************************************/
 const actions = {
   init({ state, commit, dispatch, rootState }, payload) {
-    Vue._resetEvLi(() => {
-      Vue._listen("alert", (data) => {
-        dispatch("alert/alert", data, { root: true });
-      });
-    });
+    Vue._resetEvLi();
 
     commit("resetState");
 
     Vue._event("beforeTemplateInit");
+
+    dispatch("getRelations", {
+      relations: "relations" in payload ? payload.relations : [],
+      sum: "sum" in payload ? payload.sum : false,
+    });
 
     commit("addRoutes", payload.mainRoute);
     if (state.isFiltering) {
@@ -337,11 +324,6 @@ const actions = {
       "setHiddenActions",
       "hiddenActions" in payload ? payload.hiddenActions : []
     );
-
-    dispatch("getRelations", {
-      relations: "relations" in payload ? payload.relations : [],
-      sum: "sum" in payload ? payload.sum : false,
-    });
   },
 
   midit({ commit, dispatch }, payload) {
@@ -364,21 +346,24 @@ const actions = {
   get({ state, commit }, payload) {
     let page = 1;
     if (payload && payload.page) page = payload.page;
-    let query = payload && payload.all ? "allMain=true" : "";
+    let query = payload && payload.all ? "all=true" : "";
     let pageQuery =
       state.routes[payload.key].indexOf("?") > -1 ? "&page=" : "?page=";
 
     commit("setLoading", { key: payload.key, value: true });
 
-    axios
+    Vue.axios
       .get(state.routes[payload.key] + pageQuery + page + "&" + query)
       .then((response) => {
-        commit("set", { data: response[payload.key].data, key: payload.key });
+        commit("set", {
+          data: response.data[payload.key].data,
+          key: payload.key,
+        });
         if (payload.key == state.mainKey) {
           commit("setPagination", {
-            total: response[state.mainKey].total,
-            currentPage: response[state.mainKey].current_page,
-            lastPage: response[state.mainKey].last_page,
+            total: response.data[state.mainKey].total,
+            currentPage: response.data[state.mainKey].current_page,
+            lastPage: response.data[state.mainKey].last_page,
           });
 
           !state.relationsFetched && Vue._event("readyToFetchRelations");
@@ -390,33 +375,8 @@ const actions = {
       });
   },
 
-  reloadMainData({ state, commit }, payload) {
-    let page = 1;
-    if (payload && payload.page) page = payload.page;
-    let query = payload && payload.all ? "allMain=true" : "";
-    let pageQuery =
-      state.routes[state.mainKey].indexOf("?") > -1 ? "&page=" : "?page=";
-
-    commit("setLoading", { key: state.mainKey, value: true });
-
-    axios
-      .get(state.routes[state.mainKey] + pageQuery + page + "&" + query)
-      .then((response) => {
-        commit("set", {
-          data: response[state.mainKey].data,
-          key: state.mainKey,
-        });
-        if (state.mainKey == state.mainKey) {
-          commit("setPagination", {
-            total: response[state.mainKey].total,
-            currentPage: response[state.mainKey].current_page,
-            lastPage: response[state.mainKey].last_page,
-          });
-        }
-      })
-      .finally(() => {
-        commit("setLoading", { key: state.mainKey, value: false });
-      });
+  reloadMainData({ dispatch }) {
+    dispatch("get", { key: state.mainKey });
   },
 
   getSum({ commit }, payload) {
@@ -430,14 +390,14 @@ const actions = {
       commit("setLoading", { key: model, value: true });
     });
 
-    axios
+    Vue.axios
       .post("/sum-model", {
         Model: models,
       })
       .then((response) => {
-        for (const property in response.Model) {
+        for (const property in response.data.Model) {
           commit("set", {
-            data: response.Model[property].data,
+            data: response.data.Model[property].data,
             key: property,
           });
         }
@@ -456,8 +416,8 @@ const actions = {
     let itemPerPage = payload && payload.itemPerPage ? payload.itemPerPage : 15;
 
     commit("setLoading", { key: state.mainKey, value: true });
-    axios
-      .post(`/filter?page=${page}`, {
+    Vue.axios
+      .post(`${Vue.$majra.configs.FILTER_URL}?page=${page}`, {
         model: state.mainKey,
         search: state.filterData.search,
         selects: state.filterData.selects,
@@ -471,17 +431,17 @@ const actions = {
       .then((response) => {
         if (itemPerPage == 15) {
           commit("set", {
-            data: response[state.mainKey].data,
+            data: response.data[state.mainKey].data,
             key: state.mainKey,
           });
           commit("setPagination", {
-            total: response[state.mainKey].total,
-            currentPage: response[state.mainKey].current_page,
-            lastPage: response[state.mainKey].last_page,
+            total: response.data[state.mainKey].total,
+            currentPage: response.data[state.mainKey].current_page,
+            lastPage: response.data[state.mainKey].last_page,
           });
         }
-        commit("setCsvData", response[state.mainKey].data);
-        commit("setPrintItems", response[state.mainKey].data);
+        commit("setCsvData", response.data[state.mainKey].data);
+        commit("setPrintItems", response.data[state.mainKey].data);
         !state.relationsFetched && Vue._event("readyToFetchRelations");
         commit("setRelationsFetched", true);
       })
@@ -503,57 +463,55 @@ const actions = {
 
     route = route.value ? route.value : state.routes[state.mainKey];
 
-    axios
-      .post(route, { [state.mainKey]: { ...payload } })
+    let sendForm = Vue.$majra.convertToSendForm(payload);
+
+    let data = Vue.$majra.configs.WITH_KEY
+      ? { [state.mainKey]: sendForm }
+      : sendForm;
+
+    Vue.axios
+      .post(route, data)
       .then((response) => {
-        let newItems = Array.isArray(response[state.mainKey])
-          ? response[state.mainKey]
-          : [response[state.mainKey]];
-        !state.reloadAfterSave && commit("add", newItems);
-        dispatch(
-          "alert/alert",
-          { text: "با موفقیت ثبت شد", color: "green" },
-          { root: true }
-        );
-        Vue._event("handleCEDialog", false);
-        (payload.reload || state.reloadAfterSave) && dispatch("reloadMainData");
-        state.reloadAfterSave = false;
+        let newItems = Array.isArray(response.data[state.mainKey])
+          ? response.data[state.mainKey]
+          : [response.data[state.mainKey]];
+        !payload.reload && commit("add", newItems);
+        payload.reload && dispatch("reloadMainData");
+        Vue._event("alert", { text: "با موفقیت ثبت شد", color: "green" });
+        Vue._event("handleDialogForm", false);
       })
       .catch((error) => {
-        dispatch(
-          "alert/alert",
-          { text: error.response.data.message, color: "red" },
-          { root: true }
-        );
+        Vue._event("alert", {
+          text: error.response.data.message,
+          color: "red",
+        });
       })
       .finally(() => {
         commit("setLoading", { key: state.mainKey, value: false });
       });
   },
 
-  remove({ state, dispatch, commit }, payload) {
+  remove({ state, commit }, payload) {
     payload = Array.isArray(payload) ? payload : [payload];
     commit("setLoading", { key: state.mainKey, value: true });
     let route = state.routes[state.mainKey].split("?")[0];
 
     payload.forEach((item, index) => {
-      axios
-        .$delete(route + "/" + item)
+      Vue.axios
+        .delete(route + "/" + item)
         .then(() => {
           commit("remove", item);
-          dispatch(
-            "alert/alert",
-            { text: "با موفقیت حذف شد", color: "green" },
-            { root: true }
-          );
+          Vue._event("alert", {
+            text: "با موفقیت حذف شد",
+            color: "green",
+          });
           Vue._event("handleDeleteDialog", false);
         })
         .catch((error) => {
-          dispatch(
-            "alert/alert",
-            { text: error.response.data.message, color: "red" },
-            { root: true }
-          );
+          Vue._event("alert", {
+            text: error.response.data.message,
+            color: "red",
+          });
         })
         .finally(() => {
           index == payload.length - 1 &&
@@ -569,27 +527,26 @@ const actions = {
       route = payload.route;
     }
 
-    axios
-      .patch(route + "/" + payload.id, {
-        [state.mainKey]: { ...payload },
-      })
+    let sendForm = Vue.$majra.convertToSendForm(payload);
+
+    let data = Vue.$majra.configs.WITH_KEY
+      ? { [state.mainKey]: sendForm }
+      : sendForm;
+
+    Vue.axios
+      .patch(route + "/" + payload.id, data)
       .then((response) => {
-        commit("editItem", response[state.mainKey]);
-        dispatch(
-          "alert/alert",
-          { text: "با موفقیت ویرایش شد", color: "green" },
-          { root: true }
-        );
+        commit("editItem", response.data[state.mainKey]);
+        Vue._event("alert", { text: "با موفقیت ویرایش شد", color: "green" });
         if (!("closeAfterEdit" in payload && !payload.closeAfterEdit))
-          Vue._event("handleCEDialog", false);
+          Vue._event("handleDialogForm", false);
         payload.reload && dispatch("get", { key: state.mainKey });
       })
       .catch((error) => {
-        dispatch(
-          "alert/alert",
-          { text: error.response.data.message, color: "red" },
-          { root: true }
-        );
+        Vue._event("alert", {
+          text: error.response.data.message,
+          color: "red",
+        });
       })
       .finally(() => {});
   },

@@ -1,15 +1,17 @@
-import Vue from "vue";
-
-export let EventBusPlugin = {
+export default {
   install: function (Vue) {
     let EventBus = new Vue();
+    let lockedListeners = [];
 
     Vue.prototype._bus = EventBus;
-    Vue._bus = Vue.prototype._bus;
+    Vue._bus = EventBus;
 
-    Vue.prototype._listen = (event, fn) => {
+    Vue.prototype._listen = (event, fn, lock = false) => {
       event = Array.isArray(event) ? event : [event];
-      for (const e of event) EventBus.$on(e, fn);
+      for (const e of event) {
+        EventBus.$on(e, fn);
+        lock && lockedListeners.push(fn);
+      }
     };
     Vue._listen = Vue.prototype._listen;
 
@@ -38,7 +40,7 @@ export let EventBusPlugin = {
 
     Vue.prototype._resetEvLi = (callback) => {
       EventBus = new Vue();
-      callback();
+      callback && callback();
       Vue.prototype._listen("beforeTemplateInit", (args) => {
         fns3.forEach((fn) => fn(args));
         fns3 = [];
@@ -51,6 +53,9 @@ export let EventBusPlugin = {
         fns2.forEach((fn) => fn(args));
         fns2 = [];
       });
+      for (let fn of lockedListeners) Vue.prototype._listen(fn);
+      Vue.prototype._bus = EventBus;
+      Vue._bus = EventBus;
     };
     Vue._resetEvLi = Vue.prototype._resetEvLi;
 
@@ -70,5 +75,3 @@ export let EventBusPlugin = {
     Vue._log = Vue.prototype._log;
   },
 };
-
-Vue.use(EventBusPlugin);

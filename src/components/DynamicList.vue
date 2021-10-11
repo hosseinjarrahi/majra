@@ -27,7 +27,7 @@
 
         <template v-slot:item.index="{ item }">
           <div
-            v-if="hasNotif(item.id)"
+            v-if="false"
             class="error"
             style="
               height: 20px;
@@ -91,7 +91,7 @@ export default {
 
   layout: "dashboard",
 
-  props: ["editPermission", "deletePermission", "print", "expandMode"],
+  props: ["print", "expandMode"],
 
   created() {
     this._listen("addToSelected", (item) => {
@@ -117,7 +117,6 @@ export default {
       flatFields: "dynamic/flatFields",
       isFiltering: "dynamic/isFiltering",
       HEADERS: "dynamic/headers",
-      hasNotif: "dynamic/hasNotif",
       getItemsWithKey: "dynamic/getItemsWithKey",
     }),
     headers() {
@@ -134,7 +133,6 @@ export default {
       editDialog: false,
       editItem: {},
       isEditing: false,
-      createPermission: false,
       page: 1,
       selects: {},
       arrays: {},
@@ -203,10 +201,3 @@ export default {
   },
 };
 </script>
-
-<style>
-th:not(:first-child, :last-child),
-td:not(:first-child) {
-  padding: 0 !important;
-}
-</style>

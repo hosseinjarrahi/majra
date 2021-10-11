@@ -1,17 +1,14 @@
 <template>
   <div class="">
     <v-file-input
-      outlined
-      dense
-      v-show="!form[field.field] || field.multiple"
+      v-show="
+        !form[field.field] || $helpers.getSafe(field, 'props.multiple', false)
+      "
       :ref="'file-i' + field.field"
       @change="upload($event, field)"
-      truncate-length="15"
-      :label="field.title"
       :rules="field.rules"
-      append-icon="mdi-file-outline"
-      prepend-icon=""
-      hide-details
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
     <v-progress-linear v-if="progress && progress < 100" :value="progress" />
 
@@ -35,7 +32,7 @@
         <a
           target="_blank"
           class="col-10 py-2"
-          :href="baseURL + form[field.field]"
+          :href="$majra.configs.BASE_URL + form[field.field]"
         >
           دانلود
         </a>
@@ -76,7 +73,11 @@
           :key="file"
           v-for="(file, index) in form[field.field]"
         >
-          <a target="_blank" class="col-10" :href="baseURL + file">
+          <a
+            target="_blank"
+            class="col-10"
+            :href="$majra.configs.BASE_URL + file"
+          >
             <span>{{ index + 1 }} - </span>
             <span>دانلود</span>
           </a>
@@ -101,19 +102,30 @@
 </template>
 
 <script>
-import fieldSet from "../utilities/FieldSet.vue";
+import fieldSet from "./../utilities/FieldSet.vue";
+import AbstractField from "./AbstractField";
+
 const axios = require("axios");
 
 export default {
-  components: { fieldSet },
+  extends: AbstractField,
 
-  props: ["fieldChanged", "field", "form"],
+  components: { fieldSet },
 
   data() {
     return {
       loading: false,
       files: [],
       progress: 0,
+      defaultProps: {
+        dense: true,
+        outlined: true,
+        "prepend-icon": "",
+        "hide-details": true,
+        "truncate-length": 15,
+        label: this.field.title,
+        "append-icon": "mdi-file-outline",
+      },
     };
   },
 
@@ -138,7 +150,7 @@ export default {
       formData.append("file", file);
       formData.append("type", field.fileType);
       axios
-        .post("/upload-file", formData, config)
+        .post(this.$majra.configs.UPLOAD_PATH, formData, config)
         .then((response) => {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];

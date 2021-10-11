@@ -2,8 +2,7 @@
   <v-dialog
     :value="value"
     @input="handleDialog"
-    :fullscreen="options.fullScreen"
-    :width="options.width"
+    :width="$vuetify.breakpoint.lgAndUp ? (2 / 6) * 100 + '%' : '100%'"
     scrollable
   >
     <slot
@@ -11,7 +10,6 @@
       v-bind="{
         value,
         isEditing,
-        isShowing,
         editItem,
       }"
     >
@@ -24,7 +22,6 @@
         :form="form"
         :updateField="updateField"
         :fields="fields"
-        :isShowing="isShowing"
         :isEditing="isEditing"
         :mainLoading="mainLoading"
         :handleDialog="handleDialog"

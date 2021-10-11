@@ -7,7 +7,8 @@
 </template>
 
 <script>
-import DynamicTemplate from "./components/DynamicTemplate.vue";
+import DynamicTemplate from "./components/DynamicTemplate";
+import exampleFields from "./exampleFields";
 
 export default {
   name: "App",
@@ -16,33 +17,15 @@ export default {
     DynamicTemplate,
   },
 
-  created() {
-    this.$store.dispatch("dynamic/init", {
-      mainRoute: "/admin/form",
+  beforeCreate() {
+    this.$majra.init({
+      mainRoute: "/product",
       relations: [
-        { route: "/admin/user-no-form", key: "User" },
-        { route: "/admin/all-forms", key: "AllForm" },
-        "/admin/product",
-        "/admin/base",
+        { route: "/Option=>Product?is_option=1", key: "Option" },
+        "/menu",
+        "/base",
       ],
-      fields: [
-        {
-          title: "نام فرم",
-          field: "name",
-          rel: false,
-          type: "cropper",
-          isHeader: true,
-          col: { md: 12 },
-        },
-        {
-          title: "توضیحات",
-          field: "description",
-          rel: false,
-          type: "textarea",
-          isHeader: true,
-          col: { md: 12 },
-        },
-      ],
+      fields: exampleFields,
     });
   },
 };

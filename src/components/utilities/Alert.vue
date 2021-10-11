@@ -1,14 +1,8 @@
 <template>
-  <v-snackbar
-    :value="openAlert"
-    @input="setOpenAlert(false)"
-    :color="color"
-    timeout="4000"
-  >
-    {{ text }}
-
+  <v-snackbar v-model="dialog" :color="alert.color" timeout="4000">
+    {{ alert.text }}
     <template v-slot:action="{ attrs }">
-      <v-btn text v-bind="attrs" @click="setOpenAlert(false)">
+      <v-btn text v-bind="attrs" @click="dialog = false">
         <v-icon>fal fa-times</v-icon>
       </v-btn>
     </template>
@@ -16,31 +10,26 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
-
 export default {
   name: "alert",
 
   created() {
-    this._listen("alert", (payload) => {
-      this.$store.dispatch("alert/alert", payload);
-    });
+    this._listen(
+      "alert",
+      (payload) => {
+        this.alert = payload;
+        this.dialog = true;
+      },
+      true
+    );
   },
 
-  methods: {
-    ...mapMutations({
-      setOpenAlert: "alert/setOpenAlert",
-    }),
-  },
-
-  computed: {
-    ...mapGetters({
-      text: "alert/text",
-      openAlert: "alert/openAlert",
-      color: "alert/color",
-    }),
-  },
+  data: () => ({
+    alert: {
+      color: "success",
+      text: "",
+    },
+    dialog: false,
+  }),
 };
 </script>
-
-<style scoped></style>

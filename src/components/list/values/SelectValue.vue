@@ -12,9 +12,13 @@ export default {
     result() {
       if (this.item == null) return;
 
+      let text = this.$helpers.getSafe(this.field, "props.item-text", "text");
+      let value = this.$helpers.getSafe(
+        this.field,
+        "props.item-value",
+        "value"
+      );
       if (this.field.values) {
-        let text = this.field.item_text ? this.field.item_text : "text";
-        let value = this.field.item_value ? this.field.item_value : "value";
         let out = "";
         this.field.values.forEach((val) => {
           if (val[value] == this.item) {
@@ -26,24 +30,19 @@ export default {
 
       return typeof this.item === "object"
         ? Array.isArray(this.item)
-          ? this.getValues(this.item, this.field)
-          : this.item[this.field.item_text]
+          ? this.getValues(this.item, text)
+          : this.item[text]
         : this.item;
     },
   },
 
   methods: {
-    getValues(values, field) {
-      if (this.isArrayOfObjects(values)) {
-        return values.map((value) => value[field.item_text]).join(" , ");
+    getValues(values, text) {
+      if (this.$helpers.isArrayOfObjects(values)) {
+        return values.map((value) => value[text]).join(" , ");
       }
       return values.join(",");
-    },
-    isArrayOfObjects(values) {
-      return values.length > 0 && typeof values[0] === "object";
     },
   },
 };
 </script>
-
-<style></style>

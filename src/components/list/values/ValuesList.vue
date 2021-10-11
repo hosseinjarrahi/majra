@@ -26,22 +26,20 @@ const SelectValue = () => import("./SelectValue.vue");
 const TextValue = () => import("./TextValue.vue");
 
 export default {
-  components: { fileValue, DateValue, SelectValue, TextValue },
-
   props: ["field", "item"],
 
   data() {
     return {
       map: {
-        text: "TextValue",
-        textarea: "TextValue",
-        combo: "SelectValue",
-        select: "SelectValue",
-        file: "fileValue",
-        date: "DateValue",
-        time: "TextValue",
-        number: "TextValue",
-        switcher: "SelectValue",
+        text: TextValue,
+        textarea: TextValue,
+        combo: SelectValue,
+        select: SelectValue,
+        file: fileValue,
+        date: DateValue,
+        time: TextValue,
+        number: TextValue,
+        switcher: SelectValue,
       },
     };
   },
@@ -60,5 +58,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

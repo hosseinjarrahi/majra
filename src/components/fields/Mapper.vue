@@ -2,17 +2,15 @@
   <div class="mb-5">
     <div>{{ field.title }}</div>
     <v-text-field
-      dense
       :value="valueForRules"
       :rules="rules[field.field]"
-      :hint="field.hint"
-      outlined
       v-show="false"
     />
     <Map
       :value="form[field.field]"
       @input="fieldChanged(field, $event)"
-      v-bind="{ options: field.mapOptions, ...dynamicProps }"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </div>
 </template>
@@ -20,15 +18,12 @@
 <script>
 import Map from "./../utilities/Map";
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  extends: AbstractField,
 
   components: { Map },
-
-  mounted() {
-    this.$emit("mounted");
-  },
 
   computed: {
     ...mapGetters({
@@ -46,5 +41,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

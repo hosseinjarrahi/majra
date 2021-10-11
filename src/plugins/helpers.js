@@ -1,6 +1,4 @@
-import Vue from "vue";
-
-export let HelpersPlugin = {
+export default {
   install: function (Vue) {
     Vue.prototype.$helpers = {
       persianDateGlobal(date, time = false) {
@@ -42,8 +40,42 @@ export let HelpersPlugin = {
 
         return res;
       },
+
+      isArrayOfObjects(values) {
+        return (
+          Array.isArray(values) &&
+          values.length > 0 &&
+          typeof values[0] === "object"
+        );
+      },
+
+      hasProperty(obj = {}, property = "") {
+        let props = property.split(".");
+        let temp = { ...obj };
+        for (const prop of props) {
+          if (typeof temp != "object" || !(prop in temp)) return false;
+          temp = temp[prop];
+        }
+        return true;
+      },
+
+      getSafe(obj = {}, property = "", defaultValue = null) {
+        if (typeof obj != "object") return defaultValue;
+        let props = property.split(".");
+        let temp = { ...obj };
+        for (const prop of props) {
+          if (typeof temp != "object" || !(prop in temp)) return defaultValue;
+          temp = temp[prop];
+        }
+        return temp;
+      },
+
+      sort(collection, by) {
+        return collection.sort((a, b) => {
+          return this.getSafe(a, by) - this.getSafe(b, by);
+        });
+      },
     };
+    Vue.$helpers = Vue.prototype.$helpers;
   },
 };
-
-Vue.use(HelpersPlugin);
