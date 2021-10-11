@@ -52,9 +52,6 @@ export default {
       rules: "dynamic/rules",
     }),
     result() {
-      if (this.field.dateShow) {
-        return this.field.dateShow(this.form[this.field.field]);
-      }
       return Array.isArray(this.form[this.field.field])
         ? this.$helpers.persianDate(this.form[this.field.field][0], this.type) +
             " ~ " +
