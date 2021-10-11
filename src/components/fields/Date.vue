@@ -4,7 +4,7 @@
       @click="clickTo(field.field)"
       outlined
       :value="
-        typeof form[field.field] == 'object'
+        Array.isArray(form[field.field])
           ? this.$helpers.persianDate(form[field.field][0]) +
             '~' +
             this.$helpers.persianDate(form[field.field][1])
@@ -21,12 +21,11 @@
       :rules="rules[field.field]"
     ></v-text-field>
     <date-picker
-      v-bind="{ ...field.props, ...dynamicProps }"
       :ref="'date' + field.field"
-      class="mamad"
       @input="fieldChanged(field, $event)"
       :value="form[field.field]"
-      :format="field.format ? field.format : 'YYYY/MM/DD'"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </div>
 </template>
@@ -34,21 +33,22 @@
 <script>
 import { mapGetters } from "vuex";
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  extends: AbstractField,
 
   components: { DatePicker: VuePersianDatetimePicker },
-
-  mounted() {
-    this.$emit("mounted");
-  },
 
   data() {
     return {
       menu: false,
       props: {},
       dialog: false,
+      defaultProps: {
+        class: "custom-date",
+        format: "YYYY/MM/DD",
+      },
     };
   },
 
@@ -69,7 +69,7 @@ export default {
 </script>
 
 <style>
-.mamad .vpd-input-group {
+.custom-date .vpd-input-group {
   display: none !important;
 }
 </style>

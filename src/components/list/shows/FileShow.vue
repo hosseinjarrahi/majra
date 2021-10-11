@@ -1,5 +1,5 @@
 <template>
-  <td class="pa-2" style="width: 100%">
+  <div>
     <v-row v-if="value.field.isImage">
       <v-col cols="12">
         <h3>{{ value.field.title }}</h3>
@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <a v-else :href="f" v-for="f in getFiles(value.value)" :key="f"> دانلود </a>
-  </td>
+  </div>
 </template>
 
 <script>
@@ -37,5 +37,3 @@ export default {
   }),
 };
 </script>
-
-<style></style>

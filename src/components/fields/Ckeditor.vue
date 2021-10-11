@@ -7,11 +7,12 @@
 
 <script>
 import Editor from "./../utilities/Editor.vue";
+import AbstractField from "./AbstractField";
 
 export default {
-  components: { Editor },
+  extends: AbstractField,
 
-  props: ["fieldChanged", "field", "form", "index"],
+  components: { Editor },
 
   mounted() {
     this.$emit("mounted");

@@ -16,36 +16,40 @@
     <div class="card-footer text-muted" v-html="message"></div>
 
     <avatar-cropper
-      :upload-handler="cropperHandler"
-      trigger="#pick-avatar"
-      :labels="{ submit: 'OK', cancel: 'Cancel' }"
-      :cropper-options="{
-        aspectRatio: 1,
-        autoCropArea: 1,
-        viewMode: 1,
-        movable: true,
-        zoomable: true,
-      }"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </div>
 </template>
 
 <script>
 import AvatarCropper from "vue-avatar-cropper";
+import AbstractField from "./AbstractField";
+
 const axios = require("axios");
 
 export default {
-  name: "UploadPic",
+  extends: AbstractField,
 
   components: { AvatarCropper },
-
-  props: ["fieldChanged", "field", "form"],
 
   data() {
     return {
       loading: false,
       message: "",
       file: "",
+      defaultProps: {
+        "upload-handler": this.cropperHandler,
+        trigger: "#pick-avatar",
+        labels: { submit: "OK", cancel: "Cancel" },
+        "cropper-options": {
+          aspectRatio: 1,
+          autoCropArea: 1,
+          viewMode: 1,
+          movable: true,
+          zoomable: true,
+        },
+      },
     };
   },
 
@@ -74,7 +78,7 @@ export default {
       formData.append("file", file);
       setTimeout(() => {
         axios
-          .post("/admin/upload", formData)
+          .post(this.$majra.configs.UPLOAD_PATH, formData)
           .then((response) => {
             this.loading = false;
 

@@ -3,8 +3,7 @@
     <slot name="card-title">
       <v-card-title class="pl-0 headline white--text py-1 secondary">
         <h6 v-if="!isEditing">افزودن</h6>
-        <h6 v-else-if="!isShowing">ویرایش</h6>
-        <h6 v-else>نمایش</h6>
+        <h6 v-else>ویرایش</h6>
         <v-spacer />
         <v-btn dark text @click="handleDialog(false)">
           <v-icon>mdi-close</v-icon>
@@ -41,7 +40,6 @@
         <dynamic-fields
           :fields="filteredFields(fields)"
           :form="form"
-          :isShowing="isShowing"
           @updateField="updateField"
         />
       </v-form>
@@ -49,7 +47,7 @@
 
     <v-divider></v-divider>
 
-    <v-card-actions v-if="!isShowing">
+    <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
         :color="isEditing ? 'primary' : 'success'"
@@ -80,7 +78,6 @@ export default {
     "form",
     "updateField",
     "fields",
-    "isShowing",
     "isEditing",
     "mainLoading",
     "handleDialog",

@@ -1,25 +1,29 @@
 <template>
   <div>
     <v-switch
-      class="ma-0"
       :input-value="form[field.field]"
       @change="fieldChanged(field, $event)"
-      :label="field.title"
-      :hint="field.hint"
       :rules="rules[field.field]"
-      v-bind="dynamicProps"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     ></v-switch>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  extends: AbstractField,
 
-  mounted() {
-    this.$emit("mounted");
+  data() {
+    return {
+      defaultProps: {
+        class: "ma-0",
+        label: this.field.title,
+      },
+    };
   },
 
   computed: {
@@ -29,5 +33,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

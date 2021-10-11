@@ -26,21 +26,19 @@ const SelectHeader = () => import("./SelectHeader.vue");
 const SwitcherHeader = () => import("./SwitcherHeader.vue");
 
 export default {
-  components: { SelectHeader, DateHeader, DefaultHeader, SwitcherHeader },
-
   props: ["header", "runAfterChange"],
 
   data: () => ({
     map: {
-      date: "DateHeader",
-      select: "SelectHeader",
-      combo: "SelectHeader",
-      text: "DefaultHeader",
-      textarea: "DefaultHeader",
-      file: "DefaultHeader",
-      time: "DefaultHeader",
-      number: "DefaultHeader",
-      switcher: "SwitcherHeader",
+      date: DateHeader,
+      select: SelectHeader,
+      combo: SelectHeader,
+      text: DefaultHeader,
+      textarea: DefaultHeader,
+      file: DefaultHeader,
+      time: DefaultHeader,
+      number: DefaultHeader,
+      switcher: SwitcherHeader,
     },
   }),
 };

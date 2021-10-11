@@ -1,11 +1,10 @@
 <template>
   <v-dialog
-    fullscreen
-    hide-overlay
     v-model="dialog"
     transition="dialog-bottom-transition"
-    width="500"
     scrollable
+    content-class="fill-height"
+    :fullscreen="printMode"
   >
     <v-card
       :class="printMode ? 'elevation-0' : ''"
@@ -17,7 +16,9 @@
       >
         <h6>نمایش</h6>
         <v-spacer />
-        <v-btn dark text @click="print"><v-icon>mdi-printer</v-icon></v-btn>
+        <v-btn dark text @click="print">
+          <v-icon>mdi-printer</v-icon>
+        </v-btn>
         <v-btn dark text @click="_event('handleShowDialog', false)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -41,16 +42,17 @@
                       <td class="col-2 pa-2 font-weight-bold">
                         {{ value.field.title }}
                       </td>
-                      <td class="pa-2">|</td>
-                      <component
-                        :is="map[value.field.type]"
-                        :getValue="getValue"
-                        :getFiles="getFiles"
-                        :openImage="openImage"
-                        :value="value"
-                        :item="item"
-                        class="pa-2"
-                      />
+                      <td class="pa-2 col" style="width: 100%">
+                        <component
+                          :is="map[value.field.type]"
+                          :getValue="getValue"
+                          :getFiles="getFiles"
+                          :openImage="openImage"
+                          :value="value"
+                          :item="item"
+                          class="pa-2 w-100"
+                        />
+                      </td>
                     </slot>
                   </tr>
                 </tbody>
@@ -78,6 +80,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+
 const Map = () => import("./../utilities/Map");
 const Editor = () => import("./../utilities/Editor.vue");
 const DefaultShow = () => import("../list/shows/DefaultShow.vue");
@@ -86,7 +89,7 @@ const FileShow = () => import("../list/shows/FileShow.vue");
 const MapShow = () => import("../list/shows/MapShow.vue");
 
 export default {
-  components: { Map, Editor, DefaultShow, EditorShow, FileShow, MapShow },
+  components: { Map, Editor },
 
   created() {
     this._listen("showBtn", (showItem, dialog = true) => {
@@ -121,18 +124,17 @@ export default {
       dialog: false,
       showItem: {},
       map: {
-        date: "DefaultShow",
-        select: "DefaultShow",
-        combo: "DefaultShow",
-        text: "DefaultShow",
-        textarea: "DefaultShow",
-        file: "FileShow",
-        ckeditor: "EditorShow",
-        time: "DefaultShow",
-        number: "DefaultShow",
-        switcher: "DefaultShow",
-        gallery: "DefaultShow",
-        map: "MapShow",
+        date: DefaultShow,
+        select: DefaultShow,
+        combo: DefaultShow,
+        text: DefaultShow,
+        textarea: DefaultShow,
+        file: FileShow,
+        ckeditor: EditorShow,
+        time: DefaultShow,
+        number: DefaultShow,
+        switcher: DefaultShow,
+        map: MapShow,
       },
     };
   },
@@ -145,14 +147,14 @@ export default {
 
   methods: {
     getValue(value) {
-      if (value.field.type == "date")
+      if (value.field.type === "date")
         return this.$helpers.persianDate(value.value);
 
-      if (value.field.type == "ckeditor") return value.value;
+      if (value.field.type === "ckeditor") return value.value;
 
-      if (value.field.type == "map") return value.value;
+      if (value.field.type === "map") return value.value;
 
-      if (value.field.type == "select" && value.field.values) {
+      if (value.field.type === "select" && value.field.values) {
         for (const item of value.field.values) {
           if (item.value == value.value) return item.text;
         }
@@ -161,16 +163,20 @@ export default {
       return value.value && typeof value.value === "object"
         ? Array.isArray(value.value)
           ? this.getArrayValues(value)
-          : "item_text" in value.field
-          ? value.value[value.field.item_text]
-          : this.getObject(value.value)
+          : this.$helpers.getSafe(
+              value.field,
+              "props.item-text",
+              this.getObject(value.value)
+            )
         : value.value;
     },
     getObject() {},
     getArrayValues({ value, field }) {
-      if (this.isArrayOfObjects(value)) {
+      if (this.$helpers.isArrayOfObjects(value)) {
         return value
-          .map((v) => v["item_text" in field ? field.item_text : "text"])
+          .map(
+            (v) => v[this.$helpers.getSafe(field, "props.item-text", "text")]
+          )
           .join(" , ");
       }
       return value.join(",");
@@ -179,10 +185,7 @@ export default {
       let out = (Array.isArray(value) ? value : [value]).filter(
         (v) => !!v && v != "null"
       );
-      return out.map((img) => this.baseURL + img);
-    },
-    isArrayOfObjects(values) {
-      return values.length > 0 && typeof values[0] === "object";
+      return out.map((img) => this.$majra.configs.BASE_URL + img);
     },
     openImage(image) {
       this.imageDialog = true;
@@ -198,3 +201,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+td:not(td:last-child) {
+  border-left: 1px solid darkgray;
+}
+</style>

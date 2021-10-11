@@ -1,28 +1,31 @@
 <template>
   <v-textarea
-    :type="field.type"
-    outlined
-    dense
     @input="fieldChanged(field, $event)"
     :value="form[field.field]"
-    :label="field.title"
-    :hint="field.hint"
     :rules="rules[field.field]"
-    rows="2"
-    outline
-    hide-details
-    v-bind="dynamicProps"
+    v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+    v-on="getFromField('events', {})"
   />
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "dynamicProps"],
+  extends: AbstractField,
 
-  mounted() {
-    this.$emit("mounted");
+  data() {
+    return {
+      defaultProps: {
+        rows: "2",
+        dense: true,
+        outline: true,
+        outlined: true,
+        "hide-details": true,
+        label: this.field.title,
+      },
+    };
   },
 
   computed: {

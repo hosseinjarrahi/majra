@@ -12,18 +12,20 @@
       relative
       left
     >
-      <template v-slot:activator>
-        <span>{{ header.text }}</span>
-        <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
+      <template v-slot:activator="{ on }">
+        <div v-on="on">
+          <span>{{ header.text }}</span>
+          <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
+        </div>
       </template>
       <v-card>
         <v-card-text class="pa-2">
           <v-autocomplete
-            v-if="header.multiple"
+            v-if="$helpers.getSafe(header, 'props.multiple')"
             hide-details
             :items="items"
-            :item-text="header.item_text"
-            :item-value="header.item_value"
+            :item-text="itemText"
+            :item-value="itemValue"
             :label="header.text"
             multiple
             outlined
@@ -43,7 +45,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <v-chip v-if="index === 0">
-                <span>{{ item[header.item_text] }}</span>
+                <span>{{ item[itemText] }}</span>
               </v-chip>
               <span v-if="index === 1" class="grey--text caption">
                 (+{{ filterData.arrays[header.value].length - 1 }} مورد دیگر)
@@ -54,8 +56,8 @@
             v-else
             hide-details
             :items="items"
-            :item-text="header.item_text"
-            :item-value="header.item_value"
+            :item-text="itemText"
+            :item-value="itemValue"
             :label="header.text"
             multiple
             outlined
@@ -65,7 +67,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <v-chip v-if="index === 0">
-                <span>{{ item[header.item_text] }}</span>
+                <span>{{ item[itemText] }}</span>
               </v-chip>
               <span v-if="index === 1" class="grey--text caption">
                 (+{{ filterData.selects[header.value].length - 1 }} مورد دیگر)
@@ -83,11 +85,13 @@ import { mapGetters } from "vuex";
 
 export default {
   props: ["header", "runAfterChange"],
+
   data() {
     return {
       menu: false,
     };
   },
+
   computed: {
     ...mapGetters({
       getItemsWithKey: "dynamic/getItemsWithKey",
@@ -121,7 +125,14 @@ export default {
           this.filterData.arrays[this.header.value].length)
       );
     },
+    itemText() {
+      return this.$helpers.getSafe(this.header, "props.item-text", null);
+    },
+    itemValue() {
+      return this.$helpers.getSafe(this.header, "props.item-value", null);
+    },
   },
+
   methods: {
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
@@ -133,7 +144,7 @@ export default {
       this.runAfterChange
         ? this.runAfterChange(this.header.value, event)
         : this.$store.dispatch("dynamic/getWithFilter");
-      this.header.childHasFilter
+      this.$majra.hasChild(this.header)
         ? this.$store.dispatch("dynamic/parentChanged", {
             field: this.header,
             values: event,
@@ -143,5 +154,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -2,16 +2,15 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
-require("./plugins/helpers");
-require("./plugins/eventBus");
+import HelpersPlugin from "./plugins/helpers";
+import EventBusPlugin from "./plugins/eventBus";
+import MajraFuncsPlugin from "./plugins/majraFuncs";
+import Axios from "./plugins/axios";
 
-//////////////
-Vue.mixin({
-  data: () => ({
-    baseURL: "/",
-  }),
-});
-///////////////////////
+Vue.use(HelpersPlugin);
+Vue.use(EventBusPlugin);
+Vue.use(Axios, { baseURL: "http://localhost:8000/api" });
+Vue.use(MajraFuncsPlugin, { store, configs: {} });
 
 Vue.config.productionTip = false;
 

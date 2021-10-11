@@ -5,7 +5,7 @@ import DynamicFormCore from "./DynamicFormCore.vue";
 export default {
   components: { DynamicFormCore },
 
-  props: ["value", "isEditing", "isShowing", "editItem"],
+  props: ["value", "isEditing", "editItem"],
 
   created() {
     this.defineListeners();
@@ -29,22 +29,16 @@ export default {
       this.tabs = Object.keys(this.FIELDS);
     }
 
-    this.initialForm = this.form;
+    this.initialForm = { ...this.form };
   },
 
-  data() {
-    return {
-      form: {},
-      initialForm: {},
-      tabs: false,
-      valid: false,
-      tabModel: 0,
-      options: {
-        width: (2 / 3) * 100 + "%",
-        fullScreen: false,
-      },
-    };
-  },
+  data: () => ({
+    form: {},
+    initialForm: {},
+    tabs: false,
+    valid: false,
+    tabModel: 0,
+  }),
 
   computed: {
     ...mapGetters({
@@ -54,15 +48,12 @@ export default {
       mainLoading: "dynamic/mainLoading",
     }),
     filteredFields() {
-      return (fields) =>
-        fields.filter((field) => {
-          if ("showIn" in field) {
-            return this.isEditing
-              ? field.showIn.indexOf("edit") > -1
-              : field.showIn.indexOf("create") > -1;
-          }
-          return true;
-        });
+      return (fields) => {
+        return this.$majra.filterFieldsByShow(
+          fields,
+          this.isEditing ? "edit" : "create"
+        );
+      };
     },
   },
 
@@ -123,13 +114,8 @@ export default {
         this.form[field] = value;
       });
 
-      this._listen("changeOptions", (comingOptions) => {
-        let options = comingOptions.dialog;
-        if (options) {
-          for (const property in options) {
-            this.options[property] = options[property];
-          }
-        }
+      this._listen(["createBtn"], () => {
+        this.form = { ...this.initialForm };
       });
 
       // this._listen("handleEnter", () => {

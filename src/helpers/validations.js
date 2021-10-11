@@ -39,4 +39,8 @@ export default {
   same(conf, message) {
     return (value) => value === conf || message;
   },
+
+  getValidation(name, args) {
+    return this[name](args);
+  },
 };

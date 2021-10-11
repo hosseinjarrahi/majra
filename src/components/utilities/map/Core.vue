@@ -277,7 +277,7 @@ export default {
 
   computed: {
     url() {
-      return this.baseURL + this.maps[this.selectedMap];
+      return this.$majra.configs.BASE_URL + this.maps[this.selectedMap];
     },
     defaultIcon() {
       return `/markers/default.png`;

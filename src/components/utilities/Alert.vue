@@ -14,9 +14,14 @@ export default {
   name: "alert",
 
   created() {
-    this._listen("alert", (payload) => {
-      this.alert = payload;
-    });
+    this._listen(
+      "alert",
+      (payload) => {
+        this.alert = payload;
+        this.dialog = true;
+      },
+      true
+    );
   },
 
   data: () => ({

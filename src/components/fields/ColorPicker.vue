@@ -14,36 +14,29 @@
       </v-btn>
     </template>
     <v-color-picker
-      dot-size="25"
       @input="fieldChanged(field, $event)"
-      swatches-max-height="200"
-      dense
       :value="form[field.field]"
+      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-on="getFromField('events', {})"
     />
   </v-menu>
-  <!--
-  <div>
-    <v-text-field
-      :rules="rules[field.field]"
-      :hint="field.hint"
-      :autofocus="index == 0"
-      outlined
-      :readonly="field.readonly"
-      v-bind="dynamicProps"
-      hide-details
-      @keypress.prevent.enter="event('saveForm')"
-    />
-  </div> -->
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import AbstractField from "./AbstractField";
 
 export default {
-  props: ["fieldChanged", "field", "form", "index", "dynamicProps"],
+  extends: AbstractField,
 
-  mounted() {
-    this.$emit("mounted");
+  data() {
+    return {
+      defaultProps: {
+        label: this.field.title,
+        "dot-size": "25",
+        "swatches-max-height": "200",
+      },
+    };
   },
 
   computed: {
@@ -58,6 +51,7 @@ export default {
 .v-input {
   font-size: 10pt !important;
 }
+
 .v-text-field--filled.v-input--dense.v-text-field--single-line
   > .v-input__control
   > .v-input__slot,
@@ -87,15 +81,19 @@ export default {
   > .v-input__slot {
   min-height: 35px;
 }
+
 .v-text-field--outlined.v-input--dense .v-label {
   top: 7px;
 }
+
 .v-messages {
   font-size: 10px;
 }
+
 .v-text-field.v-text-field--enclosed .v-text-field__details {
   margin-bottom: 6px;
 }
+
 .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined
   .v-input__prepend-outer,
 .v-text-field--full-width.v-input--dense:not(.v-text-field--solo).v-text-field--outlined
