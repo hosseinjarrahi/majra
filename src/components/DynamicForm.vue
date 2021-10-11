@@ -16,7 +16,7 @@ export default {
 
   props: {
     editItem: { default: false },
-    value: { default: {} },
+    value: { default: () => {} },
     fields: { default: () => [] },
   },
 
