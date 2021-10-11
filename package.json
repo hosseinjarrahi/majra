@@ -1,6 +1,8 @@
 {
   "name": "majra",
-  "version": "0.2.8",
+  "version": "0.2.9",
+  "url": "https://github.com/hosseinjarrahi/majra",
+  "email": "hj021hj@gmail.com",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
