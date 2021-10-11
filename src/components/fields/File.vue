@@ -150,7 +150,7 @@ export default {
       formData.append("file", file);
       formData.append("type", field.fileType);
       axios
-        .post(this.$majra.configs.UPLOAD_PATH, formData, config)
+        .post(this.field.uploadPath, formData, config)
         .then((response) => {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];

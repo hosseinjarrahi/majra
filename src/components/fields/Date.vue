@@ -3,13 +3,7 @@
     <v-text-field
       @click="clickTo(field.field)"
       outlined
-      :value="
-        Array.isArray(form[field.field])
-          ? this.$helpers.persianDate(form[field.field][0]) +
-            '~' +
-            this.$helpers.persianDate(form[field.field][1])
-          : this.$helpers.persianDate(form[field.field])
-      "
+      :value="result"
       :label="field.title"
       readonly
       persistent-hint
@@ -48,6 +42,7 @@ export default {
       defaultProps: {
         class: "custom-date",
         format: "YYYY/MM/DD",
+        type: "date",
       },
     };
   },
@@ -56,6 +51,22 @@ export default {
     ...mapGetters({
       rules: "dynamic/rules",
     }),
+    result() {
+      return Array.isArray(this.form[this.field.field])
+        ? this.$helpers.persianDate(
+            this.form[this.field.field][0],
+            this.getProp("type", "date")
+          ) +
+            " ~ " +
+            this.$helpers.persianDate(
+              this.form[this.field.field][1],
+              this.getProp("type", "date")
+            )
+        : this.$helpers.persianDate(
+            this.form[this.field.field],
+            this.getProp("type", "date")
+          );
+    },
   },
 
   methods: {
