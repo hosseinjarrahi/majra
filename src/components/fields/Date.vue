@@ -53,10 +53,19 @@ export default {
     }),
     result() {
       return Array.isArray(this.form[this.field.field])
-        ? this.$helpers.persianDate(this.form[this.field.field][0], this.type) +
+        ? this.$helpers.persianDate(
+            this.form[this.field.field][0],
+            this.getProp("type", "date")
+          ) +
             " ~ " +
-            this.$helpers.persianDate(this.form[this.field.field][1], this.type)
-        : this.$helpers.persianDate(this.form[this.field.field], this.type);
+            this.$helpers.persianDate(
+              this.form[this.field.field][1],
+              this.getProp("type", "date")
+            )
+        : this.$helpers.persianDate(
+            this.form[this.field.field],
+            this.getProp("type", "date")
+          );
     },
   },
 
