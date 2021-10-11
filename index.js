@@ -2,6 +2,8 @@ import dynamic from "./src/store/dynamic";
 import DynamicTemplate from "./src/components/DynamicTemplate";
 import DynamicFields from "./src/components/dynamicForm/DynamicFields";
 import DynamicForm from "./src/components/DynamicForm";
+import Alert from "./src/components/utilities/Alert";
+import AbstractField from "./src/components/fields/AbstractField";
 import FieldSet from "./src/components/utilities/FieldSet";
 import EventBusPlugin from "./src/plugins/eventBus";
 import HelpersPlugin from "./src/plugins/helpers";
@@ -18,4 +20,11 @@ export default {
   },
 };
 
-export { DynamicTemplate, DynamicFields, DynamicForm, FieldSet };
+export {
+  DynamicTemplate,
+  DynamicFields,
+  DynamicForm,
+  FieldSet,
+  Alert,
+  AbstractField,
+};
