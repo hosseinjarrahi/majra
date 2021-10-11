@@ -42,6 +42,7 @@ export default {
       defaultProps: {
         class: "custom-date",
         format: "YYYY/MM/DD",
+        type: "date",
       },
     };
   },
@@ -55,10 +56,10 @@ export default {
         return this.field.dateShow(this.form[this.field.field]);
       }
       return Array.isArray(this.form[this.field.field])
-        ? this.$helpers.persianDate(this.form[this.field.field][0]) +
-            "~" +
-            this.$helpers.persianDate(this.form[this.field.field][1])
-        : this.$helpers.persianDate(this.form[this.field.field]);
+        ? this.$helpers.persianDate(this.form[this.field.field][0], this.type) +
+            " ~ " +
+            this.$helpers.persianDate(this.form[this.field.field][1], this.type)
+        : this.$helpers.persianDate(this.form[this.field.field], this.type);
     },
   },
 

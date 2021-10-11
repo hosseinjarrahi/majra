@@ -1,22 +1,27 @@
 export default {
   install: function (Vue) {
     Vue.prototype.$helpers = {
-      persianDateGlobal(date, time = false) {
-        if (date) {
-          date = new Date(date);
-          return (
+      persianDateGlobal(date, mode) {
+        if (!date) return null;
+
+        date = new Date(date);
+        let map = {
+          date: date.toLocaleDateString("fa-IR"),
+          datetime:
             date.toLocaleTimeString("fa-IR") +
-            (time ? " - " + date.toLocaleDateString("fa-IR") : "")
-          );
-        }
-        return null;
+            " , " +
+            date.toLocaleDateString("fa-IR"),
+          time: date.toLocaleTimeString("fa-IR"),
+        };
+
+        return map[mode];
       },
 
-      persianDate(date) {
+      persianDate(date, mode = "date") {
         if (date) {
-          return this.persianDateGlobal(date, true);
+          return this.persianDateGlobal(date, mode);
         }
-        return null;
+        return "";
       },
 
       isImage(link) {
