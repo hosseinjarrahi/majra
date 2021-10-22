@@ -18,6 +18,7 @@ export default {
     editItem: { default: false },
     value: { default: () => {} },
     fields: { default: () => [] },
+    autoGenerate: { default: () => true },
   },
 
   data() {
@@ -48,7 +49,7 @@ export default {
           };
         }, initialValue);
         this.initialForm = this.form;
-        this.$emit("input", { ...this.form });
+        this.autoGenerate && this.$emit("input", { ...this.form });
       },
     },
   },
