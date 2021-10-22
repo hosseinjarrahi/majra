@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <dynamic-fields :fields="fields" :form="form" @updateField="updateField">
+    <dynamic-fields :fields="fields" :form="value" @updateField="updateField">
       <template v-slot:[`field.${field.field}`]="props" v-for="field in fields">
         <slot :name="'field.' + field.field" v-bind="props"></slot>
       </template>
