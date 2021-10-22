@@ -4,13 +4,13 @@ export default {
       persianDateGlobal(date, mode) {
         if (!date) return null;
 
-        date = new Date(date);
+        let dateObj = new Date(date);
         let map = {
-          date: date.toLocaleDateString("fa-IR"),
+          date: dateObj.toLocaleDateString("fa-IR"),
           datetime:
-            date.toLocaleTimeString("fa-IR") +
+            dateObj.toLocaleTimeString("fa-IR") +
             " , " +
-            date.toLocaleDateString("fa-IR"),
+            dateObj.toLocaleDateString("fa-IR"),
           time: date,
         };
 
