@@ -11,7 +11,7 @@ export default {
             date.toLocaleTimeString("fa-IR") +
             " , " +
             date.toLocaleDateString("fa-IR"),
-          time: date.toLocaleTimeString("fa-IR"),
+          time: date,
         };
 
         return map[mode];
