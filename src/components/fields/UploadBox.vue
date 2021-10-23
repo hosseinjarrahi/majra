@@ -12,6 +12,7 @@
       class="mx-1 col-2 my-1 pa-2 d-flex align-center justify-center"
       style="border: 1px dashed black"
       @click="() => {}"
+      v-if="field.multiple || files.length ==0"
     >
       <label
         class="fill-height col-12 d-flex justify-center"
@@ -80,10 +81,10 @@ export default {
         .post(this.$majra.configs.UPLOAD_PATH, formData, config)
         .then((response) => {
           if (!field.multiple) {
-            return this.fieldChanged(this.field, response.link);
+            return this.fieldChanged(this.field, response.data.link);
           }
           let temp = this.form[field.field] || [];
-          this.fieldChanged(field, [...temp, response.link]);
+          this.fieldChanged(field, [...temp, response.data.link]);
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
         .catch(() => {
