@@ -5,6 +5,7 @@
     </template>
     <template v-else>
       <component
+        v-if="!field.isImage"
         :class="
           typeof field.class == 'object' && 'list' in field.class
             ? field.class.list
@@ -15,6 +16,9 @@
         :key="'selectValue' + field.field"
         :is="map[field.type]"
       ></component>
+      <component v-else >
+        <v-img contain max-width="30px" :src="$majra.configs.BASE_URL + item[field.field]"></v-img>
+      </component>
     </template>
   </div>
 </template>
