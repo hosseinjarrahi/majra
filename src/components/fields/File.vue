@@ -154,9 +154,9 @@ export default {
         .then((response) => {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];
-            this.files.push(response.link);
+            this.files.push(response.data.link);
           } else {
-            this.files = response.link;
+            this.files = response.data.link;
           }
 
           this.fieldChanged(field, this.files);
