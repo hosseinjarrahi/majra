@@ -6,6 +6,10 @@
     <img src="https://img.shields.io/badge/vuetify-2.5-blue" alt="vue">
 </p>
 
+<h2 align="center">
+ 🎯 Just focus on your logic
+</p>
+
 ## About Majra
 
 Majra is a tool for quickly creating CRUD UI & forms.
@@ -14,6 +18,7 @@ Majra is a tool for quickly creating CRUD UI & forms.
 - Lots of ready fields
 - Simplicity in usage
 - Extendable
+- static friendly
 
 ## Install Majra
 
