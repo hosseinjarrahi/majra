@@ -6,7 +6,7 @@
       dense
       hide-details
       :value="form[field.field]"
-      @change="fieldChanged(field, $event)"
+      @change="updateField($event)"
     >
       <v-radio
         v-for="value in field.values"

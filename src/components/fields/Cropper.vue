@@ -84,7 +84,7 @@ export default {
 
             this.file = response.data.link;
 
-            this.fieldChanged(this.field, this.file);
+            this.updateField(this.file);
 
             this._event("alert", {
               text: "با موفقیت آپلود شد",

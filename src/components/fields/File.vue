@@ -42,7 +42,7 @@
           small
           text
           color="error"
-          @click="fieldChanged(field, null)"
+          @click="updateField(null)"
         >
           <v-icon>mdi-close</v-icon>
         </v-btn>
@@ -87,10 +87,7 @@
             class="col-2"
             color="error"
             @click="
-              [
-                (files = files.filter((f) => f != file)),
-                fieldChanged(field, files),
-              ]
+              [(files = files.filter((f) => f != file)), updateField(files)]
             "
           >
             <v-icon>mdi-close</v-icon>
@@ -159,7 +156,7 @@ export default {
             this.files = response.link;
           }
 
-          this.fieldChanged(field, this.files);
+          this.updateField(this.files);
 
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })

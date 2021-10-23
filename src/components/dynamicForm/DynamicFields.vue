@@ -102,8 +102,9 @@ export default {
 
     bind(field) {
       return {
-        fieldChanged: this.fieldChanged,
-        parentChanged: this.parentChanged,
+        updateField: (value) => this.updateField(field, value),
+        parentChanged: (value, init = false) =>
+          this.parentChanged(field, value, init),
         field,
         fields: this.fields,
         form: this.form,
@@ -113,12 +114,12 @@ export default {
       };
     },
 
-    fieldChanged(field, value) {
+    updateField(field, value) {
       this.$emit("updateField", { ...field, value });
     },
 
     parentChanged(field, value, init = false) {
-      this.fieldChanged(field, value);
+      this.updateField(field, value);
 
       if (!this.$majra.hasChild(field)) {
         return;

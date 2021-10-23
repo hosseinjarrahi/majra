@@ -8,7 +8,7 @@
     />
     <Map
       :value="form[field.field]"
-      @input="fieldChanged(field, $event)"
+      @input="updateField($event)"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     />

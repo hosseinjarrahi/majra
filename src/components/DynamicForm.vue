@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <dynamic-fields :fields="fields" :form="form" @updateField="updateField">
+    <dynamic-fields :fields="fields" :form="value" @updateField="updateField">
       <template v-slot:[`field.${field.field}`]="props" v-for="field in fields">
         <slot :name="'field.' + field.field" v-bind="props"></slot>
       </template>
@@ -18,6 +18,7 @@ export default {
     editItem: { default: false },
     value: { default: () => {} },
     fields: { default: () => [] },
+    autoGenerate: { default: () => true },
   },
 
   data() {
@@ -48,7 +49,7 @@ export default {
           };
         }, initialValue);
         this.initialForm = this.form;
-        this.$emit("input", { ...this.form });
+        this.autoGenerate && this.$emit("input", { ...this.form });
       },
     },
   },

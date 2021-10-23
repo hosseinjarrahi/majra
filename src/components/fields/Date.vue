@@ -16,7 +16,7 @@
     ></v-text-field>
     <date-picker
       :ref="'date' + field.field"
-      @input="fieldChanged(field, $event)"
+      @input="updateField($event)"
       :value="form[field.field]"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
@@ -36,9 +36,6 @@ export default {
 
   data() {
     return {
-      menu: false,
-      props: {},
-      dialog: false,
       defaultProps: {
         class: "custom-date",
         format: "YYYY/MM/DD",

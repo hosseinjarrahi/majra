@@ -41,7 +41,7 @@ export default {
 
 <style>
 .v-dialog.v-dialog--active::-webkit-scrollbar {
-  width: 10px;
+  width: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
 }
@@ -61,7 +61,7 @@ export default {
 }
 
 .v-card__text::-webkit-scrollbar {
-  width: 10px;
+  width: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
 }
