@@ -163,7 +163,8 @@ export default {
 
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
-        .catch(() => {
+        .catch((error) => {
+          this._log(error, 'error')
           this._event("alert", {
             text: "مشکلی در ارسال فایل رخ داده است",
             color: "red",
