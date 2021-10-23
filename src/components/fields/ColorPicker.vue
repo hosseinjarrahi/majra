@@ -14,7 +14,7 @@
       </v-btn>
     </template>
     <v-color-picker
-      @input="fieldChanged(field, $event)"
+      @input="updateField($event)"
       :value="form[field.field]"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"

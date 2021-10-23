@@ -27,7 +27,7 @@
         ></v-text-field>
       </template>
       <v-time-picker
-        @input="[fieldChanged(field, $event), (menu = false)]"
+        @input="[updateField($event), (menu = false)]"
         :value="form[field.field]"
         @click:minute="menu = false"
         v-bind="{ ...defaultProps, ...getProp('*', {}) }"

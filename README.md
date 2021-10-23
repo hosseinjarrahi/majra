@@ -13,6 +13,7 @@
 ## About Majra
 
 Majra is a tool for quickly creating CRUD UI & forms.
+Make your components reusable by majra.
 
 - Powerful form generator
 - Lots of ready fields
@@ -72,21 +73,21 @@ export default {
   beforeCreate() {
     this.$majra.init({
       mainRoute: "/product",
-      relations: ["/get-menus-list"],
+      relations: [{ route: "/get-menus-list", key: "Menu" }],
       fields: [
         {
-          title: "Product name",
-          field: "name",
-          type: "text",
-          isHeader: true,
+          title: "Product name", // title of field that shows in form and table
+          field: "name", // the key of data
+          type: "text", // type of field (uses majra textField)
+          isHeader: true, // show this field in table
         },
         {
           title: "Menu",
           field: "menu",
-          sendKey: "menu_id",
+          sendKey: "menu_id", // you can change your key when sending the form by sendKey
           type: "select",
           rel: {
-            model: "Menu",
+            model: "Menu", // the key of data that returns from api call
           },
           props: {
             "item-text": "title",
@@ -125,7 +126,6 @@ export default {
         title: "Product name",
         field: "name",
         type: "text",
-        isHeader: true,
       },
       {
         title: "Menu",
@@ -133,17 +133,61 @@ export default {
         sendKey: "menu_id",
         type: "select",
         rel: {
-          model: "Menu",
+          model: "Menu", // the key of data that returns from api call
         },
         props: {
           "item-text": "title",
           "item-value": "id",
         },
-        isHeader: true,
       },
     ],
   }),
 };
+</script>
+```
+
+## Make your field
+
+Just import your component and use it
+
+```js
+import YourTextField from "./YourTextField.vue";
+
+export default {
+  beforeCreate() {
+    this.$majra.init({
+      mainRoute: "/product",
+      fields: [
+        {
+          title: "Product name",
+          field: "name",
+          type: "text",
+          component: YourTextField, // this field will replace by YourField
+          isHeader: true,
+        },
+      ],
+    });
+  },
+};
+```
+
+## How create a field
+
+jsut extend AbstractField from majra and make your field, when you extend AbstractField then necessary data and methods will be available.
+
+```vue
+<template>
+  <div>
+    <input :value="form[field.field]" @input="updateField($event)"/>
+  <div>
+</template>
+
+<script>
+  import {AbstractField} from 'majra';
+
+  export default {
+    extends: AbstractField,
+  }
 </script>
 ```
 

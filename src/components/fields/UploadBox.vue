@@ -80,10 +80,10 @@ export default {
         .post(this.field.uploadPath, formData, config)
         .then((response) => {
           if (!field.multiple) {
-            return this.fieldChanged(this.field, response.link);
+            return this.updateField(response.link);
           }
           let temp = this.form[field.field] || [];
-          this.fieldChanged(field, [...temp, response.link]);
+          this.updateField([...temp, response.link]);
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
         .catch(() => {
@@ -98,8 +98,7 @@ export default {
       return window.open(this.$majra.configs.BASE_URL + file);
     },
     remove(file) {
-      this.fieldChanged(
-        this.field,
+      this.updateField(
         Array.isArray(this.form[this.field.field])
           ? this.form[this.field.field].filter((f) => f != file)
           : null

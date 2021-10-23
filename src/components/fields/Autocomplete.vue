@@ -2,9 +2,7 @@
   <v-autocomplete
     :value="getValues(form[field.field])"
     @input="
-      $majra.hasChild(field)
-        ? parentChanged(field, $event)
-        : fieldChanged(field, $event)
+      $majra.hasChild(field) ? parentChanged($event) : updateField($event)
     "
     :items="items"
     :rules="rules[field.field]"
@@ -25,7 +23,7 @@ export default {
   mounted() {
     this._listen("callParentChanged", () => {
       if (this.$majra.hasChild(this.field)) {
-        this.parentChanged(this.field, this.form[this.field.field], true);
+        this.parentChanged(this.form[this.field.field], true);
       }
     });
 
@@ -40,18 +38,12 @@ export default {
           this.items.length > 0
         ) {
           let item = this.items[0][this.getProp("item-value")];
-          this.fieldChanged(
-            this.field,
-            this.getProp("multiple") ? [item] : item
-          );
+          this.updateField(this.getProp("multiple") ? [item] : item);
         }
 
         if (this.field.values) {
           let item = this.field.values[0]?.value;
-          this.fieldChanged(
-            this.field,
-            this.getProp("multiple") ? [item] : item
-          );
+          this.updateField(this.getProp("multiple") ? [item] : item);
         }
       })();
 

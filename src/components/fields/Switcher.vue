@@ -2,7 +2,7 @@
   <div>
     <v-switch
       :input-value="form[field.field]"
-      @change="fieldChanged(field, $event)"
+      @change="updateField($event)"
       :rules="rules[field.field]"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"

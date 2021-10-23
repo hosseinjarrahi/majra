@@ -3,7 +3,7 @@ export default {
   name: "AbstractField",
 
   props: [
-    "fieldChanged",
+    "updateField",
     "parentChanged",
     "field",
     "fields",

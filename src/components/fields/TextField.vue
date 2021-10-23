@@ -1,6 +1,6 @@
 <template>
   <v-text-field
-    @input="fieldChanged(field, $event)"
+    @input="updateField($event)"
     :value="form[field.field]"
     @keypress.prevent.enter="_event('saveForm')"
     :rules="rules[field.field]"

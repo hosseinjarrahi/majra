@@ -1,6 +1,6 @@
 <template>
   <v-textarea
-    @input="fieldChanged(field, $event)"
+    @input="updateField($event)"
     :value="form[field.field]"
     :rules="rules[field.field]"
     v-bind="{ ...defaultProps, ...getProp('*', {}) }"
