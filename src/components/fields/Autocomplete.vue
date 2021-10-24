@@ -1,6 +1,6 @@
 <template>
   <v-autocomplete
-    :value="getValues(form[field.field])"
+    :value="getValues(value)"
     @input="
       $majra.hasChild(field) ? parentChanged($event) : updateField($event)
     "
@@ -23,7 +23,7 @@ export default {
   mounted() {
     this._listen("callParentChanged", () => {
       if (this.$majra.hasChild(this.field)) {
-        this.parentChanged(this.form[this.field.field], true);
+        this.parentChanged(this.value, true);
       }
     });
 

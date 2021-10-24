@@ -82,7 +82,7 @@ export default {
           if (!field.multiple) {
             return this.updateField(response.link);
           }
-          let temp = this.form[field.field] || [];
+          let temp = this.value || [];
           this.updateField([...temp, response.link]);
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
@@ -99,19 +99,17 @@ export default {
     },
     remove(file) {
       this.updateField(
-        Array.isArray(this.form[this.field.field])
-          ? this.form[this.field.field].filter((f) => f != file)
-          : null
+        Array.isArray(this.value) ? this.value.filter((f) => f != file) : null
       );
     },
   },
 
   computed: {
     files() {
-      return Array.isArray(this.form[this.field.field])
-        ? this.form[this.field.field]
-        : this.form[this.field.field]
-        ? [this.form[this.field.field]]
+      return Array.isArray(this.value)
+        ? this.value
+        : this.value
+        ? [this.value]
         : [];
     },
   },

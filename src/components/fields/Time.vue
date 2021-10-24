@@ -11,7 +11,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-text-field
-          :value="form[field.field]"
+          :value="value"
           :label="field.title"
           readonly
           outlined
@@ -28,7 +28,7 @@
       </template>
       <v-time-picker
         @input="[updateField($event), (menu = false)]"
-        :value="form[field.field]"
+        :value="value"
         @click:minute="menu = false"
         v-bind="{ ...defaultProps, ...getProp('*', {}) }"
         v-on="getFromField('events', {})"

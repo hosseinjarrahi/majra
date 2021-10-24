@@ -12,6 +12,7 @@ export default {
     "index",
     "getProp",
     "getFromField",
+    "value",
   ],
 
   mounted() {

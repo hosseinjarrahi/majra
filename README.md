@@ -178,7 +178,7 @@ jsut extend AbstractField from majra and make your field, when you extend Abstra
 ```vue
 <template>
   <div>
-    <input :value="form[field.field]" @input="updateField($event)"/>
+    <input :value="value" @input="updateField($event)"/>
   <div>
 </template>
 

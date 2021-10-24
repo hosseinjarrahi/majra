@@ -1,9 +1,7 @@
 <template>
   <div class="">
     <v-file-input
-      v-show="
-        !form[field.field] || $helpers.getSafe(field, 'props.multiple', false)
-      "
+      v-show="!value || $helpers.getSafe(field, 'props.multiple', false)"
       :ref="'file-i' + field.field"
       @change="upload($event, field)"
       :rules="field.rules"
@@ -14,7 +12,7 @@
 
     <field-set
       :label="field.title + ' آپلود شده'"
-      v-if="!field.multiple && form[field.field]"
+      v-if="!field.multiple && value"
     >
       <v-col
         class="
@@ -32,7 +30,7 @@
         <a
           target="_blank"
           class="col-10 py-2"
-          :href="$majra.configs.BASE_URL + form[field.field]"
+          :href="$majra.configs.BASE_URL + value"
         >
           دانلود
         </a>
@@ -51,11 +49,7 @@
 
     <field-set
       :label="field.title + ' آپلود شده'"
-      v-if="
-        field.multiple &&
-        Array.isArray(form[field.field]) &&
-        form[field.field].length
-      "
+      v-if="field.multiple && Array.isArray(value) && value.length"
     >
       <div class="d-flex flex-column">
         <v-col
@@ -71,7 +65,7 @@
             flex-row
           "
           :key="file"
-          v-for="(file, index) in form[field.field]"
+          v-for="(file, index) in value"
         >
           <a
             target="_blank"
@@ -127,9 +121,7 @@ export default {
   },
 
   mounted() {
-    this.files = Array.isArray(this.form[this.field.field])
-      ? [...this.form[this.field.field]]
-      : this.form[this.field.field];
+    this.files = Array.isArray(this.value) ? [...this.value] : this.value;
 
     this.$emit("mounted");
   },

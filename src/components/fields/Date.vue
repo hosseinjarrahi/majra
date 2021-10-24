@@ -17,7 +17,7 @@
     <date-picker
       :ref="'date' + field.field"
       @input="updateField($event)"
-      :value="form[field.field]"
+      :value="value"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     />
@@ -49,20 +49,17 @@ export default {
       rules: "dynamic/rules",
     }),
     result() {
-      return Array.isArray(this.form[this.field.field])
+      return Array.isArray(this.value)
         ? this.$helpers.persianDate(
-            this.form[this.field.field][0],
+            this.value[0],
             this.getProp("type", "date")
           ) +
             " ~ " +
             this.$helpers.persianDate(
-              this.form[this.field.field][1],
+              this.value[1],
               this.getProp("type", "date")
             )
-        : this.$helpers.persianDate(
-            this.form[this.field.field],
-            this.getProp("type", "date")
-          );
+        : this.$helpers.persianDate(this.value, this.getProp("type", "date"));
     },
   },
 

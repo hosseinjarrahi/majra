@@ -111,6 +111,7 @@ export default {
         filters: this.filters,
         getProp: this.getProp(field),
         getFromField: this.getFromField(field),
+        value: this.form[field.field],
       };
     },
 

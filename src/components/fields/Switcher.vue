@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-switch
-      :input-value="form[field.field]"
+      :input-value="value"
       @change="updateField($event)"
       :rules="rules[field.field]"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
