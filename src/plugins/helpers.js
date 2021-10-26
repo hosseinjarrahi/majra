@@ -69,7 +69,8 @@ export default {
         let props = property.split(".");
         let temp = { ...obj };
         for (const prop of props) {
-          if (typeof temp != "object" || !(prop in temp)) return defaultValue;
+          if (!!temp && (typeof temp != "object" || !(prop in temp)))
+            return defaultValue;
           temp = temp[prop];
         }
         return temp;
