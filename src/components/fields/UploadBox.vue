@@ -66,6 +66,7 @@ export default {
 
   methods: {
     upload(file, field) {
+      let _safe = this.$helpers.getSafe;
       file = file.target.files[0];
       if (!file) return;
       const config = {
@@ -80,10 +81,15 @@ export default {
         .post(this.field.uploadPath, formData, config)
         .then((response) => {
           if (!field.multiple) {
-            return this.updateField(response.link);
+            return this.updateField(
+              _safe(response, _safe(this.field, "uploadKey", "data.link"))
+            );
           }
           let temp = this.value || [];
-          this.updateField([...temp, response.link]);
+          this.updateField([
+            ...temp,
+            _safe(response, _safe(this.field, "uploadKey", "data.link")),
+          ]);
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
         .catch(() => {

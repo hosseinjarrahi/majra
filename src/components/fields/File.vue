@@ -128,6 +128,7 @@ export default {
 
   methods: {
     upload(file, field) {
+      let _safe = this.$helpers.getSafe;
       if (!file) return;
       const config = {
         onUploadProgress: (progressEvent) =>
@@ -143,9 +144,14 @@ export default {
         .then((response) => {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];
-            this.files.push(response.link);
+            this.files.push(
+              _safe(response, _safe(this.field, "uploadKey", "data.link"))
+            );
           } else {
-            this.files = response.link;
+            this.files = _safe(
+              response,
+              _safe(this.field, "uploadKey", "data.link")
+            );
           }
 
           this.updateField(this.files);
