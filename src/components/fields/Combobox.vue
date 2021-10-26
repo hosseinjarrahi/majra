@@ -1,9 +1,8 @@
 <template>
   <div>
-    {{ form[field.field] }}
     <v-combobox
-      :value="getValues(form[field.field])"
-      @input="[fieldChanged(field, $event)]"
+      :value="getValues(value)"
+      @input="updateField($event)"
       :rules="rules[field.field]"
       :items="items"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"

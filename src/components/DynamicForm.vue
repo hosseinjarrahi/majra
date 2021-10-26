@@ -1,6 +1,6 @@
 <template>
   <v-form>
-    <dynamic-fields :fields="fields" :form="form" @updateField="updateField">
+    <dynamic-fields :fields="fields" :form="value" @updateField="updateField">
       <template v-slot:[`field.${field.field}`]="props" v-for="field in fields">
         <slot :name="'field.' + field.field" v-bind="props"></slot>
       </template>
@@ -16,8 +16,9 @@ export default {
 
   props: {
     editItem: { default: false },
-    value: { default: {} },
+    value: { default: () => {} },
     fields: { default: () => [] },
+    autoGenerate: { default: () => true },
   },
 
   data() {
@@ -27,25 +28,30 @@ export default {
     };
   },
 
-  created() {
-    const initialValue = {};
-    this.form = this.fields.reduce((obj, item) => {
-      return {
-        ...obj,
-        [item["field"]]:
-          "default" in item
-            ? typeof item.default == "function"
-              ? item.default(this.editItem)
-              : item.default
-            : this.getDefault(item),
-      };
-    }, initialValue);
-    this.initialForm = this.form;
-    this.$emit("input", { ...this.form });
-  },
-
   mounted() {
     if (this.editItem) this.initEditItem();
+  },
+
+  watch: {
+    fields: {
+      immediate: true,
+      handler(newFields) {
+        const initialValue = {};
+        this.form = newFields.reduce((obj, item) => {
+          return {
+            ...obj,
+            [item["field"]]:
+              "default" in item
+                ? typeof item.default == "function"
+                  ? item.default(this.editItem)
+                  : item.default
+                : this.getDefault(item),
+          };
+        }, initialValue);
+        this.initialForm = this.form;
+        this.autoGenerate && this.$emit("input", { ...this.form });
+      },
+    },
   },
 
   methods: {

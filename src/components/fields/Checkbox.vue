@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-checkbox
-      @change="fieldChanged(field, $event)"
+      @change="updateField($event)"
       :rules="rules[field.field]"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"

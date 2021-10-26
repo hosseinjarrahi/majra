@@ -3,7 +3,7 @@ export default {
   name: "AbstractField",
 
   props: [
-    "fieldChanged",
+    "updateField",
     "parentChanged",
     "field",
     "fields",
@@ -12,6 +12,7 @@ export default {
     "index",
     "getProp",
     "getFromField",
+    "value",
   ],
 
   mounted() {

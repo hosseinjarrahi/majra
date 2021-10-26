@@ -3,7 +3,7 @@
     <template v-slot:activator="{ on, attrs }">
       <v-btn
         block
-        :color="form[field.field] ? form[field.field] : 'primary'"
+        :color="value ? value : 'primary'"
         dark
         max-height="35"
         v-bind="attrs"
@@ -14,8 +14,8 @@
       </v-btn>
     </template>
     <v-color-picker
-      @input="fieldChanged(field, $event)"
-      :value="form[field.field]"
+      @input="updateField($event)"
+      :value="value"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     />

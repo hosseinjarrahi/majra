@@ -78,13 +78,13 @@ export default {
       formData.append("file", file);
       formData.append("type", field.fileType);
       this.axios
-        .post(this.$majra.configs.UPLOAD_PATH, formData, config)
+        .post(this.field.uploadPath, formData, config)
         .then((response) => {
           if (!field.multiple) {
-            return this.fieldChanged(this.field, response.data.link);
+            return this.updateField(response.link);
           }
-          let temp = this.form[field.field] || [];
-          this.fieldChanged(field, [...temp, response.data.link]);
+          let temp = this.value || [];
+          this.updateField([...temp, response.link]);
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
         .catch(() => {
@@ -99,21 +99,18 @@ export default {
       return window.open(this.$majra.configs.BASE_URL + file);
     },
     remove(file) {
-      this.fieldChanged(
-        this.field,
-        Array.isArray(this.form[this.field.field])
-          ? this.form[this.field.field].filter((f) => f != file)
-          : null
+      this.updateField(
+        Array.isArray(this.value) ? this.value.filter((f) => f != file) : null
       );
     },
   },
 
   computed: {
     files() {
-      return Array.isArray(this.form[this.field.field])
-        ? this.form[this.field.field]
-        : this.form[this.field.field]
-        ? [this.form[this.field.field]]
+      return Array.isArray(this.value)
+        ? this.value
+        : this.value
+        ? [this.value]
         : [];
     },
   },

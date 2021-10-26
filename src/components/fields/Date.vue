@@ -3,13 +3,7 @@
     <v-text-field
       @click="clickTo(field.field)"
       outlined
-      :value="
-        Array.isArray(form[field.field])
-          ? this.$helpers.persianDate(form[field.field][0]) +
-            '~' +
-            this.$helpers.persianDate(form[field.field][1])
-          : this.$helpers.persianDate(form[field.field])
-      "
+      :value="result"
       :label="field.title"
       readonly
       persistent-hint
@@ -22,8 +16,8 @@
     ></v-text-field>
     <date-picker
       :ref="'date' + field.field"
-      @input="fieldChanged(field, $event)"
-      :value="form[field.field]"
+      @input="updateField($event)"
+      :value="value"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     />
@@ -42,12 +36,10 @@ export default {
 
   data() {
     return {
-      menu: false,
-      props: {},
-      dialog: false,
       defaultProps: {
         class: "custom-date",
         format: "YYYY/MM/DD",
+        type: "date",
       },
     };
   },
@@ -56,6 +48,19 @@ export default {
     ...mapGetters({
       rules: "dynamic/rules",
     }),
+    result() {
+      return Array.isArray(this.value)
+        ? this.$helpers.persianDate(
+            this.value[0],
+            this.getProp("type", "date")
+          ) +
+            " ~ " +
+            this.$helpers.persianDate(
+              this.value[1],
+              this.getProp("type", "date")
+            )
+        : this.$helpers.persianDate(this.value, this.getProp("type", "date"));
+    },
   },
 
   methods: {

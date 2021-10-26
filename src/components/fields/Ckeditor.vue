@@ -1,7 +1,7 @@
 <template>
   <div class="mb-2">
     <span>{{ field.title }}</span>
-    <editor @input="fieldChanged(field, $event)" :value="form[field.field]" />
+    <editor @input="updateField($event)" :value="value" />
   </div>
 </template>
 

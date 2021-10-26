@@ -7,8 +7,8 @@
       v-show="false"
     />
     <Map
-      :value="form[field.field]"
-      @input="fieldChanged(field, $event)"
+      :value="value"
+      @input="updateField($event)"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     />
@@ -30,13 +30,10 @@ export default {
       rules: "dynamic/rules",
     }),
     valueForRules() {
-      if (
-        Array.isArray(this.form[this.field.field]) &&
-        this.form[this.field.field].length == 0
-      ) {
+      if (Array.isArray(this.value) && this.value.length == 0) {
         return "";
       }
-      return this.form[this.field.field];
+      return this.value;
     },
   },
 };

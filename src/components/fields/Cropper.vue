@@ -78,13 +78,13 @@ export default {
       formData.append("file", file);
       setTimeout(() => {
         axios
-          .post(this.$majra.configs.UPLOAD_PATH, formData)
+          .post(this.field.uploadPath, formData)
           .then((response) => {
             this.loading = false;
 
             this.file = response.data.link;
 
-            this.fieldChanged(this.field, this.file);
+            this.updateField(this.file);
 
             this._event("alert", {
               text: "با موفقیت آپلود شد",

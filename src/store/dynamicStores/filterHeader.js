@@ -13,6 +13,7 @@ const mutations = {
 const actions = {
   parentChanged({ state, commit, getters }, { field, values }) {
     let items = getters.getItemsWithKey(field.rel.child.model);
+
     if (!values.length) {
       let filters = { ...state.headerFilters };
       filters[field.rel.child.model] = items;
@@ -25,8 +26,11 @@ const actions = {
         return values.indexOf(item[field.rel.child.ownKey].id) > -1;
       return false;
     });
+
     let filters = { ...state.headerFilters };
+
     filters[field.rel.child.model] = output;
+
     commit("setHeaderFilters", filters);
   },
 };

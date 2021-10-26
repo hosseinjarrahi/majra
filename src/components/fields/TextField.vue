@@ -1,7 +1,7 @@
 <template>
   <v-text-field
-    @input="fieldChanged(field, $event)"
-    :value="form[field.field]"
+    @input="updateField($event)"
+    :value="value"
     @keypress.prevent.enter="_event('saveForm')"
     :rules="rules[field.field]"
     v-bind="{ ...defaultProps, ...getProp('*', {}) }"
