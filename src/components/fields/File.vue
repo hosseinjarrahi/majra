@@ -145,12 +145,12 @@ export default {
           if (field.multiple) {
             if (!Array.isArray(this.files)) this.files = [];
             this.files.push(
-              _safe(response, _safe(this.field, "uploadKey", "data.link"))
+              "data." + _safe(response, _safe(this.field, "uploadKey", "link"))
             );
           } else {
             this.files = _safe(
               response,
-              _safe(this.field, "uploadKey", "data.link")
+              "data." + _safe(this.field, "uploadKey", "link")
             );
           }
 

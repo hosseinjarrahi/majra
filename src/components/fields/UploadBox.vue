@@ -12,7 +12,7 @@
       class="mx-1 col-2 my-1 pa-2 d-flex align-center justify-center"
       style="border: 1px dashed black"
       @click="() => {}"
-      v-if="field.multiple || files.length ==0"
+      v-if="field.multiple || files.length == 0"
     >
       <label
         class="fill-height col-12 d-flex justify-center"
@@ -83,13 +83,13 @@ export default {
         .then((response) => {
           if (!field.multiple) {
             return this.updateField(
-              _safe(response, _safe(this.field, "uploadKey", "data.link"))
+              _safe(response, "data." + _safe(this.field, "uploadKey", "link"))
             );
           }
           let temp = this.value || [];
           this.updateField([
             ...temp,
-            _safe(response, _safe(this.field, "uploadKey", "data.link")),
+            _safe(response, "data." + _safe(this.field, "uploadKey", "link")),
           ]);
           this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
         })
