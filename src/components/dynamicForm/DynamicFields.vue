@@ -7,7 +7,8 @@
             class="py-1 my-0 px-1"
             :key="field.field"
             cols="12"
-            v-bind="getFromField(field)('col', {})"
+            md="6"
+            v-bind="$helpers.getSafe(field, 'col', {})"
           >
             <component
               :index="index"
@@ -24,7 +25,7 @@
         class="py-1 my-0 px-2"
         :key="field.field"
         cols="12"
-        v-bind="getFromField(field)('col', {})"
+        v-bind="$helpers.getSafe(field, 'col', {})"
       >
         <slot :name="'field.' + field.field" v-bind="{ field }">
           <component

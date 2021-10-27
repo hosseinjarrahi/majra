@@ -30,10 +30,10 @@
 </template>
 
 <script>
-const DefaultShow = () => import("./list/shows/defaultShow.vue");
-const EditorShow = () => import("./list/shows/editorShow.vue");
-const FileShow = () => import("./list/shows/fileShow.vue");
-const MapShow = () => import("./list/shows/mapShow.vue");
+const DefaultShow = () => import("./list/shows/DefaultShow.vue");
+const EditorShow = () => import("./list/shows/EditorShow.vue");
+const FileShow = () => import("./list/shows/FileShow.vue");
+const MapShow = () => import("./list/shows/MapShow.vue");
 
 export default {
   props: {
