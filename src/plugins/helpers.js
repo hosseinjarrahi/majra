@@ -30,7 +30,7 @@ export default {
 
         if (
           !link ||
-          (links.length == 1 && typeof link !== "string") ||
+          (links.length === 1 && typeof link !== "string") ||
           !isNaN(link)
         )
           return false;
@@ -69,7 +69,7 @@ export default {
         let props = property.split(".");
         let temp = { ...obj };
         for (const prop of props) {
-          if (!!temp && (typeof temp != "object" || !(prop in temp)))
+          if (!!temp || typeof temp != "object" || !(prop in temp))
             return defaultValue;
           temp = temp[prop];
         }

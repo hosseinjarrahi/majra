@@ -1,73 +1,12 @@
 <template>
   <div>
     <slot name="table" v-bind="{ items: items[mainKey], headers, pagination }">
-      <v-data-table
-        dense
-        hide-default-footer
-        :headers="headers"
-        :items="print ? printItems : items[mainKey]"
-        :loading="mainLoading"
-        :items-per-page="15"
-        :server-items-length="!pagination.total ? 1 : pagination.total"
-        @dblclick:row="false && showItem"
-        :options.sync="options"
-        :expanded.sync="expanded"
-        :show-expand="expandMode"
-        single-expand
-      >
-        <template v-for="header in headers" v-slot:[getHeader(header.value)]>
-          <header-list :header="header" :key="'header' + header.field" />
+      <component :is="listMap[listType]" v-bind="bind()">
+        <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+          <slot :name="slot" v-bind="scope" />
         </template>
-
-        <template v-if="!print" v-slot:item.actions="{ item }">
-          <action-value :item="item">
-            <slot name="actions" v-bind="item"> </slot>
-          </action-value>
-        </template>
-
-        <template v-slot:item.index="{ item }">
-          <div
-            v-if="false"
-            class="error"
-            style="
-              height: 20px;
-              padding: 2px;
-              border-radius: 10px 0px 0px 10px;
-              position: absolute;
-              right: 0;
-            "
-          ></div>
-          <div
-            v-if="hasSelected(item)"
-            class="info"
-            style="
-              height: 20px;
-              padding: 2px;
-              border-radius: 10px 0px 0px 10px;
-              position: absolute;
-              right: 0;
-            "
-          ></div>
-          <span>
-            {{ getIndex(item) }}
-          </span>
-        </template>
-
-        <template
-          v-for="field in flatFields"
-          v-slot:[getField(field.field)]="{ item }"
-        >
-          <slot :name="'item.' + field.field" v-bind="item">
-            <values-list :field="field" :item="item" :key="field.field" />
-          </slot>
-        </template>
-
-        <template v-slot:expanded-item="{ headers, item }">
-          <slot name="expansion" v-bind="{ headers, item }"> </slot>
-        </template>
-      </v-data-table>
+      </component>
     </slot>
-
     <div class="caption text-center pt-2">
       <v-pagination
         dense
@@ -75,23 +14,20 @@
         v-model="page"
         :length="!pagination.lastPage ? 1 : pagination.lastPage"
         :total-visible="5"
-      ></v-pagination>
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-const ValuesList = () => import("./list/values/ValuesList");
-const HeaderList = () => import("./list/headers/HeaderList");
-const ActionValue = () => import("./list/values/ActionValue.vue");
+import DynamicTable from "./DynamicTable.vue";
+import DynamicCard from "./DynamicCard.vue";
 
 export default {
-  components: { ValuesList, HeaderList, ActionValue },
-
   layout: "dashboard",
 
-  props: ["print", "expandMode"],
+  props: ["print", "expandMode", "listType"],
 
   created() {
     this._listen("addToSelected", (item) => {
@@ -141,26 +77,16 @@ export default {
       change: false,
       options: {},
       expanded: [],
+      listMap: {
+        card: DynamicCard,
+        table: DynamicTable,
+      },
     };
   },
 
   watch: {
     page(val) {
       this.paginate(val);
-    },
-    options: {
-      handler() {
-        const { sortBy, sortDesc } = this.options;
-        if (!sortBy[0]) return;
-
-        this.$store.commit("dynamic/setFilterData", {
-          field: "order",
-          data: { key: "id", value: sortDesc[0] ? "ASC" : "DESC" },
-        });
-        this.$store.commit("dynamic/setIsFiltering", true);
-        this.getItemsWithFilter();
-      },
-      deep: true,
     },
   },
 
@@ -197,6 +123,25 @@ export default {
     },
     showItem(data) {
       this._event("showBtn", data.item);
+    },
+    bind() {
+      return {
+        headers: this.headers,
+        print: this.print,
+        printItems: this.printItems,
+        items: this.items,
+        mainLoading: this.mainLoading,
+        pagination: this.pagination,
+        showItem: this.showItem,
+        expanded: this.expanded,
+        expandMode: this.expandMode,
+        getHeader: this.getHeader,
+        flatFields: this.flatFields,
+        getField: this.getField,
+        mainKey: this.mainKey,
+        hasSelected: this.hasSelected,
+        getIndex: this.getIndex,
+      };
     },
   },
 };

@@ -1,83 +1,84 @@
 <template>
-  <v-btn
-    :style="isFiltered ? 'border-radius:0;border-bottom: 1px solid red' : ''"
-    class="pa-0"
-    text
-    @click="menu = !menu"
+  <v-menu
+    v-model="menu"
+    :close-on-content-click="false"
+    :max-width="300"
+    relative
+    left
   >
-    <v-menu
-      v-model="menu"
-      :close-on-content-click="false"
-      :max-width="300"
-      relative
-      left
-    >
-      <template v-slot:activator="{ on }">
-        <div v-on="on">
-          <span>{{ header.text }}</span>
-          <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
-        </div>
-      </template>
-      <v-card>
-        <v-card-text class="pa-2">
-          <v-autocomplete
-            v-if="$helpers.getSafe(header, 'props.multiple')"
-            hide-details
-            :items="items"
-            :item-text="itemText"
-            :item-value="itemValue"
-            :label="header.text"
-            multiple
-            outlined
-            dense
-            @change="
-              [
-                $store.commit('dynamic/setFilterData', {
-                  key: header.value,
-                  field: 'arrays',
-                  data: $event,
-                }),
-                $store.commit('dynamic/setIsFiltering', true),
-                $store.dispatch('dynamic/getWithFilter'),
-              ]
-            "
-            :value="filterData.arrays[header.value]"
-          >
-            <template v-slot:selection="{ item, index }">
-              <v-chip v-if="index === 0">
-                <span>{{ item[itemText] }}</span>
-              </v-chip>
-              <span v-if="index === 1" class="grey--text caption">
-                (+{{ filterData.arrays[header.value].length - 1 }} مورد دیگر)
-              </span>
-            </template>
-          </v-autocomplete>
-          <v-autocomplete
-            v-else
-            hide-details
-            :items="items"
-            :item-text="itemText"
-            :item-value="itemValue"
-            :label="header.text"
-            multiple
-            outlined
-            dense
-            @change="change"
-            :value="filterData.selects[header.value]"
-          >
-            <template v-slot:selection="{ item, index }">
-              <v-chip v-if="index === 0">
-                <span>{{ item[itemText] }}</span>
-              </v-chip>
-              <span v-if="index === 1" class="grey--text caption">
-                (+{{ filterData.selects[header.value].length - 1 }} مورد دیگر)
-              </span>
-            </template>
-          </v-autocomplete>
-        </v-card-text>
-      </v-card>
-    </v-menu>
-  </v-btn>
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn
+        v-on="on"
+        v-bind="attrs"
+        :style="
+          isFiltered ? 'border-radius:0;border-bottom: 1px solid red' : ''
+        "
+        class="pa-0"
+        text
+      >
+        <span>{{ header.text }}</span>
+        <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
+      </v-btn>
+    </template>
+    <v-card>
+      <v-card-text class="pa-2">
+        <v-autocomplete
+          v-if="$helpers.getSafe(header, 'props.multiple')"
+          hide-details
+          :items="items"
+          :item-text="itemText"
+          :item-value="itemValue"
+          :label="header.text"
+          multiple
+          outlined
+          dense
+          @change="
+            [
+              $store.commit('dynamic/setFilterData', {
+                key: header.value,
+                field: 'arrays',
+                data: $event,
+              }),
+              $store.commit('dynamic/setIsFiltering', true),
+              $store.dispatch('dynamic/getWithFilter'),
+            ]
+          "
+          :value="filterData.arrays[header.value]"
+        >
+          <template v-slot:selection="{ item, index }">
+            <v-chip v-if="index === 0">
+              <span>{{ item[itemText] }}</span>
+            </v-chip>
+            <span v-if="index === 1" class="grey--text caption">
+              (+{{ filterData.arrays[header.value].length - 1 }} مورد دیگر)
+            </span>
+          </template>
+        </v-autocomplete>
+        <v-autocomplete
+          v-else
+          hide-details
+          :items="items"
+          :item-text="itemText"
+          :item-value="itemValue"
+          :label="header.text"
+          multiple
+          outlined
+          dense
+          @change="change"
+          :value="filterData.selects[header.value]"
+        >
+          <template v-slot:selection="{ item, index }">
+            <v-chip v-if="index === 0">
+              <span>{{ item[itemText] }}</span>
+            </v-chip>
+            <span v-if="index === 1" class="grey--text caption">
+              (+{{ filterData.selects[header.value].length - 1 }} مورد دیگر)
+            </span>
+          </template>
+        </v-autocomplete>
+      </v-card-text>
+    </v-card>
+  </v-menu>
 </template>
 
 <script>

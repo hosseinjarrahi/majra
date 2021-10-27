@@ -146,7 +146,27 @@ export default {
 </script>
 ```
 
-## Make your field
+## How create a field
+
+jsut extend AbstractField from majra and make your field, when you extend AbstractField then necessary data and methods will be available.
+
+```vue
+<template>
+  <div>
+    <input :value="value" @input="updateField($event)"/>
+  <div>
+</template>
+
+<script>
+  import {AbstractField} from 'majra';
+
+  export default {
+    extends: AbstractField,
+  }
+</script>
+```
+
+## How use it
 
 Just import your component and use it
 
@@ -169,26 +189,6 @@ export default {
     });
   },
 };
-```
-
-## How create a field
-
-jsut extend AbstractField from majra and make your field, when you extend AbstractField then necessary data and methods will be available.
-
-```vue
-<template>
-  <div>
-    <input :value="value" @input="updateField($event)"/>
-  <div>
-</template>
-
-<script>
-  import {AbstractField} from 'majra';
-
-  export default {
-    extends: AbstractField,
-  }
-</script>
 ```
 
 ## License

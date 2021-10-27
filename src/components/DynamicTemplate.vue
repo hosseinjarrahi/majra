@@ -3,7 +3,7 @@
     <v-scroll-x-reverse-transition>
       <div v-show="dialogMode || !dialog">
         <dynamic-header />
-        <dynamic-list :expandMode="expandMode">
+        <dynamic-list :expand-mode="expandMode" :list-type="listType">
           <template v-slot:actions="props">
             <slot name="actions" v-bind="props"></slot>
           </template>
@@ -66,6 +66,7 @@ export default {
   props: {
     dialogMode: { default: true },
     expandMode: { default: false },
+    listType: { default: "table" },
   },
 
   components: {
@@ -86,14 +87,6 @@ export default {
     this._event("templateMounted");
   },
 
-  computed: {
-    ...mapGetters({
-      fields: "dynamic/fields",
-      mainLoading: "dynamic/mainLoading",
-      getOptionWithKey: "dynamic/getOptionWithKey",
-    }),
-  },
-
   data() {
     return {
       dialog: false,
@@ -101,6 +94,14 @@ export default {
       editItem: {},
       isEditing: false,
     };
+  },
+
+  computed: {
+    ...mapGetters({
+      fields: "dynamic/fields",
+      mainLoading: "dynamic/mainLoading",
+      getOptionWithKey: "dynamic/getOptionWithKey",
+    }),
   },
 
   methods: {
