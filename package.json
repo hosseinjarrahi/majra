@@ -1,6 +1,6 @@
 {
   "name": "majra",
-  "version": "0.2.19",
+  "version": "0.3.0",
   "url": "https://github.com/hosseinjarrahi/majra",
   "email": "hj021hj@gmail.com",
   "scripts": {
@@ -16,11 +16,12 @@
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "vue": "^2.6.11",
+    "vue-avatar-cropper": "^2.0.0",
     "vue-json-csv": "^1.2.12",
     "vue-persian-datetime-picker": "^2.8.0",
     "vue2-leaflet": "^2.7.1",
+    "vuedraggable": "^2.24.3",
     "vuetify": "^2.4.0",
-    "vue-avatar-cropper": "^2.0.0",
     "vuex": "^3.4.0"
   },
   "devDependencies": {

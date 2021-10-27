@@ -7,7 +7,6 @@
     :loading="mainLoading"
     :items-per-page="15"
     :server-items-length="!pagination.total ? 1 : pagination.total"
-    @dblclick:row="false && showItem"
     :expanded.sync="expanded"
     :show-expand="expandMode"
     single-expand
@@ -16,51 +15,46 @@
       <header-list :header="header" :key="'header' + header.field" />
     </template>
 
-    <template v-if="!print" v-slot:item.actions="{ item }">
-      <action-value :item="item">
-        <slot name="actions" v-bind="item"> </slot>
-      </action-value>
-    </template>
-
-    <template v-slot:item.index="{ item }">
-      <div
-        v-if="false"
-        class="error"
-        style="
-          height: 20px;
-          padding: 2px;
-          border-radius: 10px 0px 0px 10px;
-          position: absolute;
-          right: 0;
-        "
-      ></div>
-      <div
-        v-if="hasSelected(item)"
-        class="info"
-        style="
-          height: 20px;
-          padding: 2px;
-          border-radius: 10px 0px 0px 10px;
-          position: absolute;
-          right: 0;
-        "
-      ></div>
-      <span>
-        {{ getIndex(item) }}
-      </span>
-    </template>
-
-    <template
-      v-for="field in flatFields"
-      v-slot:[getField(field.field)]="{ item }"
-    >
-      <slot :name="'item.' + field.field" v-bind="item">
-        <values-list :field="field" :item="item" :key="field.field" />
-      </slot>
+    <template v-slot:body="props">
+      <draggable
+        :list="props.items"
+        tag="tbody"
+        handle=".handle"
+        @end="changeOrder(props.items)"
+      >
+        <tr v-for="item in props.items" :key="item.id">
+          <td>
+            <div
+              v-if="false"
+              class="error"
+              style="
+                height: 20px;
+                padding: 2px;
+                border-radius: 10px 0px 0px 10px;
+                position: absolute;
+                right: 0;
+              "
+            ></div>
+            <div v-if="hasSelected(item)" class="info selected-class"></div>
+            <div>
+              <v-icon small class="handle" v-if="draggable"> mdi-menu </v-icon>
+              {{ getIndex(item) }}
+            </div>
+          </td>
+          <td v-for="field in flatFields" :key="field.field">
+            <values-list :field="field" :item="item" :key="field.field" />
+          </td>
+          <td>
+            <action-value :item="item">
+              <slot name="actions" v-bind="item"></slot>
+            </action-value>
+          </td>
+        </tr>
+      </draggable>
     </template>
 
     <template v-slot:expanded-item="{ headers, item }">
-      <slot name="expansion" v-bind="{ headers, item }"> </slot>
+      <slot name="expansion" v-bind="{ headers, item }"></slot>
     </template>
   </v-data-table>
 </template>
@@ -69,9 +63,10 @@
 const HeaderList = () => import("./list/headers/HeaderList");
 const ActionValue = () => import("./list/values/ActionValue.vue");
 const ValuesList = () => import("./list/values/ValuesList");
+const draggable = () => import("vuedraggable");
 
 export default {
-  components: { HeaderList, ActionValue, ValuesList },
+  components: { HeaderList, ActionValue, ValuesList, draggable },
 
   props: [
     "headers",
@@ -80,7 +75,6 @@ export default {
     "items",
     "mainLoading",
     "pagination",
-    "showItem",
     "expanded",
     "expandMode",
     "getHeader",
@@ -89,6 +83,26 @@ export default {
     "mainKey",
     "hasSelected",
     "getIndex",
+    "draggable",
   ],
+
+  methods: {
+    changeOrder(items) {
+      let data = items.map((item, index) => {
+        return { id: item.id, ordering: index };
+      });
+      this._event("ordersChanged", data);
+    },
+  },
 };
 </script>
+
+<style scoped>
+.selected-class {
+  height: 20px;
+  padding: 2px;
+  border-radius: 10px 0px 0px 10px;
+  position: absolute;
+  right: 0;
+}
+</style>

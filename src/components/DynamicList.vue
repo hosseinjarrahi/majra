@@ -27,7 +27,7 @@ import DynamicCard from "./DynamicCard.vue";
 export default {
   layout: "dashboard",
 
-  props: ["print", "expandMode", "listType"],
+  props: ["print", "expandMode", "listType", "draggable"],
 
   created() {
     this._listen("addToSelected", (item) => {
@@ -121,9 +121,6 @@ export default {
         (15 * this.page - 14)
       );
     },
-    showItem(data) {
-      this._event("showBtn", data.item);
-    },
     bind() {
       return {
         headers: this.headers,
@@ -132,7 +129,6 @@ export default {
         items: this.items,
         mainLoading: this.mainLoading,
         pagination: this.pagination,
-        showItem: this.showItem,
         expanded: this.expanded,
         expandMode: this.expandMode,
         getHeader: this.getHeader,
@@ -141,6 +137,7 @@ export default {
         mainKey: this.mainKey,
         hasSelected: this.hasSelected,
         getIndex: this.getIndex,
+        draggable: this.draggable,
       };
     },
   },

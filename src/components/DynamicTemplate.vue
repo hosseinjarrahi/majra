@@ -3,7 +3,11 @@
     <v-scroll-x-reverse-transition>
       <div v-show="dialogMode || !dialog">
         <dynamic-header />
-        <dynamic-list :expand-mode="expandMode" :list-type="listType">
+        <dynamic-list
+          :expand-mode="expandMode"
+          :list-type="listType"
+          :draggable="draggable"
+        >
           <template v-slot:actions="props">
             <slot name="actions" v-bind="props"></slot>
           </template>
@@ -67,6 +71,7 @@ export default {
     dialogMode: { default: true },
     expandMode: { default: false },
     listType: { default: "table" },
+    draggable: { default: false },
   },
 
   components: {

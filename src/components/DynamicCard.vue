@@ -31,7 +31,6 @@ export default {
     "items",
     "mainLoading",
     "pagination",
-    "showItem",
     "options",
     "expanded",
     "expandMode",
