@@ -1,7 +1,7 @@
 <template>
   <div>
     <slot name="table" v-bind="{ items: items[mainKey], headers, pagination }">
-      <component :is="listMap[listType]" v-bind="bind()">
+      <component :is="listMap[getOpt('listType')]" v-bind="bind()">
         <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
           <slot :name="slot" v-bind="scope" />
         </template>
@@ -27,7 +27,7 @@ import DynamicCard from "./DynamicCard.vue";
 export default {
   layout: "dashboard",
 
-  props: ["print", "expandMode", "listType", "draggable"],
+  props: ["print"],
 
   created() {
     this._listen("addToSelected", (item) => {
@@ -54,6 +54,7 @@ export default {
       isFiltering: "dynamic/isFiltering",
       HEADERS: "dynamic/headers",
       getItemsWithKey: "dynamic/getItemsWithKey",
+      getOpt: "dynamic/getOptionWithKey",
     }),
     headers() {
       return this.print ? this.printHeaders : this.HEADERS;
@@ -130,14 +131,12 @@ export default {
         mainLoading: this.mainLoading,
         pagination: this.pagination,
         expanded: this.expanded,
-        expandMode: this.expandMode,
         getHeader: this.getHeader,
         flatFields: this.flatFields,
         getField: this.getField,
         mainKey: this.mainKey,
         hasSelected: this.hasSelected,
         getIndex: this.getIndex,
-        draggable: this.draggable,
       };
     },
   },

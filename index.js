@@ -2,6 +2,7 @@ import dynamic from "./src/store/dynamic";
 import DynamicTemplate from "./src/components/DynamicTemplate";
 import DynamicFields from "./src/components/dynamicForm/DynamicFields";
 import DynamicForm from "./src/components/DynamicForm";
+import DynamicShow from "./src/components/DynamicShow";
 import Alert from "./src/components/utilities/Alert";
 import AbstractField from "./src/components/fields/AbstractField";
 import FieldSet from "./src/components/utilities/FieldSet";
@@ -27,4 +28,5 @@ export {
   FieldSet,
   Alert,
   AbstractField,
+  DynamicShow,
 };

@@ -1,7 +1,11 @@
 <template>
   <v-app>
     <v-main>
-      <DynamicTemplate />
+      <DynamicTemplate>
+        <template v-slot:card="item">
+          {{ item }}
+        </template>
+      </DynamicTemplate>
     </v-main>
   </v-app>
 </template>
@@ -20,6 +24,10 @@ export default {
   beforeCreate() {
     this.$majra.init({
       mainRoute: "/product",
+      options: {
+        listType: "card",
+        cardSize: 4,
+      },
       relations: [
         { route: "/Option=>Product?is_option=1", key: "Option" },
         "/menu",

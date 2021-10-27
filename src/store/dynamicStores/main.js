@@ -74,7 +74,14 @@ const getters = {
   },
 
   getOptionWithKey: (state) => (key) => {
-    return state.options && key in state.options ? state.options[key] : false;
+    let defaultOptions = {
+      dialogMode: true,
+      expandMode: false,
+      listType: "table",
+      draggable: false,
+    };
+    let mergedOptions = { ...defaultOptions, ...state.options };
+    return key in mergedOptions ? mergedOptions[key] : false;
   },
 
   getRouteWithKey: (state) => (key) => {

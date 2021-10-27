@@ -1,21 +1,11 @@
 <template>
   <v-card>
     <v-scroll-x-reverse-transition>
-      <div v-show="dialogMode || !dialog">
+      <div v-show="getOpt('dialogMode') || !dialog">
         <dynamic-header />
-        <dynamic-list
-          :expand-mode="expandMode"
-          :list-type="listType"
-          :draggable="draggable"
-        >
-          <template v-slot:actions="props">
-            <slot name="actions" v-bind="props"></slot>
-          </template>
-          <template v-slot:table="props">
-            <slot name="table" v-bind="props"></slot>
-          </template>
-          <template v-slot:expansion="props">
-            <slot name="table.expansion" v-bind="props"></slot>
+        <dynamic-list>
+          <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+            <slot :name="slot" v-bind="scope" />
           </template>
         </dynamic-list>
       </div>
@@ -23,16 +13,13 @@
 
     <v-scroll-x-reverse-transition>
       <component
-        :is="dialogMode ? 'dynamic-dialog-form' : 'dynamic-tab-form'"
+        :is="getOpt('dialogMode') ? 'dynamic-dialog-form' : 'dynamic-tab-form'"
         v-model="dialog"
         :editItem="editItem"
         :isEditing="isEditing"
       >
         <template v-slot:dialog="props">
           <slot name="dialog" v-bind="props"></slot>
-        </template>
-        <template v-slot:title>
-          <slot name="formTitle"></slot>
         </template>
       </component>
     </v-scroll-x-reverse-transition>
@@ -67,13 +54,6 @@ const DeleteDialog = () => import("./dialogs/DeleteDialog.vue");
 export default {
   layout: "dashboard",
 
-  props: {
-    dialogMode: { default: true },
-    expandMode: { default: false },
-    listType: { default: "table" },
-    draggable: { default: false },
-  },
-
   components: {
     DynamicList,
     DynamicDialogForm,
@@ -105,13 +85,12 @@ export default {
     ...mapGetters({
       fields: "dynamic/fields",
       mainLoading: "dynamic/mainLoading",
-      getOptionWithKey: "dynamic/getOptionWithKey",
+      getOpt: "dynamic/getOptionWithKey",
     }),
   },
 
   methods: {
     toCamelCase,
-
     defineListeners() {
       this._listen("createBtn", () => {
         this.isEditing = false;

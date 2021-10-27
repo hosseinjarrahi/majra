@@ -8,7 +8,7 @@
     :items-per-page="15"
     :server-items-length="!pagination.total ? 1 : pagination.total"
     :expanded.sync="expanded"
-    :show-expand="expandMode"
+    :show-expand="getOpt('expandMode')"
     single-expand
   >
     <template v-for="header in headers" v-slot:[getHeader(header.value)]>
@@ -37,7 +37,9 @@
             ></div>
             <div v-if="hasSelected(item)" class="info selected-class"></div>
             <div>
-              <v-icon small class="handle" v-if="draggable"> mdi-menu </v-icon>
+              <v-icon small class="handle" v-if="getOpt('draggable')">
+                mdi-menu</v-icon
+              >
               {{ getIndex(item) }}
             </div>
           </td>
@@ -53,9 +55,7 @@
       </draggable>
       <template v-if="props.items.length < 1">
         <tr class="text-center">
-          <td colspan="100" class="py-4 grey--text">
-            اطلاعاتی موجود نیست
-          </td>
+          <td colspan="100" class="py-4 grey--text">اطلاعاتی موجود نیست</td>
         </tr>
       </template>
     </template>
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 const HeaderList = () => import("./list/headers/HeaderList");
 const ActionValue = () => import("./list/values/ActionValue.vue");
 const ValuesList = () => import("./list/values/ValuesList");
@@ -83,15 +84,17 @@ export default {
     "mainLoading",
     "pagination",
     "expanded",
-    "expandMode",
     "getHeader",
     "flatFields",
     "getField",
     "mainKey",
     "hasSelected",
     "getIndex",
-    "draggable",
   ],
+
+  computed: mapGetters({
+    getOpt: "dynamic/getOptionWithKey",
+  }),
 
   methods: {
     changeOrder(items) {
