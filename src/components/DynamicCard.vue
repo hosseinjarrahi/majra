@@ -7,7 +7,7 @@
     @end="changeOrder(items[mainKey])"
   >
     <v-col
-      :cols="getOpt('cardSize')"
+      v-bind="getOpt('cardColAttrs')"
       v-for="(item, index) in print ? printItems : items[mainKey]"
       :key="index + 'item'"
     >

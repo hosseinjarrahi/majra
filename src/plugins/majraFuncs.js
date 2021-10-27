@@ -43,6 +43,10 @@ export default {
         options.store.dispatch("dynamic/init", payload);
       },
 
+      setOptions(payload) {
+        options.store.commit("dynamic/setOptions", payload);
+      },
+
       configs: {
         ...defaultConfigs,
         ...options.configs,

@@ -24,16 +24,20 @@ export default {
   beforeCreate() {
     this.$majra.init({
       mainRoute: "/product",
-      options: {
-        listType: "card",
-        cardSize: 4,
-      },
       relations: [
         { route: "/Option=>Product?is_option=1", key: "Option" },
         "/menu",
         "/base",
       ],
       fields: exampleFields,
+    });
+    this.$majra.setOptions({
+      draggable:true,
+      listType: 'card',
+      cardColAttrs:{
+        col:'12',
+        md:'4'
+      }
     });
   },
 };
