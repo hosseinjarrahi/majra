@@ -51,10 +51,17 @@
           </td>
         </tr>
       </draggable>
+      <template v-if="props.items.length < 1">
+        <tr class="text-center">
+          <td colspan="100" class="py-4 grey--text">
+            اطلاعاتی موجود نیست
+          </td>
+        </tr>
+      </template>
     </template>
 
-    <template v-slot:expanded-item="{ headers, item }">
-      <slot name="expansion" v-bind="{ headers, item }"></slot>
+    <template v-slot:expanded-item="props">
+      <slot name="expansion" v-bind="props"></slot>
     </template>
   </v-data-table>
 </template>
