@@ -32,12 +32,12 @@ export default {
       fields: exampleFields,
     });
     this.$majra.setOptions({
-      draggable:true,
-      listType: 'card',
-      cardColAttrs:{
-        col:'12',
-        md:'4'
-      }
+      draggable: true,
+      listType: "card",
+      cardColAttrs: {
+        col: "12",
+        md: "4",
+      },
     });
   },
 };
