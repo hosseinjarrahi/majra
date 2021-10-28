@@ -35,7 +35,7 @@
           @change="
             [
               $store.commit('dynamic/setFilterData', {
-                key: header.value,
+                key: header.sendKey ? header.sendKey : header.value,
                 field: 'arrays',
                 data: $event,
               }),
@@ -137,7 +137,7 @@ export default {
   methods: {
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.header.value,
+        key: this.header.sendKey ? this.header.sendKey : this.header.value,
         field: "selects",
         data: event,
       });

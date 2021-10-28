@@ -90,7 +90,7 @@ export default {
     },
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.header.value,
+        key: this.header.sendKey ? this.header.sendKey : this.header.value,
         field: "dates",
         data: event,
       });
@@ -101,7 +101,7 @@ export default {
     },
     reset() {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.header.value,
+        key: this.header.sendKey ? this.header.sendKey : this.header.value,
         field: "dates",
         data: [],
       });
