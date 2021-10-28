@@ -43,7 +43,7 @@
               {{ getIndex(item) }}
             </div>
           </td>
-          <td v-for="field in flatFields" :key="field.field">
+          <td v-for="field in flatFields.filter(f => f.isHeader)" :key="field.field">
             <values-list :field="field" :item="item" :key="field.field" />
           </td>
           <td>
