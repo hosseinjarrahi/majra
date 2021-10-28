@@ -28,7 +28,7 @@
         :ref="'date' + header.field"
         class="mamad-show-picker mamad"
         format="YYYY/MM/DD"
-        v-model="filterData.dates[header.value]"
+        v-model="filterData.dates[sendKey]"
         :min="minDate"
         range
         @input="change"
@@ -45,7 +45,7 @@ import { mapGetters } from "vuex";
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
 
 export default {
-  props: ["header", "runAfterChange"],
+  props: ["header", "runAfterChange","sendKey"],
 
   components: { DatePicker: VuePersianDatetimePicker },
 
@@ -68,15 +68,15 @@ export default {
       filterData: "dynamic/filterData",
     }),
     minDate() {
-      return this.filterData.dates[this.header.value] &&
-        this.filterData.dates[this.header.value].length
-        ? this.filterData.dates[this.header.value][0]
+      return this.filterData.dates[this.sendKey] &&
+        this.filterData.dates[this.sendKey].length
+        ? this.filterData.dates[this.sendKey][0]
         : "0";
     },
     isFiltered() {
       return (
-        Array.isArray(this.filterData.dates[this.header.value]) &&
-        this.filterData.dates[this.header.value].length
+        Array.isArray(this.filterData.dates[this.sendKey]) &&
+        this.filterData.dates[this.sendKey].length
       );
     },
   },
@@ -90,23 +90,23 @@ export default {
     },
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.header.sendKey ? this.header.sendKey : this.header.value,
+        key: this.sendKey,
         field: "dates",
         data: event,
       });
       this.$store.commit("dynamic/setIsFiltering", true);
       this.runAfterChange
-        ? this.runAfterChange(this.header.value, event)
+        ? this.runAfterChange(this.sendKey, event)
         : this.$store.dispatch("dynamic/getWithFilter");
     },
     reset() {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.header.sendKey ? this.header.sendKey : this.header.value,
+        key: this.sendKey,
         field: "dates",
         data: [],
       });
       this.runAfterChange
-        ? this.runAfterChange(this.header.value, [])
+        ? this.runAfterChange(this.sendKey, [])
         : this.$store.dispatch("dynamic/getWithFilter");
     },
   },

@@ -13,6 +13,7 @@
   >
     <component
       :header="header"
+      :send-key="header.sendKey ? header.sendKey : header.value"
       :is="map[header.type]"
       :runAfterChange="runAfterChange"
     ></component>

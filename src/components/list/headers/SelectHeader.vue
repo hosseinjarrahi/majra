@@ -1,20 +1,20 @@
 <template>
   <v-menu
-    v-model="menu"
-    :close-on-content-click="false"
-    :max-width="300"
-    relative
-    left
+      v-model="menu"
+      :close-on-content-click="false"
+      :max-width="300"
+      relative
+      left
   >
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        v-on="on"
-        v-bind="attrs"
-        :style="
+          v-on="on"
+          v-bind="attrs"
+          :style="
           isFiltered ? 'border-radius:0;border-bottom: 1px solid red' : ''
         "
-        class="pa-0"
-        text
+          class="pa-0"
+          text
       >
         <span>{{ header.text }}</span>
         <v-icon class="mb-2" size="12" color="gray">mdi-filter</v-icon>
@@ -23,19 +23,19 @@
     <v-card>
       <v-card-text class="pa-2">
         <v-autocomplete
-          v-if="$helpers.getSafe(header, 'props.multiple')"
-          hide-details
-          :items="items"
-          :item-text="itemText"
-          :item-value="itemValue"
-          :label="header.text"
-          multiple
-          outlined
-          dense
-          @change="
+            v-if="$helpers.getSafe(header, 'props.multiple')"
+            hide-details
+            :items="items"
+            :item-text="itemText"
+            :item-value="itemValue"
+            :label="header.text"
+            multiple
+            outlined
+            dense
+            @change="
             [
               $store.commit('dynamic/setFilterData', {
-                key: header.sendKey ? header.sendKey : header.value,
+                key: sendkey,
                 field: 'arrays',
                 data: $event,
               }),
@@ -43,36 +43,36 @@
               $store.dispatch('dynamic/getWithFilter'),
             ]
           "
-          :value="filterData.arrays[header.value]"
+            :value="filterData.arrays[sendkey]"
         >
           <template v-slot:selection="{ item, index }">
             <v-chip v-if="index === 0">
               <span>{{ item[itemText] }}</span>
             </v-chip>
             <span v-if="index === 1" class="grey--text caption">
-              (+{{ filterData.arrays[header.value].length - 1 }} مورد دیگر)
+              (+{{ filterData.arrays[sendkey].length - 1 }} مورد دیگر)
             </span>
           </template>
         </v-autocomplete>
         <v-autocomplete
-          v-else
-          hide-details
-          :items="items"
-          :item-text="itemText"
-          :item-value="itemValue"
-          :label="header.text"
-          multiple
-          outlined
-          dense
-          @change="change"
-          :value="filterData.selects[header.value]"
+            v-else
+            hide-details
+            :items="items"
+            :item-text="itemText"
+            :item-value="itemValue"
+            :label="header.text"
+            multiple
+            outlined
+            dense
+            @change="change"
+            :value="filterData.selects[sendkey]"
         >
           <template v-slot:selection="{ item, index }">
             <v-chip v-if="index === 0">
               <span>{{ item[itemText] }}</span>
             </v-chip>
             <span v-if="index === 1" class="grey--text caption">
-              (+{{ filterData.selects[header.value].length - 1 }} مورد دیگر)
+              (+{{ filterData.selects[sendkey].length - 1 }} مورد دیگر)
             </span>
           </template>
         </v-autocomplete>
@@ -82,10 +82,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapGetters} from "vuex";
 
 export default {
-  props: ["header", "runAfterChange"],
+  props: ["header", "runAfterChange", "sendKey"],
 
   data() {
     return {
@@ -106,13 +106,13 @@ export default {
 
       if (this.header.needFilter) {
         return this.header.rel.model in this.filters
-          ? this.filters[this.header.rel.model]
-          : this.getItemsWithKey(this.header.rel.model);
+            ? this.filters[this.header.rel.model]
+            : this.getItemsWithKey(this.header.rel.model);
       }
 
       if ("withChange" in this.header.rel) {
         return this.header.rel.withChange(
-          this.getItemsWithKey(this.header.rel.model)
+            this.getItemsWithKey(this.header.rel.model)
         );
       }
 
@@ -120,10 +120,10 @@ export default {
     },
     isFiltered() {
       return (
-        (Array.isArray(this.filterData.selects[this.header.value]) &&
-          this.filterData.selects[this.header.value].length) ||
-        (Array.isArray(this.filterData.arrays[this.header.value]) &&
-          this.filterData.arrays[this.header.value].length)
+          (Array.isArray(this.filterData.selects[this.sendkey]) &&
+              this.filterData.selects[this.sendkey].length) ||
+          (Array.isArray(this.filterData.arrays[this.sendkey]) &&
+              this.filterData.arrays[this.sendkey].length)
       );
     },
     itemText() {
@@ -137,20 +137,20 @@ export default {
   methods: {
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.header.sendKey ? this.header.sendKey : this.header.value,
+        key: this.sendkey,
         field: "selects",
         data: event,
       });
       this.$store.commit("dynamic/setIsFiltering", true);
       this.runAfterChange
-        ? this.runAfterChange(this.header.value, event)
-        : this.$store.dispatch("dynamic/getWithFilter");
+          ? this.runAfterChange(this.sendkey, event)
+          : this.$store.dispatch("dynamic/getWithFilter");
       this.$majra.hasChild(this.header)
-        ? this.$store.dispatch("dynamic/parentChanged", {
+          ? this.$store.dispatch("dynamic/parentChanged", {
             field: this.header,
             values: event,
           })
-        : "";
+          : "";
     },
   },
 };
