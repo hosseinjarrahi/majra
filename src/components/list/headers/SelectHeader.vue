@@ -35,7 +35,7 @@
           @change="
             [
               $store.commit('dynamic/setFilterData', {
-                key: sendkey,
+                key: sendKey,
                 field: 'arrays',
                 data: $event,
               }),
@@ -43,14 +43,14 @@
               $store.dispatch('dynamic/getWithFilter'),
             ]
           "
-          :value="filterData.arrays[sendkey]"
+          :value="filterData.arrays[sendKey]"
         >
           <template v-slot:selection="{ item, index }">
             <v-chip v-if="index === 0">
               <span>{{ item[itemText] }}</span>
             </v-chip>
             <span v-if="index === 1" class="grey--text caption">
-              (+{{ filterData.arrays[sendkey].length - 1 }} مورد دیگر)
+              (+{{ filterData.arrays[sendKey].length - 1 }} مورد دیگر)
             </span>
           </template>
         </v-autocomplete>
@@ -65,14 +65,14 @@
           outlined
           dense
           @change="change"
-          :value="filterData.selects[sendkey]"
+          :value="filterData.selects[sendKey]"
         >
           <template v-slot:selection="{ item, index }">
             <v-chip v-if="index === 0">
               <span>{{ item[itemText] }}</span>
             </v-chip>
             <span v-if="index === 1" class="grey--text caption">
-              (+{{ filterData.selects[sendkey].length - 1 }} مورد دیگر)
+              (+{{ filterData.selects[sendKey].length - 1 }} مورد دیگر)
             </span>
           </template>
         </v-autocomplete>
@@ -120,10 +120,10 @@ export default {
     },
     isFiltered() {
       return (
-        (Array.isArray(this.filterData.selects[this.sendkey]) &&
-          this.filterData.selects[this.sendkey].length) ||
-        (Array.isArray(this.filterData.arrays[this.sendkey]) &&
-          this.filterData.arrays[this.sendkey].length)
+        (Array.isArray(this.filterData.selects[this.sendKey]) &&
+          this.filterData.selects[this.sendKey].length) ||
+        (Array.isArray(this.filterData.arrays[this.sendKey]) &&
+          this.filterData.arrays[this.sendKey].length)
       );
     },
     itemText() {
@@ -137,13 +137,13 @@ export default {
   methods: {
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.sendkey,
+        key: this.sendKey,
         field: "selects",
         data: event,
       });
       this.$store.commit("dynamic/setIsFiltering", true);
       this.runAfterChange
-        ? this.runAfterChange(this.sendkey, event)
+        ? this.runAfterChange(this.sendKey, event)
         : this.$store.dispatch("dynamic/getWithFilter");
       this.$majra.hasChild(this.header)
         ? this.$store.dispatch("dynamic/parentChanged", {
