@@ -45,7 +45,7 @@ import { mapGetters } from "vuex";
 import VuePersianDatetimePicker from "vue-persian-datetime-picker";
 
 export default {
-  props: ["header", "runAfterChange","sendKey"],
+  props: ["header", "runAfterChange", "sendKey"],
 
   components: { DatePicker: VuePersianDatetimePicker },
 

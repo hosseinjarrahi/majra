@@ -14,7 +14,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["header", "runAfterChange","sendKey"],
+  props: ["header", "runAfterChange", "sendKey"],
 
   computed: {
     ...mapGetters({
