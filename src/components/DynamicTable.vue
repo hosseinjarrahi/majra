@@ -38,7 +38,7 @@
             <div v-if="hasSelected(item)" class="info selected-class"></div>
             <div>
               <v-icon small class="handle" v-if="getOpt('draggable')">
-                mdi-menu
+                mdi-drag
               </v-icon>
               {{ getIndex(item) }}
             </div>
