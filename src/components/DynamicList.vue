@@ -68,10 +68,10 @@
       </v-data-table>
     </slot>
 
-    <div class="caption text-center pt-2">
+    <div class="caption text-center pt-2" v-if="!print && pagination.lastPage != 1">
       <v-pagination
         dense
-        v-if="!print && pagination.lastPage != 1"
+        
         v-model="page"
         :length="!pagination.lastPage ? 1 : pagination.lastPage"
         :total-visible="5"
