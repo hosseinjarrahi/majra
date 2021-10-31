@@ -53,8 +53,8 @@ export default {
       },
     },
     editItem() {
-      this.initEditItem()
-    }
+      this.initEditItem();
+    },
   },
 
   methods: {

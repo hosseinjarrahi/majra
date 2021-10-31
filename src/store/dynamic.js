@@ -3,6 +3,7 @@ import main from "./dynamicStores/main";
 import print from "./dynamicStores/print";
 import csv from "./dynamicStores/csv";
 import filter from "./dynamicStores/filter";
+import customReq from "./dynamicStores/customReq";
 
 const state = () => ({
   ...filterHeader.state,
@@ -31,6 +32,7 @@ const mutations = {
 const actions = {
   ...filterHeader.actions,
   ...main.actions,
+  ...customReq.actions,
 };
 
 export default {

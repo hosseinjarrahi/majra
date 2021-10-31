@@ -37,13 +37,21 @@
             ></div>
             <div v-if="hasSelected(item)" class="info selected-class"></div>
             <div>
-              <v-icon style="cursor: move" small class="handle" v-if="getOpt('draggable')">
+              <v-icon
+                style="cursor: move"
+                small
+                class="handle"
+                v-if="getOpt('draggable')"
+              >
                 mdi-drag
               </v-icon>
               {{ getIndex(item) }}
             </div>
           </td>
-          <td v-for="field in flatFields.filter(f => f.isHeader)" :key="field.field">
+          <td
+            v-for="field in flatFields.filter((f) => f.isHeader)"
+            :key="field.field"
+          >
             <values-list :field="field" :item="item" :key="field.field" />
           </td>
           <td>

@@ -11,14 +11,17 @@ export default {
         return "sendKey" in field ? field.sendKey : field.field;
       },
 
-      findField(field) {
+      findField(field, fields = false) {
+        if (fields) {
+          return fields.filter((f) => f.field === field)[0];
+        }
         return options.store.getters["dynamic/findFieldWithKey"](field);
       },
 
-      convertToSendForm(form) {
+      convertToSendForm(form, fields = false) {
         let out = {};
         for (let fieldName in form) {
-          let field = this.findField(fieldName);
+          let field = this.findField(fieldName, fields);
           if (!field) continue;
           let key = this.getSendKey(field);
           out[key] = form[fieldName];
@@ -45,6 +48,14 @@ export default {
 
       setOptions(payload) {
         options.store.commit("dynamic/setOptions", payload);
+      },
+
+      editReq(payload) {
+        options.store.dispatch("dynamic/customeEdit", payload);
+      },
+
+      addReq(payload) {
+        options.store.dispatch("dynamic/customeAdd", payload);
       },
 
       configs: {

@@ -7,7 +7,10 @@
         </template>
       </component>
     </slot>
-    <div class="caption text-center pt-2" v-if="!print && pagination.lastPage != 1">
+    <div
+      class="caption text-center pt-2"
+      v-if="!print && pagination.lastPage != 1"
+    >
       <v-pagination
         dense
         v-model="page"
