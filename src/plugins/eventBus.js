@@ -10,7 +10,7 @@ export default {
       event = Array.isArray(event) ? event : [event];
       for (const e of event) {
         EventBus.$on(e, fn);
-        lock && lockedListeners.push(fn);
+        lock && lockedListeners.push({ event, fn });
       }
     };
     Vue._listen = Vue.prototype._listen;
@@ -53,7 +53,8 @@ export default {
         fns2.forEach((fn) => fn(args));
         fns2 = [];
       });
-      for (let fn of lockedListeners) Vue.prototype._listen(fn);
+      for (let item of lockedListeners)
+        Vue.prototype._listen(item.event, item.fn);
       Vue.prototype._bus = EventBus;
       Vue._bus = EventBus;
     };
