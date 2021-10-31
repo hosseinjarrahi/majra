@@ -52,6 +52,9 @@ export default {
         this.autoGenerate && this.$emit("input", { ...this.form });
       },
     },
+    editItem() {
+      this.initEditItem()
+    }
   },
 
   methods: {

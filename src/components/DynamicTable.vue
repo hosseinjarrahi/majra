@@ -37,7 +37,7 @@
             ></div>
             <div v-if="hasSelected(item)" class="info selected-class"></div>
             <div>
-              <v-icon small class="handle" v-if="getOpt('draggable')">
+              <v-icon style="cursor: move" small class="handle" v-if="getOpt('draggable')">
                 mdi-drag
               </v-icon>
               {{ getIndex(item) }}
