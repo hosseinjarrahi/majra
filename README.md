@@ -7,7 +7,7 @@
 </p>
 
 <h2 align="center">
- 🎯 Just focus on your logic
+ Don't waste time for configuration 🎯 Just focus on your logic
 </p>
 
 ## About Majra

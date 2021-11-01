@@ -4,7 +4,7 @@ export default [
     field: "name",
     type: "text",
     isHeader: true,
-    col: { md: 6 },
+    col: { md: 12 },
     group: "اطلاعات محصول",
   },
   {

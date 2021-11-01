@@ -9,7 +9,7 @@
     <Map
       :value="value"
       @input="updateField($event)"
-      v-bind="{ ...defaultProps, ...getProp('*', {}) }"
+      v-bind="getProp('*', {})"
       v-on="getFromField('events', {})"
     />
   </div>
