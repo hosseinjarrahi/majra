@@ -2,7 +2,7 @@ export default [
   {
     title: "نام محصول",
     field: "name",
-    type: "text",
+    type: "date",
     isHeader: true,
     col: { md: 12 },
     group: "اطلاعات محصول",

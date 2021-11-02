@@ -19,6 +19,7 @@ export default {
       },
 
       convertToSendForm(form, fields = false) {
+        if (!fields) return form;
         let out = {};
         for (let fieldName in form) {
           let field = this.findField(fieldName, fields);
