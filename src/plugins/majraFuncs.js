@@ -60,7 +60,7 @@ export default {
       },
 
       getItem(payload) {
-        options.store.getters["dynamic/getItemsWithKey"](payload);
+        return options.store.getters["dynamic/getItemsWithKey"](payload);
       },
 
       configs: {
