@@ -52,11 +52,11 @@ export default {
       },
 
       editReq(payload) {
-        options.store.dispatch("dynamic/customeEdit", payload);
+        options.store.dispatch("dynamic/customEdit", payload);
       },
 
       addReq(payload) {
-        options.store.dispatch("dynamic/customeAdd", payload);
+        options.store.dispatch("dynamic/customAdd", payload);
       },
 
       getItem(payload) {
