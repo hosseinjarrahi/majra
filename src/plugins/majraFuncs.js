@@ -59,6 +59,10 @@ export default {
         options.store.dispatch("dynamic/customeAdd", payload);
       },
 
+      getItem(payload) {
+        options.store.getters["dynamic/getItemsWithKey"](payload);
+      },
+
       configs: {
         ...defaultConfigs,
         ...options.configs,

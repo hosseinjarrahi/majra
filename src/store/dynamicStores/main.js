@@ -382,7 +382,7 @@ const actions = {
       });
   },
 
-  reloadMainData({ dispatch }) {
+  reloadMainData({ dispatch, state }) {
     dispatch("get", { key: state.mainKey });
   },
 
