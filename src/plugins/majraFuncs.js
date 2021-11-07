@@ -19,14 +19,16 @@ export default {
       },
 
       convertToSendForm(form, fields = false) {
-        if (!fields) return form;
         let out = {};
+        let hasOneField = false;
         for (let fieldName in form) {
           let field = this.findField(fieldName, fields);
           if (!field) continue;
+          hasOneField = true;
           let key = this.getSendKey(field);
           out[key] = form[fieldName];
         }
+        if (!hasOneField) return form;
         return out;
       },
 
