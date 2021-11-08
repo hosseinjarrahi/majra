@@ -12,7 +12,7 @@
     >
       <v-img
         :width="getProp('ratio', defaultProps.width)"
-        :src="value || defaultImg"
+        :src="value ? $majra.configs.BASE_URL + value : defaultImg"
         style="cursor: pointer"
         id="pick-avatar"
         class="mx-auto elevation-2 rounded pa-2"
@@ -93,7 +93,13 @@ export default {
           .then((response) => {
             this.loading = false;
 
-            this.updateField(response.link);
+            this.updateField(
+              "data." +
+                this.$helpers.getSafe(
+                  response,
+                  this.$helpers.getSafe(this.field, "uploadKey", "link")
+                )
+            );
 
             this._event("alert", {
               text: "با موفقیت آپلود شد",

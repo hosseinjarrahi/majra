@@ -4,7 +4,7 @@ export default [
     field: "img",
     type: "cropper",
     isHeader: true,
-    uploadPath: "http://localhost:8000/api/uplaod-file",
+    uploadPath: "http://localhost:8000/api/upload-file",
     col: { md: 12 },
     group: "اطلاعات محصول",
   },
