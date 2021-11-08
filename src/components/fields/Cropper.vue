@@ -94,11 +94,10 @@ export default {
             this.loading = false;
 
             this.updateField(
-              "data." +
-                this.$helpers.getSafe(
-                  response,
-                  this.$helpers.getSafe(this.field, "uploadKey", "link")
-                )
+              this.$helpers.getSafe(
+                response,
+                "data." + this.$helpers.getSafe(this.field, "uploadKey", "link")
+              )
             );
 
             this._event("alert", {
