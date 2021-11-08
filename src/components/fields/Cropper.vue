@@ -11,7 +11,7 @@
       style="cursor: pointer"
     >
       <v-img
-        :width="getProp('ratio', defaultProps.width)"
+        :width="getProp('width', defaultProps.width)"
         :src="value ? $majra.configs.BASE_URL + value : defaultImg"
         style="cursor: pointer"
         id="pick-avatar"

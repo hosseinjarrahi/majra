@@ -37,6 +37,7 @@ export default {
       text: DefaultHeader,
       textarea: DefaultHeader,
       file: DefaultHeader,
+      cropper: DefaultHeader,
       time: DefaultHeader,
       number: DefaultHeader,
       switcher: SwitcherHeader,
