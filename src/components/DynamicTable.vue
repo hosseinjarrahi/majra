@@ -61,7 +61,7 @@
           </td>
         </tr>
       </draggable>
-      <template v-if="props.items.length < 1">
+      <template v-if="props.items.length < 1 && !mainLoading">
         <tr class="text-center">
           <td colspan="100" class="py-4 grey--text">اطلاعاتی موجود نیست</td>
         </tr>

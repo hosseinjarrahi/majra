@@ -1,8 +1,17 @@
 export default [
   {
+    title: "تصویر",
+    field: "img",
+    type: "cropper",
+    isHeader: true,
+    uploadPath: "http://localhost:8000/api/uplaod-file",
+    col: { md: 12 },
+    group: "اطلاعات محصول",
+  },
+  {
     title: "نام محصول",
     field: "name",
-    type: "date",
+    type: "text",
     isHeader: true,
     col: { md: 12 },
     group: "اطلاعات محصول",
@@ -19,14 +28,6 @@ export default [
       "item-text": "title",
       "item-value": "id",
     },
-    isHeader: true,
-    col: { md: 6 },
-    group: "اطلاعات محصول",
-  },
-  {
-    title: "تصویر",
-    field: "img",
-    type: "cropper",
     isHeader: true,
     col: { md: 6 },
     group: "اطلاعات محصول",

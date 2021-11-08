@@ -1,7 +1,7 @@
 import Vue from "vue";
 
 const actions = {
-  customeAdd({ state, commit, dispatch }, payload) {
+  customAdd({ state, commit, dispatch }, payload) {
     commit("setLoading", { key: payload.key, value: true });
 
     let route = payload.route ? payload.route : state.routes[payload.key];
@@ -34,7 +34,7 @@ const actions = {
       });
   },
 
-  customeEdit({ state, commit, dispatch }, payload) {
+  customEdit({ state, commit, dispatch }, payload) {
     let route = payload.route ? payload.route : state.routes[payload.key];
 
     let sendForm = Vue.$majra.convertToSendForm(payload.form, payload.fields);
