@@ -80,7 +80,11 @@ export default {
       if (this.editItem) {
         for (const prop in this.form) this.form[prop] = this.editItem[prop];
         await this.fields.forEach((field) => {
-          if (field.type == "map")
+          if ("normalize" in field)
+            return (this.form[field.field] = field.normalize(
+                this.form[field.field]
+            ));
+          if (field.type === "map")
             return (this.form[field.field] = this.form[field.field]);
           if (
             this.form[field.field] &&
