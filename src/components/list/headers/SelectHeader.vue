@@ -127,10 +127,10 @@ export default {
       );
     },
     itemText() {
-      return this.$helpers.getSafe(this.header, "props.item-text", 'text');
+      return this.$helpers.getSafe(this.header, "props.item-text", "text");
     },
     itemValue() {
-      return this.$helpers.getSafe(this.header, "props.item-value", 'value');
+      return this.$helpers.getSafe(this.header, "props.item-value", "value");
     },
   },
 

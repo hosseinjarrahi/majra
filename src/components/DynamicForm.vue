@@ -82,7 +82,7 @@ export default {
         await this.fields.forEach((field) => {
           if ("normalize" in field)
             return (this.form[field.field] = field.normalize(
-                this.form[field.field]
+              this.form[field.field]
             ));
           if (field.type === "map")
             return (this.form[field.field] = this.form[field.field]);

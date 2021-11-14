@@ -68,9 +68,11 @@ export default {
     },
 
     updateField(event) {
+      let old = this.form[event.field];
       this.form[event.field] = event.value;
       this._event("fieldChanged." + event.field, {
         value: event.value,
+        old,
         instance: this,
       });
     },
