@@ -65,6 +65,10 @@ export default {
         return options.store.getters["dynamic/getItemsWithKey"](payload);
       },
 
+      addItem(payload) {
+        return options.store.getters["dynamic/add"](payload);
+      },
+
       configs: {
         ...defaultConfigs,
         ...options.configs,

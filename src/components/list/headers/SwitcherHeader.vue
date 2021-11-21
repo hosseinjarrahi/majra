@@ -14,7 +14,7 @@
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["header", "runAfterChange", "sendKey"],
+  props: ["header", "runAfterChange"],
 
   computed: {
     ...mapGetters({
@@ -37,9 +37,9 @@ export default {
   methods: {
     change(event) {
       this.$store.commit("dynamic/setFilterData", {
-        key: this.sendKey,
-        field: "selects",
-        data: event,
+        key: this.header.value,
+        field: "excepts",
+        data: ["=", event],
       });
       this.$store.commit("dynamic/setIsFiltering", true);
       this.runAfterChange

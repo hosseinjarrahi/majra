@@ -4,6 +4,7 @@ const state = {
     order: {},
     dates: {},
     selects: {},
+    excepts: {},
     search: "",
     fields: {},
     itemPerPage: 15,
@@ -20,9 +21,10 @@ const mutations = {
   setIsFiltering: (state, payload) => (state.isFiltering = payload),
 
   setFilterData: (state, payload) => {
-    if (payload.key)
+    if (payload.key) {
+      console.log(state.filterData);
       state.filterData[payload.field][payload.key] = payload.data;
-    else state.filterData[payload.field] = payload.data;
+    } else state.filterData[payload.field] = payload.data;
 
     state.filterData = { ...state.filterData };
   },
@@ -33,6 +35,7 @@ const mutations = {
       order: {},
       dates: {},
       selects: {},
+      excepts: {},
       search: "",
       fields: {},
       itemPerPage: 15,
