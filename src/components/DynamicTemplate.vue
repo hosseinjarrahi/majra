@@ -2,7 +2,11 @@
   <v-card>
     <v-scroll-x-reverse-transition>
       <div v-show="getOpt('dialogMode') || !dialog">
-        <dynamic-header />
+        <dynamic-header>
+          <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
+            <slot :name="slot" v-bind="scope" />
+          </template>
+        </dynamic-header>
         <dynamic-list>
           <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope">
             <slot :name="slot" v-bind="scope" />

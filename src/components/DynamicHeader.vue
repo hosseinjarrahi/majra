@@ -16,7 +16,10 @@
             <v-icon size="18">mdi mdi-magnify</v-icon>
           </v-btn>
         </div>
+
         <v-spacer></v-spacer>
+
+        <slot name="header-btn"></slot>
 
         <v-tooltip bottom v-if="isShowable('delete') && showDeleteBtn">
           <template v-slot:activator="{ on, attrs }">
