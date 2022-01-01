@@ -15,12 +15,12 @@
         <slot name="card" v-bind="item"></slot>
 
         <v-card-actions v-if="!print" class="fix-to-bottom">
+          <v-icon small class="handle" v-if="getOpt('draggable')">
+            mdi-menu
+          </v-icon>
           <action-value :item="item">
             <slot name="actions" v-bind="item"></slot>
           </action-value>
-          <v-icon small class="handle" v-if="getOpt('draggable')">
-            mdi-menu</v-icon
-          >
         </v-card-actions>
       </v-card>
     </v-col>
