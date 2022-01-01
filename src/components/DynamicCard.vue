@@ -11,13 +11,14 @@
       v-for="(item, index) in print ? printItems : items[mainKey]"
       :key="index + 'item'"
     >
-      <v-card height="100%" class="pb-3 pa-1" style="overflow: hidden">
+      <v-card height="100%" class="pb-5 pa-1" style="overflow: hidden">
         <slot name="card" v-bind="item"></slot>
 
         <v-card-actions v-if="!print" class="fix-to-bottom">
           <v-icon small class="handle" v-if="getOpt('draggable')">
-            mdi-menu
+            mdi-drag
           </v-icon>
+          <v-spacer />
           <action-value :item="item">
             <slot name="actions" v-bind="item"></slot>
           </action-value>
@@ -70,6 +71,8 @@ export default {
 <style scoped>
 .fix-to-bottom {
   position: absolute;
+  display:flex;
+  width: 100%;
   bottom: 0;
   left: 0;
 }
