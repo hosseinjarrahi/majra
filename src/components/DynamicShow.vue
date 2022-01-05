@@ -12,7 +12,7 @@
           <td class="pa-2 font-weight-bold" v-if="value.field.title">
             {{ value.field.title }}
           </td>
-          <td style="border-left: 0">
+          <td style="border-left: 0" :colspan="value.field.title ? 1 : 2">
             <component
               :is="map[value.field.type]"
               :getValue="getValue"
