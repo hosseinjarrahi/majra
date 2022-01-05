@@ -121,7 +121,7 @@ export default {
         this.fields.forEach((field) => {
           tmp[field.field] = {
             field,
-            value: newData[field.field],
+            value: this.$helpers.getSafe(newData, field.field),
           };
         });
         this.standardData = { ...tmp };

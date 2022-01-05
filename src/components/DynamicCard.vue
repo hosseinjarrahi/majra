@@ -1,14 +1,14 @@
 <template>
   <draggable
-    :list="items[mainKey]"
+    :list="cardItems"
     handle=".handle"
     tag="div"
     class="d-flex flex-row flex-wrap"
-    @end="changeOrder(items[mainKey])"
+    @end="changeOrder(cardItems)"
   >
     <v-col
       v-bind="getOpt('cardColAttrs')"
-      v-for="(item, index) in print ? printItems : items[mainKey]"
+      v-for="(item, index) in print ? printItems : cardItems"
       :key="index + 'item'"
     >
       <v-card height="100%" class="pb-5 pa-1" style="overflow: hidden">
@@ -57,6 +57,10 @@ export default {
     getOpt: "dynamic/getOptionWithKey",
   }),
 
+  data: () => ({
+    cardItems: [],
+  }),
+
   methods: {
     changeOrder(items) {
       let data = items.map((item, index) => {
@@ -65,13 +69,23 @@ export default {
       this._event("ordersChanged", data);
     },
   },
+
+  watch: {
+    items: {
+      handler(old, newVal) {
+        if (this.$helpers.getSafe(newVal, this.mainKey, false))
+          this.cardItems = [...newVal[this.mainKey]];
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 
 <style scoped>
 .fix-to-bottom {
   position: absolute;
-  display:flex;
+  display: flex;
   width: 100%;
   bottom: 0;
   left: 0;
