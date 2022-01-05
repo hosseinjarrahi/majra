@@ -9,7 +9,7 @@
           v-bind="{ items: standardData, item: value }"
           :name="'item.' + value.field.field"
         >
-          <td class="pa-2 font-weight-bold">
+          <td class="pa-2 font-weight-bold" v-if="value.field.title">
             {{ value.field.title }}
           </td>
           <td style="border-left: 0">
@@ -121,7 +121,7 @@ export default {
         this.fields.forEach((field) => {
           tmp[field.field] = {
             field,
-            value: this.$helpers.getSafe(newData, field.field),
+            value: this.$helpers.getSafe(newData,field.field),
           };
         });
         this.standardData = { ...tmp };
