@@ -65,6 +65,10 @@ export default {
         return options.store.getters["dynamic/getItemsWithKey"](payload);
       },
 
+      setItem(payload) {
+        return options.store.commit("dynamic/set", payload);
+      },
+
       addItem(payload) {
         return options.store.getters["dynamic/add"](payload);
       },
