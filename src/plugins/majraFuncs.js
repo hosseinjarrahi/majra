@@ -73,7 +73,7 @@ export default {
       },
 
       addItem(payload) {
-        return options.store.getters["dynamic/add"](payload);
+        return options.store.commit("dynamic/add", payload);
       },
 
       configs: {
