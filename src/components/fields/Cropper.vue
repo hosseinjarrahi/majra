@@ -88,11 +88,10 @@ export default {
       );
       formData.append("file", file);
       setTimeout(() => {
+        this._event("loading", true);
         axios
           .post(this.field.uploadPath, formData)
           .then((response) => {
-            this.loading = false;
-
             this.updateField(
               this.$helpers.getSafe(
                 response,
@@ -112,6 +111,7 @@ export default {
             });
           })
           .finally(() => {
+            this._event("loading", false);
             this.loading = false;
           });
       }, 1000);
