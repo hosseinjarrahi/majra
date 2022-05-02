@@ -68,6 +68,7 @@ export default {
   methods: {
     cropperHandler(cropper) {
       this.loading = true;
+      this._event("loading", true);
 
       const DataURIToBlob = (dataURI) => {
         const splitDataURI = dataURI.split(",");
@@ -88,7 +89,6 @@ export default {
       );
       formData.append("file", file);
       setTimeout(() => {
-        this._event("loading", true);
         axios
           .post(this.field.uploadPath, formData)
           .then((response) => {
