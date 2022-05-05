@@ -11,6 +11,7 @@
       prepend-icon="" 
       dense
       hide-details
+      clearable
       @click:clear="updateField('')"
       :hint="field.hint"
       :rules="rules[field.field]"
