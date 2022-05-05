@@ -8,10 +8,10 @@
       readonly
       persistent-hint
       append-icon="mdi-calendar-outline"
-      prepend-icon=""
+      prepend-icon="" 
       dense
-      clearable
       hide-details
+      @click:clear="updateField('')"
       :hint="field.hint"
       :rules="rules[field.field]"
     ></v-text-field>
