@@ -10,6 +10,7 @@
       append-icon="mdi-calendar-outline"
       prepend-icon=""
       dense
+      clearable
       hide-details
       :hint="field.hint"
       :rules="rules[field.field]"
