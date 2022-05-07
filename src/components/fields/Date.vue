@@ -8,7 +8,7 @@
       readonly
       persistent-hint
       append-icon="mdi-calendar-outline"
-      prepend-icon="" 
+      prepend-icon=""
       dense
       hide-details
       clearable

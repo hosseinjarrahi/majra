@@ -39,15 +39,7 @@
         </v-tooltip>
 
         <div
-          class="
-            d-flex
-            flex-row
-            align-center
-            justify-center
-            ml-3
-            secondary
-            rounded
-          "
+          class="d-flex flex-row align-center justify-center ml-3 secondary rounded"
         >
           <v-tooltip v-if="isShowable('printer')" bottom>
             <template v-slot:activator="{ on, attrs }">

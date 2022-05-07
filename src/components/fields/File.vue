@@ -15,17 +15,7 @@
       v-if="!field.multiple && value"
     >
       <v-col
-        class="
-          file-input
-          rounded-md
-          elevation-1
-          py-0
-          my-0
-          mb-2
-          d-flex
-          align-center
-          flex-row
-        "
+        class="file-input rounded-md elevation-1 py-0 my-0 mb-2 d-flex align-center flex-row"
       >
         <a
           target="_blank"
@@ -53,17 +43,7 @@
     >
       <div class="d-flex flex-column">
         <v-col
-          class="
-            file-input
-            rounded-lg
-            elevation-1
-            mb-1
-            d-flex
-            py-0
-            mt-0
-            align-center
-            flex-row
-          "
+          class="file-input rounded-lg elevation-1 mb-1 d-flex py-0 mt-0 align-center flex-row"
           :key="file"
           v-for="(file, index) in value"
         >
