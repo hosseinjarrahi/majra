@@ -109,7 +109,6 @@ const getters = {
         });
       }
     });
-    console.log(rules);
     return rules;
   },
 };

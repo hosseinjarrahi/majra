@@ -13,7 +13,9 @@
         <v-img style="cursor: pointer" :src="img" max-width="300" />
       </v-col>
     </v-row>
-    <a v-else :href="f" v-for="f in getFiles(value.value)" :key="f"> دانلود </a>
+    <a v-else :href="f" v-for="f in getFiles(value.value)" :key="f">
+      {{ $t("Download") }}
+    </a>
   </div>
 </template>
 

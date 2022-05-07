@@ -2,8 +2,8 @@
   <v-card>
     <slot name="card-title">
       <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6 v-if="!isEditing">افزودن</h6>
-        <h6 v-else>ویرایش</h6>
+        <h6 v-if="!isEditing">{{ $t("Add") }}</h6>
+        <h6 v-else>{{ $t("Edit") }}</h6>
         <v-spacer />
         <v-btn dark text @click="handleDialog(false)">
           <v-icon>mdi-close</v-icon>
@@ -35,7 +35,9 @@
     </v-card-text>
 
     <v-card-text class="py-3" v-else>
-      <h1 class="text-center"><slot name="title"></slot></h1>
+      <h1 class="text-center">
+        <slot name="title"></slot>
+      </h1>
       <v-form ref="dynamicForm">
         <dynamic-fields
           :fields="filteredFields(fields)"
@@ -56,8 +58,8 @@
         class="px-10"
         @click="_event('saveForm')"
       >
-        <span v-if="!isEditing">ثبت</span>
-        <span v-else>ویرایش</span>
+        <span v-if="!isEditing">{{ $t("Add") }}</span>
+        <span v-else>{{ $t("Edit") }}</span>
       </v-btn>
     </v-card-actions>
   </v-card>

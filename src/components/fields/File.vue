@@ -11,18 +11,28 @@
     <v-progress-linear v-if="progress && progress < 100" :value="progress" />
 
     <field-set
-      :label="field.title + ' آپلود شده'"
+      :label="field.title + $t('Uploaded')"
       v-if="!field.multiple && value"
     >
       <v-col
-        class="file-input rounded-md elevation-1 py-0 my-0 mb-2 d-flex align-center flex-row"
+        class="
+          file-input
+          rounded-md
+          elevation-1
+          py-0
+          my-0
+          mb-2
+          d-flex
+          align-center
+          flex-row
+        "
       >
         <a
           target="_blank"
           class="col-10 py-2"
           :href="$majra.configs.BASE_URL + value"
         >
-          دانلود
+          {{ $t("Download") }}
         </a>
         <v-spacer />
         <v-btn
@@ -38,12 +48,22 @@
     </field-set>
 
     <field-set
-      :label="field.title + ' آپلود شده'"
+      :label="field.title + $t('Uploaded')"
       v-if="field.multiple && Array.isArray(value) && value.length"
     >
       <div class="d-flex flex-column">
         <v-col
-          class="file-input rounded-lg elevation-1 mb-1 d-flex py-0 mt-0 align-center flex-row"
+          class="
+            file-input
+            rounded-lg
+            elevation-1
+            mb-1
+            d-flex
+            py-0
+            mt-0
+            align-center
+            flex-row
+          "
           :key="file"
           v-for="(file, index) in value"
         >
@@ -53,7 +73,7 @@
             :href="$majra.configs.BASE_URL + file"
           >
             <span>{{ index + 1 }} - </span>
-            <span>دانلود</span>
+            <span>{{ $t("Download") }}</span>
           </a>
           <v-spacer />
           <v-btn
@@ -136,11 +156,14 @@ export default {
 
           this.updateField(this.files);
 
-          this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
+          this._event("alert", {
+            text: this.$t("Uploaded successfully"),
+            color: "green",
+          });
         })
         .catch(() => {
           this._event("alert", {
-            text: "مشکلی در ارسال فایل رخ داده است",
+            text: this.$t("There was a problem sending the file"),
             color: "red",
           });
         })

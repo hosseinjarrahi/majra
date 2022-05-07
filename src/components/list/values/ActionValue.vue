@@ -14,7 +14,7 @@
         </v-btn>
       </template>
 
-      <span>مشاهده جزئیات</span>
+      <span>{{ $t("Show details") }}</span>
     </v-tooltip>
 
     <v-tooltip v-if="isShowable('edit')" small bottom>
@@ -30,7 +30,7 @@
         </v-btn>
       </template>
 
-      <span>ویراش کردن</span>
+      <span>{{ $t("Edit") }}</span>
     </v-tooltip>
 
     <v-tooltip v-if="isShowable('delete')" small bottom>
@@ -46,7 +46,7 @@
         </v-btn>
       </template>
 
-      <span>حذف کردن</span>
+      <span>{{ $t("Delete") }}</span>
     </v-tooltip>
   </div>
 </template>
@@ -71,5 +71,3 @@ export default {
   },
 };
 </script>
-
-<style></style>

@@ -35,11 +35,19 @@
               <v-icon size="18">mdi-delete</v-icon>
             </v-btn>
           </template>
-          <span>حذف موارد انتخابی</span>
+          <span>{{ $t("Delete selected items") }}</span>
         </v-tooltip>
 
         <div
-          class="d-flex flex-row align-center justify-center ml-3 secondary rounded"
+          class="
+            d-flex
+            flex-row
+            align-center
+            justify-center
+            ml-3
+            secondary
+            rounded
+          "
         >
           <v-tooltip v-if="isShowable('printer')" bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -55,7 +63,7 @@
                 <v-icon size="18">mdi-printer</v-icon>
               </v-btn>
             </template>
-            <span>پرینت</span>
+            <span>{{ $t("print") }}</span>
           </v-tooltip>
           <v-tooltip v-if="isShowable('download')" bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -71,7 +79,7 @@
                 <v-icon size="18">mdi-download</v-icon>
               </v-btn>
             </template>
-            <span>دانلود</span>
+            <span>{{ $t("Download") }}</span>
           </v-tooltip>
         </div>
         <v-tooltip v-if="isShowable('create')" bottom>
@@ -89,7 +97,7 @@
               <v-icon size="18">mdi mdi-plus</v-icon>
             </v-btn>
           </template>
-          <span>اضافه کردن</span>
+          <span>{{ $t("Add") }}</span>
         </v-tooltip>
 
         <csv-dialog v-model="csvDialog" />

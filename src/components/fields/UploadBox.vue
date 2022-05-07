@@ -1,6 +1,6 @@
 <template>
   <field-set
-    :label="'آپلود ' + field.title"
+    :label="$t('upload') + ' ' + field.title"
     class="d-flex flex-row flex-wrap"
     style="min-height: 100px"
   >
@@ -34,7 +34,9 @@
       :key="file"
     >
       <v-img v-if="field.isImage" :src="$majra.configs.BASE_URL + file" />
-      <div v-else style="word-break: break-all !important">دانلود</div>
+      <div v-else style="word-break: break-all !important">
+        {{ $t("Download") }}
+      </div>
       <v-btn
         text
         color="error"
@@ -91,11 +93,14 @@ export default {
             ...temp,
             _safe(response, "data." + _safe(this.field, "uploadKey", "link")),
           ]);
-          this._event("alert", { text: "با موفقیت آپلود شد", color: "green" });
+          this._event("alert", {
+            text: this.$t("Uploaded successfully"),
+            color: "green",
+          });
         })
         .catch(() => {
           this._event("alert", {
-            text: "مشکلی در ارسال فایل رخ داده است",
+            text: this.$t("There was a problem sending the file"),
             color: "red",
           });
         })

@@ -1,29 +1,34 @@
+import i18n from "./../plugins/i18n";
+
 export default {
-  required(message = "وارد کردن این مورد الزامی است") {
-    return (value) => !!value || message;
+  required() {
+    let message = i18n.t("validations.required");
+    return (value) => {
+      return (value && value.length > 1) || message;
+    };
   },
 
   max(max = 5) {
-    let message = "حداکثر کاراکتر مجاز " + max + "می باشد";
+    let message = i18n.t("validations.maxChar", { number: max });
     return (value) => (value && value.length <= max) || message;
   },
 
   min(min = 5) {
-    let message = "حداقل کاراکتر مجاز " + min + " می باشد ";
+    let message = i18n.t("validations.minChar", { number: min });
     return (value) => (value && value.length >= min) || message;
   },
 
-  email(message = "ایمیل وارد شده صحیح نمی باشد.") {
+  email(message = i18n.t("validations.email")) {
     return (value) => /.+@.+\..+/.test(value) || message;
   },
 
   between(min = 5, max = 5) {
-    let message = "کاراکتر وارد شده باید بین " + min + " و " + max + " باشد ";
+    let message = i18n.t("validations.charBetween", { min, max });
     return (value) =>
       (value && value.length >= min && value.length <= max) || message;
   },
 
-  digits(number = 11, message = "نعداد اعداد وارد شده صحیح نمی باشد", phone) {
+  digits(number = 11, message = i18n.t("validations.digits"), phone) {
     if (phone) {
       return (value) =>
         (value && value.length === number && /09\d{9}/.test(value)) || message;
@@ -32,7 +37,7 @@ export default {
   },
 
   phone() {
-    let message = "تلفن وارد شده معتبر نمی باشد";
+    let message = i18n.t("validations.phone");
     return this.digits(11, message, true);
   },
 

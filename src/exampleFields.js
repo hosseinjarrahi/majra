@@ -11,6 +11,7 @@ export default [
   {
     title: "نام محصول",
     field: "name",
+    rules: ["required"],
     type: "text",
     isHeader: true,
     col: { md: 12 },

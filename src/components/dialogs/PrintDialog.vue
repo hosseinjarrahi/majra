@@ -2,7 +2,7 @@
   <v-dialog :value="value" @input="$emit('input', $event)" width="500">
     <v-card>
       <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6>پرینت</h6>
+        <h6>{{ $t("print") }}</h6>
         <v-spacer />
         <v-btn dark text @click="$emit('input', false)">
           <v-icon>mdi-close</v-icon>
@@ -12,14 +12,14 @@
       <v-card-text class="mt-5">
         <v-text-field
           v-model.number="itemPerPage"
-          label="تعداد آیتم خروجی"
+          :label="$t('Number of output items')"
           outlined
           type="number"
           dense
           hide-details
         />
         <v-select
-          label="فیلد های مورد نظر"
+          :label="$t('Desired fields')"
           :items="headers.filter((i) => i.value != 'actions')"
           v-model="printFields"
           item-text="title"
@@ -36,7 +36,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="print" small> پرینت </v-btn>
+        <v-btn color="primary" @click="print" small>{{ $t("Print") }}</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

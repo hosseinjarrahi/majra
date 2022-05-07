@@ -40,7 +40,7 @@
                   outlined
                   dense
                   elevation="0"
-                  label="فیلدها"
+                  :label="$t('Fields')"
                   v-model="texts"
                   :items="textFields"
                   item-text="title"
@@ -64,16 +64,16 @@
               class="col-2 d-flex"
               small
               @click="doSearch(true)"
-              >ریست</v-btn
-            >
+              >{{ $t("Reset") }}
+            </v-btn>
             <v-btn
               color="success"
               class="col-2 d-flex"
               small
               :disabled="!texts[0]"
               @click="doSearch(false)"
-              >جستوجو</v-btn
-            >
+              >{{ $t("Search") }}
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-expansion-panel-content>
@@ -91,7 +91,7 @@ export default {
     return {
       texts: [],
       search: "",
-      isSraching: false,
+      isSearching: false,
       menu: false,
     };
   },
@@ -146,6 +146,7 @@ export default {
 .v-btn {
   min-width: 0 !important;
 }
+
 .v-expansion-panel-content__wrap {
   padding-bottom: 0;
 }

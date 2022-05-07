@@ -100,13 +100,13 @@ export default {
             );
 
             this._event("alert", {
-              text: "با موفقیت آپلود شد",
+              text: this.$t("Uploaded successfully"),
               color: "green",
             });
           })
           .catch(() => {
             this._event("alert", {
-              text: "مشکلی در ارسال فایل رخ داده است",
+              text: this.$t("There was a problem sending the file"),
               color: "red",
             });
           })

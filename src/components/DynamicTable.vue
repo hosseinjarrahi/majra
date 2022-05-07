@@ -63,7 +63,9 @@
       </draggable>
       <template v-if="props.items.length < 1 && !mainLoading">
         <tr class="text-center">
-          <td colspan="100" class="py-4 grey--text">اطلاعاتی موجود نیست</td>
+          <td colspan="100" class="py-4 grey--text">
+            {{ $t("no data available") }}
+          </td>
         </tr>
       </template>
     </template>

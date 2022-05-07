@@ -14,7 +14,7 @@
         v-if="!printMode"
         class="pl-0 headline white--text py-1 secondary"
       >
-        <h6>نمایش</h6>
+        <h6>{{ $t("Show") }}</h6>
         <v-spacer />
         <v-btn dark text @click="print">
           <v-icon>mdi-printer</v-icon>

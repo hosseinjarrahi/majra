@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "vue": "^2.6.11",
     "vue-avatar-cropper": "^2.0.0",
+    "vue-i18n": "^8.27.1",
     "vue-json-csv": "^1.2.12",
     "vue-persian-datetime-picker": "^2.10.0",
     "vue2-leaflet": "^2.7.1",
