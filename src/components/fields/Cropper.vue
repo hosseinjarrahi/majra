@@ -100,13 +100,13 @@ export default {
             );
 
             this._event("alert", {
-              text: this.$t("Uploaded successfully"),
+              text: this.translate("Uploaded successfully"),
               color: "green",
             });
           })
           .catch(() => {
             this._event("alert", {
-              text: this.$t("There was a problem sending the file"),
+              text: this.translate("There was a problem sending the file"),
               color: "red",
             });
           })

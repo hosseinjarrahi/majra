@@ -2,7 +2,7 @@
   <v-dialog :value="value" @input="$emit('input', $event)" width="500">
     <v-card>
       <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6>{{ $t("Exel export") }}</h6>
+        <h6>{{ translate("Exel export") }}</h6>
         <v-spacer />
         <v-btn dark text @click="$emit('input', false)">
           <v-icon>mdi-close</v-icon>
@@ -12,14 +12,14 @@
       <v-card-text class="mt-5">
         <v-text-field
           v-model.number="itemPerPage"
-          :label="$t('Number of output items')"
+          :label="translate('Number of output items')"
           outlined
           type="number"
           dense
           hide-details
         />
         <v-select
-          :label="$t('Desired fields')"
+          :label="translate('Desired fields')"
           :items="flatFields"
           v-model="selectedFields"
           item-text="title"
@@ -43,11 +43,11 @@
           small
           :loading="loading[mainKey]"
         >
-          {{ $t("Get data") }}
+          {{ translate("Get data") }}
         </v-btn>
         <download-csv v-else :data="csvValues" :fields="selectedFields">
           <v-btn small :loading="loading[mainKey]" class="mx-2" color="success">
-            {{ $t("Download") }}
+            {{ translate("Download") }}
             <v-icon>mdi-download</v-icon>
           </v-btn>
         </download-csv>

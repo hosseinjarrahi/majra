@@ -2,7 +2,7 @@
   <v-dialog v-model="dialog" width="600">
     <v-card>
       <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6>{{ $t("Delete") }}</h6>
+        <h6>{{ translate("Delete") }}</h6>
         <v-spacer />
         <v-btn dark text @click="close">
           <v-icon>mdi-close</v-icon>
@@ -11,7 +11,7 @@
 
       <v-card-text class="mt-5">
         <h2 class="font-weight-bold">
-          {{ $t("Are you sure you want to delete it?") }}
+          {{ translate("Are you sure you want to delete it?") }}
         </h2>
       </v-card-text>
 
@@ -20,7 +20,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn class="px-6" color="success" small @click="close">
-          <span>{{ $t("Cancel") }}</span>
+          <span>{{ translate("Cancel") }}</span>
         </v-btn>
         <v-btn
           class="px-6"
@@ -29,7 +29,7 @@
           small
           @click="remove(id)"
         >
-          <span>{{ $t("Delete") }}</span>
+          <span>{{ translate("Delete") }}</span>
         </v-btn>
       </v-card-actions>
     </v-card>

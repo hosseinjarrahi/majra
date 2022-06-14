@@ -35,7 +35,7 @@
               <v-icon size="18">mdi-delete</v-icon>
             </v-btn>
           </template>
-          <span>{{ $t("Delete selected items") }}</span>
+          <span>{{ translate("Delete selected items") }}</span>
         </v-tooltip>
 
         <div
@@ -63,7 +63,7 @@
                 <v-icon size="18">mdi-printer</v-icon>
               </v-btn>
             </template>
-            <span>{{ $t("print") }}</span>
+            <span>{{ translate("print") }}</span>
           </v-tooltip>
           <v-tooltip v-if="isShowable('download')" bottom>
             <template v-slot:activator="{ on, attrs }">
@@ -79,7 +79,7 @@
                 <v-icon size="18">mdi-download</v-icon>
               </v-btn>
             </template>
-            <span>{{ $t("Download") }}</span>
+            <span>{{ translate("Download") }}</span>
           </v-tooltip>
         </div>
         <v-tooltip v-if="isShowable('create')" bottom>
@@ -97,7 +97,7 @@
               <v-icon size="18">mdi mdi-plus</v-icon>
             </v-btn>
           </template>
-          <span>{{ $t("Add") }}</span>
+          <span>{{ translate("Add") }}</span>
         </v-tooltip>
 
         <csv-dialog v-model="csvDialog" />

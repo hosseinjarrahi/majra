@@ -1,6 +1,6 @@
 <template>
   <field-set
-    :label="$t('upload') + ' ' + field.title"
+    :label="translate('upload') + ' ' + field.title"
     class="d-flex flex-row flex-wrap"
     style="min-height: 100px"
   >
@@ -35,7 +35,7 @@
     >
       <v-img v-if="field.isImage" :src="$majra.configs.BASE_URL + file" />
       <div v-else style="word-break: break-all !important">
-        {{ $t("Download") }}
+        {{ translate("Download") }}
       </div>
       <v-btn
         text
@@ -94,13 +94,13 @@ export default {
             _safe(response, "data." + _safe(this.field, "uploadKey", "link")),
           ]);
           this._event("alert", {
-            text: this.$t("Uploaded successfully"),
+            text: this.translate("Uploaded successfully"),
             color: "green",
           });
         })
         .catch(() => {
           this._event("alert", {
-            text: this.$t("There was a problem sending the file"),
+            text: this.translate("There was a problem sending the file"),
             color: "red",
           });
         })

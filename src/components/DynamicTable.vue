@@ -64,7 +64,7 @@
       <template v-if="props.items.length < 1 && !mainLoading">
         <tr class="text-center">
           <td colspan="100" class="py-4 grey--text">
-            {{ $t("no data available") }}
+            {{ translate("no data available") }}
           </td>
         </tr>
       </template>

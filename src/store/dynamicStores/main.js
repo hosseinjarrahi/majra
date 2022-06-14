@@ -1,5 +1,5 @@
-import { toPascalCase } from "@/helpers/case";
-import validations from "@/helpers/validations";
+import { toPascalCase } from "./../../helpers/case";
+import validations from "./../../helpers/validations";
 import Vue from "vue";
 
 const state = {

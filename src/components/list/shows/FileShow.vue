@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <a v-else :href="f" v-for="f in getFiles(value.value)" :key="f">
-      {{ $t("Download") }}
+      {{ translate("Download") }}
     </a>
   </div>
 </template>

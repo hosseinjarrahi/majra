@@ -40,7 +40,7 @@
                   outlined
                   dense
                   elevation="0"
-                  :label="$t('Fields')"
+                  :label="translate('Fields')"
                   v-model="texts"
                   :items="textFields"
                   item-text="title"
@@ -64,7 +64,7 @@
               class="col-2 d-flex"
               small
               @click="doSearch(true)"
-              >{{ $t("Reset") }}
+              >{{ translate("Reset") }}
             </v-btn>
             <v-btn
               color="success"
@@ -72,7 +72,7 @@
               small
               :disabled="!texts[0]"
               @click="doSearch(false)"
-              >{{ $t("Search") }}
+              >{{ translate("Search") }}
             </v-btn>
           </v-card-actions>
         </v-card>

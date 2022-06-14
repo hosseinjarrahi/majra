@@ -34,7 +34,7 @@
         @input="change"
       />
       <v-btn class="d-flex col-12" color="error" small @click="reset">
-        {{ $t("reset") }}
+        {{ translate("reset") }}
       </v-btn>
     </v-card>
   </v-menu>

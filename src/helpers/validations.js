@@ -1,34 +1,34 @@
-import i18n from "./../plugins/i18n";
+import { translate } from "./../helpers/tr";
 
 export default {
   required() {
-    let message = i18n.t("validations.required");
+    let message = translate("validations.required");
     return (value) => {
       return (value && value.length > 1) || message;
     };
   },
 
   max(max = 5) {
-    let message = i18n.t("validations.maxChar", { number: max });
+    let message = translate("validations.maxChar", { number: max });
     return (value) => (value && value.length <= max) || message;
   },
 
   min(min = 5) {
-    let message = i18n.t("validations.minChar", { number: min });
+    let message = translate("validations.minChar", { number: min });
     return (value) => (value && value.length >= min) || message;
   },
 
-  email(message = i18n.t("validations.email")) {
+  email(message = translate("validations.email")) {
     return (value) => /.+@.+\..+/.test(value) || message;
   },
 
   between(min = 5, max = 5) {
-    let message = i18n.t("validations.charBetween", { min, max });
+    let message = translate("validations.charBetween", { min, max });
     return (value) =>
       (value && value.length >= min && value.length <= max) || message;
   },
 
-  digits(number = 11, message = i18n.t("validations.digits"), phone) {
+  digits(number = 11, message = translate("validations.digits"), phone) {
     if (phone) {
       return (value) =>
         (value && value.length === number && /09\d{9}/.test(value)) || message;
@@ -37,7 +37,7 @@ export default {
   },
 
   phone() {
-    let message = i18n.t("validations.phone");
+    let message = translate("validations.phone");
     return this.digits(11, message, true);
   },
 

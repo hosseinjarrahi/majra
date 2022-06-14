@@ -54,18 +54,18 @@ export default {
   scrollbar-shadow-color: inset 0px 0px 6px rgba(0, 0, 0, 0.3) !important;
   scrollbar-width: thin;
 }
-.v-card__text {
+.v-card_text {
   scrollbar-color: #627898 rgb(255, 255, 255) !important;
   scrollbar-shadow-color: inset 0px 0px 6px rgba(0, 0, 0, 0.3) !important;
   scrollbar-width: thin;
 }
 
-.v-card__text::-webkit-scrollbar {
+.v-card_text::-webkit-scrollbar {
   width: 4px;
   background-color: rgb(255, 255, 255);
   box-shadow: inset 0px 0px 6px rgba(0, 0, 0, 0.3);
 }
-.v-card__text::-webkit-scrollbar-thumb {
+.v-card_text::-webkit-scrollbar-thumb {
   background-color: #627898;
   border-radius: 1px -100px 1px 1px;
 }

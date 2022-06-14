@@ -14,7 +14,7 @@
         </v-btn>
       </template>
 
-      <span>{{ $t("Show details") }}</span>
+      <span>{{ translate("Show details") }}</span>
     </v-tooltip>
 
     <v-tooltip v-if="isShowable('edit')" small bottom>
@@ -30,7 +30,7 @@
         </v-btn>
       </template>
 
-      <span>{{ $t("Edit") }}</span>
+      <span>{{ translate("Edit") }}</span>
     </v-tooltip>
 
     <v-tooltip v-if="isShowable('delete')" small bottom>
@@ -46,7 +46,7 @@
         </v-btn>
       </template>
 
-      <span>{{ $t("Delete") }}</span>
+      <span>{{ translate("Delete") }}</span>
     </v-tooltip>
   </div>
 </template>

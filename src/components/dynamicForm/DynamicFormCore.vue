@@ -2,8 +2,8 @@
   <v-card>
     <slot name="card-title">
       <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6 v-if="!isEditing">{{ $t("Add") }}</h6>
-        <h6 v-else>{{ $t("Edit") }}</h6>
+        <h6 v-if="!isEditing">{{ translate("Add") }}</h6>
+        <h6 v-else>{{ translate("Edit") }}</h6>
         <v-spacer />
         <v-btn dark text @click="handleDialog(false)">
           <v-icon>mdi-close</v-icon>
@@ -58,8 +58,8 @@
         class="px-10"
         @click="_event('saveForm')"
       >
-        <span v-if="!isEditing">{{ $t("Add") }}</span>
-        <span v-else>{{ $t("Edit") }}</span>
+        <span v-if="!isEditing">{{ translate("Add") }}</span>
+        <span v-else>{{ translate("Edit") }}</span>
       </v-btn>
     </v-card-actions>
   </v-card>

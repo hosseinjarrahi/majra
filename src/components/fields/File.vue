@@ -11,7 +11,7 @@
     <v-progress-linear v-if="progress && progress < 100" :value="progress" />
 
     <field-set
-      :label="field.title + $t('Uploaded')"
+      :label="field.title + translate('Uploaded')"
       v-if="!field.multiple && value"
     >
       <v-col
@@ -32,7 +32,7 @@
           class="col-10 py-2"
           :href="$majra.configs.BASE_URL + value"
         >
-          {{ $t("Download") }}
+          {{ translate("Download") }}
         </a>
         <v-spacer />
         <v-btn
@@ -48,7 +48,7 @@
     </field-set>
 
     <field-set
-      :label="field.title + $t('Uploaded')"
+      :label="field.title + translate('Uploaded')"
       v-if="field.multiple && Array.isArray(value) && value.length"
     >
       <div class="d-flex flex-column">
@@ -73,7 +73,7 @@
             :href="$majra.configs.BASE_URL + file"
           >
             <span>{{ index + 1 }} - </span>
-            <span>{{ $t("Download") }}</span>
+            <span>{{ translate("Download") }}</span>
           </a>
           <v-spacer />
           <v-btn
@@ -157,13 +157,13 @@ export default {
           this.updateField(this.files);
 
           this._event("alert", {
-            text: this.$t("Uploaded successfully"),
+            text: this.translate("Uploaded successfully"),
             color: "green",
           });
         })
         .catch(() => {
           this._event("alert", {
-            text: this.$t("There was a problem sending the file"),
+            text: this.translate("There was a problem sending the file"),
             color: "red",
           });
         })

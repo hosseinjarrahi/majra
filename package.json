@@ -3,29 +3,29 @@
   "version": "0.3.46",
   "url": "https://github.com/hosseinjarrahi/majra",
   "email": "hj021hj@gmail.com",
+  "main": "src/index.js",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build-lib": "vue-cli-service build --target lib --name majra src/main.js"
+    "build-lib": "vue-cli-service build --target lib --name majra src/index.js"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-vue2": "^1.0.5",
-    "axios": "^0.21.4",
-    "core-js": "^3.6.5",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
-    "vue": "^2.6.11",
     "vue-avatar-cropper": "^2.0.0",
-    "vue-i18n": "^8.27.1",
     "vue-json-csv": "^1.2.12",
     "vue-persian-datetime-picker": "^2.10.0",
-    "vue2-leaflet": "^2.7.1",
-    "vuedraggable": "^2.24.3",
-    "vuetify": "^2.4.0",
-    "vuex": "^3.4.0"
+    "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
+    "@ckeditor/ckeditor5-vue2": "^1.0.5",
+    "core-js": "^3.6.5",
+    "vue2-leaflet": "^2.7.1",
+    "vue": "^2.6.11",
+    "axios": "^0.21.4",
+    "vuex": "^3.4.0",
+    "vuetify": "^2.4.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
