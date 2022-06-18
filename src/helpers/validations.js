@@ -4,7 +4,7 @@ export default {
   required() {
     let message = translate("validations.required");
     return (value) => {
-      return (value && value.length > 1) || message;
+      return (value && value.length >= 1) || message;
     };
   },
 
