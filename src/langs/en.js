@@ -34,4 +34,7 @@ export default {
     phone: "Phone is not valid",
   },
   "Search text ...": "Search text ...",
+  "Successfully registered": "Successfully registered",
+  "Edited successfully": "Edited successfully",
+  "Successfully removed": "Successfully removed",
 };

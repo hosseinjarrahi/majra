@@ -1,6 +1,6 @@
 import { toPascalCase } from "./../../helpers/case";
 import validations from "./../../helpers/validations";
-import { translate } from "./../../helpers/tr";
+import { translate, selectedLang } from "./../../helpers/tr";
 import Vue from "vue";
 
 const state = {
@@ -187,7 +187,7 @@ const mutations = {
       sortable: false,
       value: "actions",
       type: "text",
-      align: "left",
+      align: selectedLang.lang === "en" ? "right" : "left",
     });
     state.headers.unshift(
       {
@@ -486,7 +486,10 @@ const actions = {
           : [response.data[state.mainKey]];
         !payload.reload && commit("add", newItems);
         payload.reload && dispatch("reloadMainData");
-        Vue._event("alert", { text: "با موفقیت ثبت شد", color: "green" });
+        Vue._event("alert", {
+          text: translate("Successfully registered"),
+          color: "green",
+        });
         Vue._event("handleDialogForm", false);
       })
       .catch((error) => {
@@ -511,7 +514,7 @@ const actions = {
         .then(() => {
           commit("remove", item);
           Vue._event("alert", {
-            text: "با موفقیت حذف شد",
+            text: translate("Successfully removed"),
             color: "green",
           });
           Vue._event("handleDeleteDialog", false);
@@ -546,7 +549,10 @@ const actions = {
       .patch(route + "/" + payload.id, data)
       .then((response) => {
         commit("editItem", response.data[state.mainKey]);
-        Vue._event("alert", { text: "با موفقیت ویرایش شد", color: "green" });
+        Vue._event("alert", {
+          text: translate("Edited successfully"),
+          color: "green",
+        });
         if (!("closeAfterEdit" in payload && !payload.closeAfterEdit))
           Vue._event("handleDialogForm", false);
         payload.reload && dispatch("get", { key: state.mainKey });

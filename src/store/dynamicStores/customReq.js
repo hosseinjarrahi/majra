@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { translate } from "./../../helpers/tr";
 
 const actions = {
   customAdd({ state, commit, dispatch }, payload) {
@@ -20,7 +21,10 @@ const actions = {
           : [response.data[payload.key]];
         !payload.reload && commit("add", newItems);
         payload.reload && dispatch("reloadMainData");
-        Vue._event("alert", { text: "با موفقیت ثبت شد", color: "green" });
+        Vue._event("alert", {
+          text: translate("Successfully registered"),
+          color: "green",
+        });
         Vue._event("handleDialogForm", false);
       })
       .catch((error) => {
@@ -47,7 +51,10 @@ const actions = {
       .patch(route + "/" + payload.form.id, data)
       .then((response) => {
         commit("editItem", response.data[payload.key]);
-        Vue._event("alert", { text: "با موفقیت ویرایش شد", color: "green" });
+        Vue._event("alert", {
+          text: translate("Edited successfully"),
+          color: "green",
+        });
         payload.reload && dispatch("get", { key: payload.key });
       })
       .catch((error) => {

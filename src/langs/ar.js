@@ -33,4 +33,7 @@ export default {
     phone: "الهاتف غير صالح",
   },
   "Search text ...": "نص البحث ...",
+  "Successfully registered": "سجلت بنجاح",
+  "Edited successfully": "تم التحرير بنجاح",
+  "Successfully removed": "تمت الإزالة بنجاح",
 };
