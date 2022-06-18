@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 const fa = require("./../langs/fa");
+const ar = require("./../langs/ar");
 const en = require("./../langs/en");
 import { get as getSafe } from "lodash";
 
-let selectedLang = { lang: "fa" };
+let selectedLang = { lang: "ar" };
 
 function translate(key, params = {}) {
   let message = getSafe(eval(selectedLang.lang).default, key, key);

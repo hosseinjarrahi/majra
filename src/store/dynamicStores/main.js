@@ -1,5 +1,6 @@
 import { toPascalCase } from "./../../helpers/case";
 import validations from "./../../helpers/validations";
+import { translate } from "./../../helpers/tr";
 import Vue from "vue";
 
 const state = {
@@ -181,8 +182,8 @@ const mutations = {
         };
       });
     state.headers.push({
-      text: "اقدامات",
-      title: "اقدامات",
+      text: translate("Actions"),
+      title: translate("Actions"),
       sortable: false,
       value: "actions",
       type: "text",
@@ -191,7 +192,7 @@ const mutations = {
     state.headers.unshift(
       {
         text: "#",
-        title: "شماره",
+        title: "#",
         type: "text",
         value: "index",
         field: "index",

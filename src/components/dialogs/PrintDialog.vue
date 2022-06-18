@@ -1,8 +1,8 @@
 <template>
   <v-dialog :value="value" @input="$emit('input', $event)" width="500">
     <v-card>
-      <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6>{{ translate("print") }}</h6>
+      <v-card-title class="px-0 headline white--text py-1 secondary">
+        <h6 class="mx-4">{{ translate("print") }}</h6>
         <v-spacer />
         <v-btn dark text @click="$emit('input', false)">
           <v-icon>mdi-close</v-icon>

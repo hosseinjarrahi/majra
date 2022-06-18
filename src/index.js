@@ -10,10 +10,13 @@ import EventBusPlugin from "./plugins/eventBus";
 import HelpersPlugin from "./plugins/helpers";
 import MajraFuncs from "./plugins/majraFuncs";
 import Axios from "./plugins/axios";
-import { selectedLang } from "./helpers/tr";
+import { selectedLang, translate } from "./helpers/tr";
 
 export default {
   install: function (Vue, { store, configs }) {
+    Vue.prototype.translate = translate;
+    Vue.translate = translate;
+
     Vue.use(EventBusPlugin);
     Vue.use(EventBusPlugin);
     Vue.use(HelpersPlugin);

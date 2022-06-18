@@ -30,7 +30,7 @@
                       getWithFilter(),
                     ]
                   "
-                  label="متن جستوجو..."
+                  :label="translate('Search text ...')"
                   v-model="search"
                 />
               </v-col>

@@ -12,9 +12,9 @@
     >
       <v-card-title
         v-if="!printMode"
-        class="pl-0 headline white--text py-1 secondary"
+        class="px-0 headline white--text py-1 secondary"
       >
-        <h6>{{ translate("Show") }}</h6>
+        <h6 class="mx-4">{{ translate("Show") }}</h6>
         <v-spacer />
         <v-btn dark text @click="print">
           <v-icon>mdi-printer</v-icon>

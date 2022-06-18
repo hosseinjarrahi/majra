@@ -1,3 +1,5 @@
+import { selectedLang } from "./../helpers/tr";
+
 export default {
   install: function (Vue) {
     Vue.prototype.$helpers = {
@@ -5,12 +7,15 @@ export default {
         if (!date) return null;
 
         let dateObj = new Date(date);
+
+        let local = selectedLang.lang == "fa" ? "fa-IR" : "en-US";
+
         let map = {
-          date: dateObj.toLocaleDateString("fa-IR"),
+          date: dateObj.toLocaleDateString(local),
           datetime:
-            dateObj.toLocaleTimeString("fa-IR") +
+            dateObj.toLocaleTimeString(local) +
             " , " +
-            dateObj.toLocaleDateString("fa-IR"),
+            dateObj.toLocaleDateString(local),
           time: date,
         };
 

@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="dialog" width="600">
     <v-card>
-      <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6>{{ translate("Delete") }}</h6>
+      <v-card-title class="px-0 headline white--text py-1 secondary">
+        <h6 class="mx-4">{{ translate("Delete") }}</h6>
         <v-spacer />
         <v-btn dark text @click="close">
           <v-icon>mdi-close</v-icon>

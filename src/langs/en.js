@@ -1,5 +1,6 @@
 export default {
   test: "test",
+  Actions: "Actions",
   "Exel export": "Exel export",
   "Number of output items": "Number of output items",
   "Desired fields": "Desired fields",
@@ -32,4 +33,5 @@ export default {
     digits: "Number is not valid",
     phone: "Phone is not valid",
   },
+  "Search text ...": "Search text ...",
 };

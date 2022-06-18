@@ -1,9 +1,9 @@
 <template>
   <v-card>
     <slot name="card-title">
-      <v-card-title class="pl-0 headline white--text py-1 secondary">
-        <h6 v-if="!isEditing">{{ translate("Add") }}</h6>
-        <h6 v-else>{{ translate("Edit") }}</h6>
+      <v-card-title class="px-0 headline white--text py-1 secondary">
+        <h6 class="mx-5" v-if="!isEditing">{{ translate("Add") }}</h6>
+        <h6 class="mx-5" v-else>{{ translate("Edit") }}</h6>
         <v-spacer />
         <v-btn dark text @click="handleDialog(false)">
           <v-icon>mdi-close</v-icon>
