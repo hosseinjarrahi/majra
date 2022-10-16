@@ -4,6 +4,7 @@
       <field-set class="d-flex flex-wrap" :label="key" :key="key">
         <template v-for="(field, index) in fields">
           <v-col
+            v-if="field.if ? field.if(form) : true"
             class="py-1 my-0 px-1"
             :key="field.field"
             cols="12"
@@ -21,6 +22,7 @@
     </template>
     <template v-for="(field, index) in fieldsNotGrouped(fields)">
       <v-col
+        v-if="field.if ? field.if(form) : true"
         class="py-1 my-0 px-2"
         :key="field.field"
         cols="12"
