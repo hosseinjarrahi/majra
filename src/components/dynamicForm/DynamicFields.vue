@@ -134,7 +134,9 @@ export default {
 
       this.filters[field.rel.child.model] = items.filter((item) => {
         if (item[field.rel.child.ownKey])
-          return value.indexOf(item[field.rel.child.ownKey].id) > -1;
+          return value.includes(
+            this.$helpers.getSafe(item, field?.rel?.child?.ownKey)
+          );
         return false;
       });
 
