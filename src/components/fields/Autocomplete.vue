@@ -5,7 +5,6 @@
       $majra.hasChild(field) ? parentChanged($event) : updateField($event)
     "
     :items="items"
-    :rules="rules[field.field]"
     :loading="!!loading[field.rel.model]"
     :readonly="getProp('readonly', false) || disabled"
     v-bind="{ ...defaultProps, ...getProp('*', {}) }"

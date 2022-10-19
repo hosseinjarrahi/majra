@@ -3,7 +3,6 @@
     @input="updateField($event)"
     :value="value"
     @keypress.prevent.enter="_event('saveForm')"
-    :rules="rules[field.field]"
     v-bind="{ ...defaultProps, ...getProp('*', {}) }"
     v-on="getFromField('events', {})"
   />

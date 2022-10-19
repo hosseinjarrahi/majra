@@ -4,7 +4,6 @@
       v-show="!value || $helpers.getSafe(field, 'props.multiple', false)"
       :ref="'file-i' + field.field"
       @change="upload($event, field)"
-      :rules="field.rules"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     />

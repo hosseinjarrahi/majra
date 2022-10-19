@@ -22,7 +22,6 @@
           v-bind="attrs"
           v-on="on"
           :hint="field.hint"
-          :rules="rules[field.field]"
           hide-details
         ></v-text-field>
       </template>

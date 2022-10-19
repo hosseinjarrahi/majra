@@ -3,7 +3,6 @@
     <v-switch
       :input-value="value"
       @change="updateField($event)"
-      :rules="rules[field.field]"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
     ></v-switch>

@@ -14,7 +14,6 @@
       clearable
       @click:clear="updateField('')"
       :hint="field.hint"
-      :rules="rules[field.field]"
     ></v-text-field>
     <date-picker
       :ref="'date' + field.field"

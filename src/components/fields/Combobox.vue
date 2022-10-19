@@ -3,7 +3,6 @@
     <v-combobox
       :value="getValues(value)"
       @input="updateField($event)"
-      :rules="rules[field.field]"
       :items="items"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"

@@ -114,6 +114,7 @@ export default {
         getProp: this.getProp(field),
         getFromField: this.getFromField(field),
         value: this.form[field.field],
+        rules: this.rules[field.field],
       };
     },
 
@@ -173,6 +174,7 @@ export default {
       flatFields: "dynamic/flatFields",
       fieldsNotGrouped: "dynamic/fieldsNotGrouped",
       fieldsGrouped: "dynamic/fieldsGrouped",
+      rules: "dynamic/rules",
     }),
   },
 };
