@@ -1,6 +1,6 @@
 <template>
   <field-set
-    :label="translate('upload') + ' ' + field.title"
+    :label="field.title"
     class="d-flex flex-row flex-wrap"
     style="min-height: 100px"
   >
