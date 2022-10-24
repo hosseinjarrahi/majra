@@ -12,7 +12,7 @@
       class="mx-1 col-2 my-1 pa-2 d-flex align-center justify-center"
       style="border: 1px dashed black"
       @click="() => {}"
-      v-if="field.multiple || files.length == 0"
+      v-if="files.length < getProp('count', field.multiple ? 10 : 1)"
     >
       <label
         class="fill-height col-12 d-flex justify-center"
