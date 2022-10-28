@@ -7,7 +7,7 @@
             v-if="field.if ? field.if(form) : true"
             class="py-1 my-0 px-1"
             :key="field.field"
-            cols="12"
+            :cols="$helpers.getSafe(field, 'col.cols', 12)"
             v-bind="$helpers.getSafe(field, 'col', {})"
           >
             <component
@@ -25,7 +25,7 @@
         v-if="field.if ? field.if(form) : true"
         class="py-1 my-0 px-2"
         :key="field.field"
-        cols="12"
+        :cols="$helpers.getSafe(field, 'col.cols', 12)"
         v-bind="$helpers.getSafe(field, 'col', {})"
       >
         <slot :name="'field.' + field.field" v-bind="{ field }">

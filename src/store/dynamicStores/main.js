@@ -271,6 +271,15 @@ const mutations = {
     state.items[state.mainKey] = [...temp];
   },
 
+  addItem: (state, {key,value}) => {
+    if (!Array.isArray(value)) {
+      value = [value];
+    }
+    let temp = state.items[key];
+    temp = [...value, ...temp];
+    state.items[key] = [...temp];
+  },
+  
   remove: (state, payload) => {
     let temp = state.items[state.mainKey];
     temp = temp.filter((item) => item.id != payload);
