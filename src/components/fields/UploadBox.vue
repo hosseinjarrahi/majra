@@ -9,7 +9,7 @@
     </v-col>
     <v-card
       max-height="130px"
-      class="mx-1 col-2 my-1 pa-2 d-flex align-center justify-center"
+      class="mx-1 col-3 col-lg-2 my-1 pa-2 d-flex align-center justify-center"
       style="border: 1px dashed black"
       @click="() => {}"
       v-if="files.length < getProp('count', field.multiple ? 10 : 1)"
@@ -25,9 +25,10 @@
     </v-card>
 
     <v-card
-      max-width="150"
+      max-width="150px"
       max-height="130px"
-      class="mx-1 col-2 my-1 pa-2 d-flex align-center justify-center"
+      min-height="80px"
+      class="mx-1 col-4 col-lg-2 my-1 pa-2 d-flex align-center justify-center"
       style="border: 1px solid black"
       @click="openFile(file)"
       v-for="file in files"
