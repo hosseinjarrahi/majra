@@ -73,6 +73,9 @@ export default {
       let _safe = this.$helpers.getSafe;
       file = file.target.files[0];
       if (!file) return;
+      if ("validation" in this.field && !this.field.validation(file)) {
+        return;
+      }
       const config = {
         onUploadProgress: (progressEvent) =>
           (this.progress = (progressEvent.loaded / progressEvent.total) * 100),
