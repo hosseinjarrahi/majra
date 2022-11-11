@@ -79,7 +79,7 @@ export default {
       addNewItem(payload) {
         return options.store.commit("dynamic/addItem", payload);
       },
-      
+
       configs: {
         ...defaultConfigs,
         ...options.configs,

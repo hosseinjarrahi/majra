@@ -18,7 +18,12 @@
         class="fill-height col-12 d-flex justify-center"
         style="cursor: pointer"
       >
-        <input type="file" class="d-none" @change="upload($event, field)" />
+        <input
+          type="file"
+          class="d-none"
+          @change="upload($event, field)"
+          ref="file"
+        />
         <v-icon v-if="loading">mdi-loading mdi-spin</v-icon>
         <v-icon v-else>mdi-plus</v-icon>
       </label>
@@ -29,7 +34,7 @@
       max-height="130px"
       min-height="80px"
       class="mx-1 col-4 col-lg-2 my-1 pa-2 d-flex align-center justify-center"
-      style="border: 1px solid black"
+      style="border: 1px solid black; overflow: hidden"
       @click="openFile(file)"
       v-for="file in files"
       :key="file"
