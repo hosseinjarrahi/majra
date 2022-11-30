@@ -69,6 +69,9 @@ export default {
     this._listen("createBtn", () => {
       this.filters = {};
     });
+    this._listen("parentChanged", (field, value, init) => {
+      this.parentChanged(field, value, init);
+    });
   },
 
   data() {
