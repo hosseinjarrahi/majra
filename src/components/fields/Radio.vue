@@ -1,6 +1,6 @@
 <template>
   <v-col>
-    {{ field.title }} :
+    {{ field.title }}
     <v-radio-group
       row
       dense
