@@ -16,13 +16,13 @@ const getters = {
       if (Array.isArray(value))
         if (value.length > 0 && typeof value[0] == "object") {
           return value
-            .map((val) => val[Helpers.getSafe(field, "props.item-text")])
+            .map((val) => val[helpers.getSafe(field, "props.item-text")])
             .join(" | ");
         } else {
           return value.join(" | ");
         }
       else if (typeof value == "object") {
-        return value[Helpers.getSafe(field, "props.item-text")];
+        return value[helpers.getSafe(field, "props.item-text")];
       }
     };
 
