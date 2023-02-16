@@ -36,4 +36,5 @@ export default {
   "Successfully registered": "با موفقیت ثبت شد",
   "Edited successfully": "با موفقیت ویرایش شد",
   "Successfully removed": "با موفقیت حذف شد",
+  "Get data": "دریافت اطلاعات",
 };
