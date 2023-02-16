@@ -1,4 +1,5 @@
 export default {
+  print: "پرینت",
   test: "تست",
   Actions: "اقدامات",
   "Exel export": "خروجی اکسل",
