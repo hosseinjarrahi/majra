@@ -1,4 +1,4 @@
-import Helpers from './../../plugins/helpers'
+import { helpers } from "./../../plugins/helpers";
 
 const state = {
   csvData: [],
