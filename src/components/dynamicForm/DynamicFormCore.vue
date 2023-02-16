@@ -109,7 +109,7 @@ export default {
         }
         return validation;
       } else {
-        return this.$refs.dynamicForm.validate();
+        return this?.$refs?.dynamicForm?.validate();
       }
     },
   },
