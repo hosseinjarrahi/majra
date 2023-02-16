@@ -2,6 +2,7 @@ import dynamic from "./store/dynamic";
 import DynamicTemplate from "./components/DynamicTemplate";
 import DynamicFields from "./components/dynamicForm/DynamicFields";
 import DynamicForm from "./components/DynamicForm";
+import DynamicList from "./components/DynamicList";
 import DynamicShow from "./components/DynamicShow";
 import Alert from "./components/utilities/Alert";
 import AbstractField from "./components/fields/AbstractField";
@@ -35,4 +36,5 @@ export {
   AbstractField,
   DynamicShow,
   selectedLang,
+  DynamicList,
 };
