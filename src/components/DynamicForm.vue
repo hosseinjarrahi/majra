@@ -49,7 +49,11 @@ export default {
           };
         }, initialValue);
         this.initialForm = this.form;
-        this.autoGenerate && this.$emit("input", { ...this.form });
+        if (this.autoGenerate) {
+          this.$emit("input", { ...this.form });
+        } else {
+          this.form = { ...this.value };
+        }
       },
     },
     editItem() {
