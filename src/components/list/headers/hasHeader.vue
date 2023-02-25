@@ -26,8 +26,8 @@
             v-if="header.multiple"
             hide-details
             :items="items"
-            :item-text="header.item_text"
-            :item-value="header.item_value"
+            :item-text="itemText"
+            :item-value="itemValue"
             :label="header.text"
             multiple
             outlined
@@ -47,7 +47,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <v-chip v-if="index === 0">
-                <span>{{ item[header.item_text] }}</span>
+                <span>{{ item[itemText] }}</span>
               </v-chip>
               <span v-if="index === 1" class="grey--text caption">
                 (+{{ filterData.arrays[getKey()].length - 1 }}
@@ -70,7 +70,7 @@
           >
             <template v-slot:selection="{ item, index }">
               <v-chip v-if="index === 0">
-                <span>{{ item[header.item_text] }}</span>
+                <span>{{ item[itemText] }}</span>
               </v-chip>
               <span v-if="index === 1" class="grey--text caption">
                 (+{{ filterData.has[getKey()].length - 1 }}
