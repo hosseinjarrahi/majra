@@ -35,6 +35,7 @@ export default {
         textarea: TextValue,
         combo: SelectValue,
         select: SelectValue,
+        has: SelectValue,
         file: fileValue,
         date: DateValue,
         time: TextValue,

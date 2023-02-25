@@ -83,6 +83,7 @@ export default {
         textarea: TextArea,
         combo: Combobox,
         select: Autocomplete,
+        has: Autocomplete,
         file: File,
         date: Date,
         map: Mapper,

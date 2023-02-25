@@ -25,6 +25,7 @@ const DateHeader = () => import("./DateHeader.vue");
 const DefaultHeader = () => import("./DefaultHeader.vue");
 const SelectHeader = () => import("./SelectHeader.vue");
 const SwitcherHeader = () => import("./SwitcherHeader.vue");
+const HasHeader = () => import("./hasHeader.vue");
 
 export default {
   props: ["header", "runAfterChange"],
@@ -41,6 +42,7 @@ export default {
       time: DefaultHeader,
       number: DefaultHeader,
       switcher: SwitcherHeader,
+      has: HasHeader,
     },
   }),
 };
