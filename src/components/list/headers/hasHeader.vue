@@ -59,8 +59,8 @@
             v-else
             hide-details
             :items="items"
-            :item-text="header.item_text"
-            :item-value="header.item_value"
+            :item-text="itemText"
+            :item-value="itemValue"
             :label="header.text"
             multiple
             outlined
@@ -102,6 +102,12 @@ export default {
       filterData: "dynamic/filterData",
       filters: "dynamic/headerFilters",
     }),
+    itemText() {
+      return this.$helpers.getSafe(this.header, "props.item-text", "text");
+    },
+    itemValue() {
+      return this.$helpers.getSafe(this.header, "props.item-value", "value");
+    },
     items() {
       if (this.header.values) return this.header.values;
 
