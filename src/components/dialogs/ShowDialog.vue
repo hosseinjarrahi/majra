@@ -48,7 +48,11 @@
                       </td>
                       <td class="pa-2" style="width: 80%">
                         <component
-                          :is="map[value.field.type]"
+                          :is="
+                            value.field.showComp
+                              ? value.field.showComp
+                              : map[value.field.type]
+                          "
                           :getValue="getValue"
                           :getFiles="getFiles"
                           :openImage="openImage"
@@ -73,7 +77,11 @@
                       <v-divider />
                       <div class="pa-2" style="width: 80%">
                         <component
-                          :is="map[value.field.type]"
+                          :is="
+                            value.field.showComp
+                              ? value.field.showComp
+                              : map[value.field.type]
+                          "
                           :getValue="getValue"
                           :getFiles="getFiles"
                           :openImage="openImage"
