@@ -450,8 +450,11 @@ const actions = {
       }
 
     for (const field in selects) {
-      const items = selects[field].join(',')
-      query += `filters[${field}][$in]=${items}&`
+      const items = selects[field]
+      let i = 0
+      for (const item of items) {
+        query += `filters[${field}][$in][${i++}]=${item}&`
+      }
     }
 
     // for (const field in arrays) {
