@@ -1,6 +1,7 @@
 import { toPascalCase } from "./../../helpers/case";
 import validations from "./../../helpers/validations";
 import { translate, selectedLang } from "./../../helpers/tr";
+import { get as getSafe } from "lodash";
 import Vue from "vue";
 
 const state = {
@@ -363,8 +364,15 @@ const actions = {
 
   get({ state, commit }, payload) {
     let page = 1;
+
     if (payload && payload.page) page = payload.page;
-    let query = payload && payload.all ? "all=true" : "";
+
+    let query = payload && payload.all ? "all=true&" : "";
+
+    if (payload.query) {
+      query += payload.query
+    }
+
     let pageQuery =
       state.routes[payload.key].indexOf("?") > -1 ? "&page=" : "?page=";
 
@@ -427,48 +435,41 @@ const actions = {
       });
   },
 
-  getWithFilter({ state, commit }, payload) {
-    let page = 1;
-    if (payload && payload.page) page = payload.page;
+  getWithFilter({ state, dispatch }, payload) {
+    let query = ''
 
-    let itemPerPage = payload && payload.itemPerPage ? payload.itemPerPage : 15;
+    const search = state.filterData.search;
+    const fields = state.filterData.fields;
+    const selects = state.filterData.selects;
+    const arrays = state.filterData.arrays;
+    const dates = state.filterData.dates;
 
-    commit("setLoading", { key: state.mainKey, value: true });
-    Vue.axios
-      .post(`${Vue.$majra.configs.FILTER_URL}?page=${page}`, {
-        model: state.mainKey,
-        search: state.filterData.search,
-        selects: state.filterData.selects,
-        has: state.filterData.has,
-        excepts: state.filterData.excepts,
-        dates: state.filterData.dates,
-        arrays: state.filterData.arrays,
-        fields: state.filterData.fields,
-        order: state.filterData.order,
-        state: state.filterData.state,
-        itemPerPage: itemPerPage,
-      })
-      .then((response) => {
-        if (itemPerPage == 15) {
-          commit("set", {
-            data: response.data[state.mainKey].data,
-            key: state.mainKey,
-          });
-          commit("setPagination", {
-            total: response.data[state.mainKey].total,
-            currentPage: response.data[state.mainKey].current_page,
-            lastPage: response.data[state.mainKey].last_page,
-          });
-        }
-        commit("setCsvData", response.data[state.mainKey].data);
-        commit("setPrintItems", response.data[state.mainKey].data);
-        !state.relationsFetched && Vue._event("readyToFetchRelations");
-        commit("setRelationsFetched", true);
-      })
-      .finally(() => {
-        commit("setLoading", { key: state.mainKey, value: false });
-      });
+    if (Array.isArray(fields))
+      for (const field of fields) {
+        query += `filters[${field}][$eq]=${search}&`
+      }
+
+    for (const field in selects) {
+      const items = selects[field].join(',')
+      query += `filters[${field}][$in]=${items}&`
+    }
+
+    // for (const field in arrays) {
+    //   const items = selects[field].join(',')
+    //   query += `filters[${field}][$contain]=${items}&`
+    // }
+
+    for (const field in dates) {
+      const items = dates[field]
+      let i = 0
+      for (const item of items) {
+        query += `filters[${field}][$between][${i++}]=${item}&`
+      }
+    }
+
+    dispatch("get", { key: state.mainKey, query });
   },
+
 
   add({ state, commit, dispatch }, payload) {
     let route = { value: false };
@@ -574,7 +575,7 @@ const actions = {
           color: "red",
         });
       })
-      .finally(() => {});
+      .finally(() => { });
   },
 
   getRelations({ commit, dispatch }, payload) {
