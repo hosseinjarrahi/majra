@@ -385,7 +385,10 @@ const actions = {
           data: response.data[payload.key].data,
           key: payload.key,
         });
+
         if (payload.key == state.mainKey) {
+          commit("setCsvData", response.data[state.mainKey].data);
+
           commit("setPagination", {
             total: response.data[state.mainKey].total,
             currentPage: response.data[state.mainKey].current_page,
