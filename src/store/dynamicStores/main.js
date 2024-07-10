@@ -449,7 +449,7 @@ const actions = {
 
     if (Array.isArray(fields))
       for (const field of fields) {
-        query += `filters[${field}][$eq]=${search}&`
+        query += `filters[${field}][$contains]=${search}&`
       }
 
     for (const field in selects) {
