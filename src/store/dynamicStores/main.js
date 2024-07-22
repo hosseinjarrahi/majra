@@ -473,7 +473,7 @@ const actions = {
       }
     }
 
-    dispatch("get", { key: state.mainKey, query, page: payload?.page || 1 });
+    dispatch("get", { key: state.mainKey, query, page: payload.page });
   },
 
 
