@@ -12,15 +12,16 @@
       dense
       hide-details
       clearable
+      :rules="getProp('rules', [])"
       @click:clear="updateField('')"
       :hint="field.hint"
     ></v-text-field>
     <date-picker
       :ref="'date' + field.field"
-      @input="updateField($event)"
       :value="value"
       v-bind="{ ...defaultProps, ...getProp('*', {}) }"
       v-on="getFromField('events', {})"
+      @input="updateField($event)"
     />
   </div>
 </template>
