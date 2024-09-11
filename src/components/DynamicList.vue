@@ -8,15 +8,27 @@
       </component>
     </slot>
     <div
-      class="caption text-center pt-2"
+      class="caption text-center pt-2 d-flex flex-row"
       v-if="!print && pagination.lastPage != 1"
     >
       <v-pagination
         dense
-        v-model="page"
+        :value="pagination.currentPage"
+        @input="paginate($event)"
         :length="!pagination.lastPage ? 1 : pagination.lastPage"
-        :total-visible="5"
+        :total-visible="7"
       />
+      <div style="width: 120px">
+        <v-text-field
+          v-model="customPage"
+          outlined
+          label="صفحه"
+          dense
+          hide-details
+          append-outer-icon="fal fa-check"
+          @click:append-outer="paginate(customPage)"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -72,9 +84,9 @@ export default {
       editDialog: false,
       editItem: {},
       isEditing: false,
-      page: 1,
       selects: {},
       arrays: {},
+      customPage: 1,
       dates: {},
       selected: new Set([]),
       change: false,
@@ -85,12 +97,6 @@ export default {
         table: DynamicTable,
       },
     };
-  },
-
-  watch: {
-    page(val) {
-      this.paginate(val);
-    },
   },
 
   methods: {
@@ -121,7 +127,7 @@ export default {
         this.getItemsWithKey(this.mainKey)
           .map((i) => i.id)
           .indexOf(item.id) +
-        (15 * this.page - 14)
+        (15 * this.pagination.currentPage - 14)
       );
     },
     bind() {
