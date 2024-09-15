@@ -2,7 +2,6 @@
   <v-text-field
     @input="updateField($event)"
     :value="value"
-    @keypress.prevent.enter="_event('saveForm')"
     v-bind="{ ...defaultProps, ...getProp('*', {}) }"
     v-on="getFromField('events', {})"
   />
