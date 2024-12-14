@@ -8,11 +8,14 @@
       <v-progress-linear :value="progress"></v-progress-linear>
     </v-col>
     <v-card
+      v-if="
+        files.length < getProp('count', field.multiple ? 10 : 1) &&
+        !getProp('readonly', false)
+      "
       max-height="130px"
       class="mx-1 col-3 col-lg-2 my-1 pa-2 d-flex align-center justify-center"
       style="border: 1px dashed black"
       @click="() => {}"
-      v-if="files.length < getProp('count', field.multiple ? 10 : 1)"
     >
       <label
         class="fill-height col-12 d-flex justify-center"
@@ -44,6 +47,7 @@
         {{ translate("Download") }}
       </div>
       <v-btn
+        v-if="!getProp('readonly', false)"
         text
         color="error"
         style="position: absolute; left: 0px; top: 0px"

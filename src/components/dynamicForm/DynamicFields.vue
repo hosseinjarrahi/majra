@@ -72,12 +72,18 @@ export default {
     this._listen("parentChanged", (field, value, init) => {
       this.parentChanged(field, value, init);
     });
+
+    this._listen("changeProps", ({ field, prop, value }) => {
+      this.dynamicProps[field] = { [prop]: value };
+      this.dynamicProps = { ...this.dynamicProps };
+    });
   },
 
   data() {
     return {
       loading: false,
       filters: {},
+      dynamicProps: {},
       map: {
         text: TextField,
         textarea: TextArea,
@@ -159,12 +165,27 @@ export default {
     },
 
     getProp(field) {
-      return (prop, def = null) =>
-        this.$helpers.getSafe(
-          field,
-          prop === "*" ? "props" : `props.${prop}`,
-          def
+      return (prop, def = null) => {
+        let key = "";
+
+        key = prop === "*" ? "prop" : `props.${prop}`;
+
+        const defaultProps = this.$helpers.getSafe(field, key, def);
+
+        let dynamicValue = this.$helpers.getSafe(
+          this.dynamicProps,
+          field.field,
+          {}
         );
+
+        if (prop === "*") {
+          return { ...defaultProps, ...dynamicValue };
+        }
+
+        dynamicValue = this.$helpers.getSafe(dynamicValue, prop, def);
+
+        return dynamicValue || defaultProps;
+      };
     },
 
     getFromField(field) {
