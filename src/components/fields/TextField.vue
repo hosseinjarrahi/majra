@@ -21,7 +21,6 @@ export default {
         outlined: true,
         "hide-details": true,
         label: this.field.title,
-        autofocus: this.index === 0,
       },
     };
   },
