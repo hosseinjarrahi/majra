@@ -447,6 +447,10 @@ const actions = {
     const arrays = state.filterData.arrays;
     const dates = state.filterData.dates;
 
+    if(payload?.itemPerPage){
+      query += 'itemPerPage=' + payload?.itemPerPage + '&'
+    }
+
     if (Array.isArray(fields))
       for (const field of fields) {
         query += `filters[${field}][$contains]=${search}&`
