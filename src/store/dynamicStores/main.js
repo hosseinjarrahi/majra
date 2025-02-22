@@ -447,8 +447,8 @@ const actions = {
     const arrays = state.filterData.arrays;
     const dates = state.filterData.dates;
 
-    if(payload?.itemPerPage){
-      query += 'itemPerPage=' + payload?.itemPerPage + '&'
+    if (payload && 'itemPerPage' in payload) {
+      query += 'itemPerPage=' + payload.itemPerPage + '&'
     }
 
     if (Array.isArray(fields))
