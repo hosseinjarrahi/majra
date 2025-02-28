@@ -378,7 +378,7 @@ const actions = {
 
     commit("setLoading", { key: payload.key, value: true });
 
-    Vue.axios
+    return Vue.axios
       .get(state.routes[payload.key] + pageQuery + page + "&" + query)
       .then((response) => {
         commit("set", {
